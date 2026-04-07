@@ -1,5 +1,5 @@
 aid: general-services-administration
-url: >-
+url: >2-
 
   https://raw.githubusercontent.com/api-evangelist/general-services-administration/refs/heads/main/apis.yml
 apis:
@@ -11,7 +11,7 @@ apis:
     properties:
       - url: https://open.gsa.gov/api
         type: Documentation
-    description: |-
+    description: |2-
 
       The data for this API comes from Analytics.usa.gov, which is a unified
       Google Analytics account for U.S. federal government agencies known as the
@@ -19,8 +19,10 @@ apis:
       understand how people find, access, and use government services online.
   - aid: >-
       general-services-administration:general-services-administration-acquisition-gateway-document-library-api
-    name: General Services Administration Acquisition Gateway Document Library API
-    description: 'null'
+    name: General Services Administration Acquisition Gateway Document Library 
+      API
+    description: >-
+      An official website of the United States government.
     humanURL: https://open.gsa.gov/api/ag-api/
     tags: []
     properties: []
@@ -61,7 +63,8 @@ apis:
     properties: []
   - aid: >-
       general-services-administration:general-services-administration-digital-experience-calc-quick-rate-api
-    name: General Services Administration Digital Experience CALC+ Quick Rate API
+    name: General Services Administration Digital Experience CALC+ Quick Rate 
+      API
     description: >-
       The CALC  Labor Ceiling Rates tool is a pricing research tool located on
       buy.gsa.gov to support government acquisition professionals in services
@@ -86,8 +89,10 @@ apis:
     properties: []
   - aid: >-
       general-services-administration:general-services-administration-vehicle-leasing
-    name: General Services Administration Vehicle leasing
-    description: "You can use GSA Fleet to lease a wide variety of vehicle and fuel types\_for your agency. We serve participating federal agencies with full-service leases at all-inclusive rates. "
+    name: General Services Administration Vehicle Leasing
+    description: "You can use GSA Fleet to lease a wide variety of vehicle and fuel
+      types for your agency. We serve participating federal agencies with full-service
+      leases at all-inclusive rates. "
     humanURL: >-
       https://www.gsa.gov/buy-through-us/products-and-services/transportation-and-logistics-services/fleet-management/vehicle-leasing
     tags: []
@@ -104,7 +109,7 @@ apis:
     properties: []
   - aid: >-
       general-services-administration:general-services-administration-per-diem-api
-    name: General Services Administration Per Diem API
+    name: General Services Administration per Diem API
     description: >-
       GSA establishes the per diem reimbursement rates that federal agencies use
       to reimburse their employees for subsistence expenses incurred while on
@@ -131,9 +136,9 @@ apis:
       general-services-administration:samgov-entityexclusions-extracts-download-apis
     name: SAM.gov Entity/Exclusions Extracts Download APIs
     description: >-
-      The Extracts Download API allows users to request Unclassified (Public),
-      Controlled Unclassified Information (CUI) For Official Use Only (FOUO)
-      or CUI Sensitive entity extracts and Unclassified (Public) exclusion
+      The Extracts Download API allows users to request Unclassified (Public),
+      Controlled Unclassified Information (CUI) For Official Use Only (FOUO)
+      or CUI Sensitive entity extracts and Unclassified (Public) exclusion
       extract, based on the sensitivity level of the user account and through
       several optional request parameters.
     humanURL: https://open.gsa.gov/api/sam-entity-extracts-api/
@@ -142,9 +147,9 @@ apis:
   - aid: general-services-administration:samgov-entity-management-api
     name: SAM.gov Entity Management API
     description: >-
-      The Entity Management API allows users to request Unclassified (Public),
-      Controlled Unclassified Information (CUI) For Official Use Only (FOUO)
-      or CUI Sensitive entity data, based on the sensitivity level of the user
+      The Entity Management API allows users to request Unclassified (Public),
+      Controlled Unclassified Information (CUI) For Official Use Only (FOUO)
+      or CUI Sensitive entity data, based on the sensitivity level of the user
       account and through several optional request parameters.
     humanURL: https://open.gsa.gov/api/entity-api/
     tags: []
@@ -161,7 +166,7 @@ apis:
   - aid: general-services-administration:samgov-fh-fouo-api
     name: SAM.gov FH FOUO API
     description: >-
-      The Federal Hierarchy For Official Use Only (FOUO) API allows U.S.
+      The Federal Hierarchy For Official Use Only (FOUO) API allows U.S.
       Government users to obtain Federal Organization details down to the office
       level. As part of this API, organization information for all levels
       (Departments/Sub-Tiers/Offices) is provided by default.
@@ -269,7 +274,8 @@ apis:
     properties: []
   - aid: >-
       general-services-administration:general-services-administration-site-scanning-api-tmss-20-rate-query-api
-    name: General Services Administration Site Scanning API TMSS 2.0 Rate Query API
+    name: General Services Administration Site Scanning API TMSS 2.0 Rate Query 
+      API
     description: >-
       This document provides detailed technical information about the Rate query
       API offered by TMSS 2.0 at the request of Federal Civilian Agencies. These
