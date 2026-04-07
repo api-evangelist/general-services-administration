@@ -5,8 +5,7 @@ url: >2-
 apis:
   - aid: general-services-administration:general-services-administration
     name: General Services Administration
-    tags:
-      - API
+    tags: []
     humanURL: https://open.gsa.gov/api
     properties:
       - url: https://open.gsa.gov/api
@@ -19,8 +18,7 @@ apis:
       understand how people find, access, and use government services online.
   - aid: >-
       general-services-administration:general-services-administration-acquisition-gateway-document-library-api
-    name: General Services Administration Acquisition Gateway Document Library 
-      API
+    name: General Services Administration Acquisition Gateway Document Library API
     description: >-
       An official website of the United States government.
     humanURL: https://open.gsa.gov/api/ag-api/
@@ -63,8 +61,7 @@ apis:
     properties: []
   - aid: >-
       general-services-administration:general-services-administration-digital-experience-calc-quick-rate-api
-    name: General Services Administration Digital Experience CALC+ Quick Rate 
-      API
+    name: General Services Administration Digital Experience CALC+ Quick Rate API
     description: >-
       The CALC  Labor Ceiling Rates tool is a pricing research tool located on
       buy.gsa.gov to support government acquisition professionals in services
@@ -90,9 +87,7 @@ apis:
   - aid: >-
       general-services-administration:general-services-administration-vehicle-leasing
     name: General Services Administration Vehicle Leasing
-    description: "You can use GSA Fleet to lease a wide variety of vehicle and fuel
-      types for your agency. We serve participating federal agencies with full-service
-      leases at all-inclusive rates. "
+    description: "You can use GSA Fleet to lease a wide variety of vehicle and fuel types for your agency. We serve participating federal agencies with full-service leases at all-inclusive rates. "
     humanURL: >-
       https://www.gsa.gov/buy-through-us/products-and-services/transportation-and-logistics-services/fleet-management/vehicle-leasing
     tags: []
@@ -274,8 +269,7 @@ apis:
     properties: []
   - aid: >-
       general-services-administration:general-services-administration-site-scanning-api-tmss-20-rate-query-api
-    name: General Services Administration Site Scanning API TMSS 2.0 Rate Query 
-      API
+    name: General Services Administration Site Scanning API TMSS 2.0 Rate Query API
     description: >-
       This document provides detailed technical information about the Rate query
       API offered by TMSS 2.0 at the request of Federal Civilian Agencies. These
