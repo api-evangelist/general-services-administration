@@ -410,6 +410,8 @@ apis:
       - type: Documentation
         url: https://github.com/gsa/touchpoints/wiki/API
 common:
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/gsa
   - type: Website
     url: https://open.gsa.gov/api/
   - type: Documentation
