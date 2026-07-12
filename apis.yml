@@ -410,6 +410,10 @@ apis:
       - type: Documentation
         url: https://github.com/gsa/touchpoints/wiki/API
 common:
+  - type: VulnerabilityDisclosure
+    url: security/general-services-administration-vulnerability-disclosure.yml
+  - type: DomainSecurity
+    url: security/general-services-administration-domain-security.yml
   - type: LinkedIn
     url: https://www.linkedin.com/company/gsa
   - type: Website
