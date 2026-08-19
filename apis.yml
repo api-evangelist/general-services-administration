@@ -33,7 +33,7 @@ tags:
   - Open Data
 url: >-
   https://raw.githubusercontent.com/api-evangelist/general-services-administration/refs/heads/main/apis.yml
-specificationVersion: '0.19'
+specificationVersion: '0.23'
 apis:
   - aid: general-services-administration:acquisition-gateway-api
     name: Acquisition Gateway Listings API
