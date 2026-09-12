@@ -1,0 +1,35 @@
+generated: '2026-09-12'
+method: searched
+source: >-
+  https://www.npmjs.com/package/@gsa-sam/sam-styles,
+  https://www.npmjs.com/package/@gsa-tts/graymatter-ui, and the GSA / GSA-TTS
+  GitHub organizations.
+description: >-
+  GSA's published client-side component work is design-system material, not
+  embeddable API surfaces. There is no hosted widget, embedded dashboard or
+  drop-in element that renders GSA API data on a third-party page; these
+  libraries give federal teams the SAM.gov and GSA-TTS look and feel and leave
+  the data calls to the consumer.
+families:
+  - name: SAM.gov design system
+    description: SASS/CSS component library for SAM.gov, built on the U.S. Web Design System.
+    loader: npm install @gsa-sam/sam-styles
+    package: '@gsa-sam/sam-styles'
+    version: 3.1.1
+    repo: https://github.com/GSA/sam-styles
+    embeds_api_data: false
+  - name: GrayMatter (GSA-TTS)
+    description: >-
+      Svelte 5 UI component library plus its style-token, ESLint, TypeScript and
+      Vitest configuration siblings, used across GSA-TTS products.
+    loader: npm install @gsa-tts/graymatter-ui
+    package: '@gsa-tts/graymatter-ui'
+    version: 2.0.5
+    embeds_api_data: false
+  - name: USWDS Svelte UI
+    description: Svelte UI component library with USWDS styling.
+    loader: npm install @gsa-tts/svelte-ui-uswds
+    package: '@gsa-tts/svelte-ui-uswds'
+    version: 2.2.0
+    repo: https://github.com/GSA-TTS/svelte-ui
+    embeds_api_data: false

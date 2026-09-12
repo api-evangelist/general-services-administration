@@ -1,0 +1,58 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist overlay — Data.gov Catalog
+  version: 1.0.0
+extends: general-services-administration-datagov-ckan-openapi.yaml
+x-provenance:
+  generated: '2026-09-12'
+  method: generated
+  source: Generated from openapi/general-services-administration-datagov-ckan-openapi.yaml plus the artifacts in
+    this repository. The original contract is never mutated.
+actions:
+- target: $.info
+  description: Record API Evangelist provenance and the operating facts the contract does not carry.
+  update:
+    x-api-evangelist:
+      provider: General Services Administration
+      providerId: general-services-administration
+      harvested: '2026-09-12'
+      harvested_from: https://open.gsa.gov/api/datadotgov/
+      documentation: https://open.gsa.gov/api/datadotgov/
+      authentication: authentication/general-services-administration-authentication.yml
+      rate_limits: rate-limits/general-services-administration-rate-limits.yml
+      errors: errors/general-services-administration-problem-types.yml
+      conventions: conventions/general-services-administration-conventions.yml
+- target: $
+  description: Documented production base URL.
+  update:
+    x-api-evangelist-production-server:
+      url: https://catalog.data.gov/api/3
+      declared_in_spec:
+      - https://catalog.data.gov/api/3
+      source: https://open.gsa.gov/api/datadotgov/
+- target: $.info
+  description: 22 of the operations in this contract declare no operationId, so nothing can address them by name.
+  update:
+    x-api-evangelist-missing-operation-ids:
+    - GET /action/tag_list
+    - GET /action/status_show
+    - GET /action/package_list
+    - GET /action/package_search
+    - GET /action/package_show
+    - GET /action/package_activity_list
+    - GET /action/package_activity_list_html
+    - GET /action/package_autocomplete
+    - GET /action/package_relationships_list
+    - GET /action/package_revision_list
+    - GET /action/organization_activity_list
+    - GET /action/organization_activity_list_html
+    - GET /action/organization_follower_count
+    - GET /action/organization_follower_list
+    - GET /action/organization_list_for_user
+    - GET /action/organization_revision_list
+    - GET /action/organization_show
+    - GET /action/organization_list
+    - GET /action/organization_autocomplete
+    - GET /action/resource_search
+    - GET /action/resource_show
+    - GET /action/related_list

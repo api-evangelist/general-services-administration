@@ -1,0 +1,97 @@
+generated: '2026-09-12'
+method: searched
+source: >-
+  Searched npm (registry.npmjs.org), PyPI, Packagist, RubyGems and the GSA /
+  GSA-TTS GitHub organizations for first-party client libraries against the GSA
+  API surface documented at https://open.gsa.gov/api/.
+description: >-
+  GSA publishes no first-party API client SDK in any language registry. Every
+  API on open.gsa.gov is documented as a plain HTTPS call carrying an
+  api.data.gov key, and none of the 28 API pages links a client library. What
+  GSA does publish to npm is front-end material — USWDS-based UI component
+  libraries for SAM.gov and for GSA-TTS products — which is captured here and,
+  in more detail, in components/. The only GSA-authored code that behaves like a
+  client is the GSA-TTS MCP server set (see mcp/), which is distributed as
+  source and as a container image rather than as a registry package.
+sdk_count: 0
+packages:
+  - language: javascript
+    registry: npm
+    name: '@gsa-sam/sam-styles'
+    url: https://www.npmjs.com/package/@gsa-sam/sam-styles
+    source: https://github.com/GSA/sam-styles
+    install: npm install @gsa-sam/sam-styles
+    official: true
+    kind: ui-components
+    api_client: false
+    version: 3.1.1
+    published: '2026-08-25'
+    note: >-
+      SASS/CSS component library for SAM.gov built on USWDS. First-party (GSA
+      GitHub org) but not an API client — it wraps no SAM.gov API operation.
+  - language: javascript
+    registry: npm
+    name: '@gsa-tts/graymatter-ui'
+    url: https://www.npmjs.com/package/@gsa-tts/graymatter-ui
+    source: https://github.com/GSA-TTS
+    install: npm install @gsa-tts/graymatter-ui
+    official: true
+    kind: ui-components
+    api_client: false
+    version: 2.0.5
+    published: '2026-09-11'
+    note: >-
+      Svelte 5 UI component library from GSA Technology Transformation Services.
+      First-party, actively released, but not an API client.
+  - language: javascript
+    registry: npm
+    name: '@gsa-tts/svelte-ui-uswds'
+    url: https://www.npmjs.com/package/@gsa-tts/svelte-ui-uswds
+    source: https://github.com/GSA-TTS/svelte-ui
+    install: npm install @gsa-tts/svelte-ui-uswds
+    official: true
+    kind: ui-components
+    api_client: false
+    version: 2.2.0
+    published: null
+    note: >-
+      Publish date not read back from the registry metadata endpoint in this
+      pass; version taken from the npm search index. Honest gap, not a guess.
+  - language: python
+    registry: pypi
+    name: mcp-server-gsa-perdiem
+    url: https://github.com/GSA-TTS/mcp-server-gsa-perdiem
+    source: https://github.com/GSA-TTS/mcp-server-gsa-perdiem
+    install: 'uv run --directory /path/to/mcp-server-gsa-perdiem python main.py'
+    official: true
+    kind: mcp-server
+    api_client: true
+    registry_published: false
+    version: 0.1.0
+    published: null
+    note: >-
+      Version 0.1.0 read from the repository pyproject.toml. NOT published to
+      PyPI (pypi.org/pypi/gsa-perdiem/json -> 404), so there is no registry
+      metadata endpoint and no release date to record. A consumer must clone the
+      repository; that is the finding.
+  - language: python
+    registry: ghcr
+    name: ghcr.io/gsa-tts/mcp-server-regulations-gov
+    url: https://github.com/GSA-TTS/mcp-server-regulations-gov
+    source: https://github.com/GSA-TTS/mcp-server-regulations-gov
+    install: 'docker run ghcr.io/gsa-tts/mcp-server-regulations-gov:0.2.0'
+    official: true
+    kind: mcp-server
+    api_client: true
+    version: 0.2.0
+    published: null
+    note: >-
+      Version pinned in the GSA MCP Server Hub catalog entry
+      (GSA-TTS/mcp-server-hub-catalog regulations_gov.yaml,
+      containerizedConfig.image). A container registry tag carries no dated
+      release metadata comparable to npm/PyPI, so published is null by
+      inspection rather than by omission.
+third_party_note: >-
+  pypi.org/project/perdiem exists (0.1.2, "A simple per diem library") but is a
+  personal project, not a GSA publication, and is recorded here only so a future
+  pass does not mistake it for a first-party SDK.

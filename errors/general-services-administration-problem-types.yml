@@ -1,0 +1,95 @@
+generated: '2026-09-12'
+method: searched
+source: >-
+  https://api.data.gov/docs/developer-manual/ (General Web Service Errors — the
+  standardized envelope every API Umbrella-fronted GSA API returns), enriched
+  from the 4xx/5xx responses declared in the 22 harvested OpenAPIs under
+  openapi/.
+description: >-
+  GSA does not publish RFC 9457 problem+json. What it publishes instead is
+  better than most: api.data.gov standardizes a single error envelope across
+  every participating agency API, with a stable machine-readable `code` that the
+  docs explicitly tell clients to branch on rather than the message text. The
+  envelope is content-negotiated into JSON, XML, CSV or HTML; an unrecognized
+  request format falls back to JSON.
+format: vendor-envelope
+media_type: application/json
+rfc9457: false
+envelope:
+  shape: '{"error": {"code": "<STABLE_CODE>", "message": "<human text, subject to change>"}}'
+  stable_field: error.code
+  unstable_field: error.message
+  alternate_formats: [json, xml, csv, html]
+  guidance: >-
+    api.data.gov's own documentation says to handle errors on the HTTP status
+    code or the error code value, never on the message description.
+problem_types:
+  - code: API_KEY_MISSING
+    status: 403
+    title: No API key supplied
+    detail: The request carried no api.data.gov key in a header, query parameter or basic-auth username.
+    remediation: Sign up at https://api.data.gov/signup/ and pass the key as X-Api-Key or ?api_key=.
+  - code: API_KEY_INVALID
+    status: 403
+    title: Invalid API key
+    detail: The supplied key is not recognised.
+    remediation: Re-check the key, or request a new one.
+  - code: API_KEY_DISABLED
+    status: 403
+    title: API key disabled by an administrator
+    detail: The key exists but has been disabled.
+    remediation: Contact the agency that owns the API.
+  - code: API_KEY_UNAUTHORIZED
+    status: 403
+    title: Key not authorized for this service
+    detail: The key is valid but has no access to the requested API.
+    remediation: Contact the agency that owns the API.
+  - code: API_KEY_UNVERIFIED
+    status: 403
+    title: API key not yet verified
+    detail: The key was issued but the signup email has not been confirmed.
+    remediation: Complete the verification email, then retry.
+  - code: HTTPS_REQUIRED
+    status: 400
+    title: Request must be made over HTTPS
+    detail: A plaintext HTTP request was rejected.
+    remediation: Retry over https://.
+  - code: OVER_RATE_LIMIT
+    status: 429
+    title: Rate limit exceeded
+    detail: The key exceeded its hourly (or, on SAM.gov, daily) allowance.
+    remediation: >-
+      Back off and retry after the rolling window clears — one hour on
+      api.data.gov. See rate-limits/general-services-administration-rate-limits.yml.
+  - code: NOT_FOUND
+    status: 404
+    title: No API at this URL
+    detail: The gateway matched no backend for the path.
+    remediation: Check the path and version segment against the API's documentation.
+spec_declared_responses:
+  note: >-
+    Error responses declared inside the GSA OpenAPIs are thin and inconsistent —
+    most operations declare only a 200, and where a 4xx is declared it usually
+    carries a bare description with no schema. The api.data.gov envelope above is
+    what actually comes back on the wire for every api.gsa.gov-fronted API.
+  observed:
+    - status: 400
+      apis: [sam-entity-management, sam-exclusions, contract-awards, sam-subaward-bulkupload, regulations-gov]
+    - status: 401
+      apis: [sam-entity-management, sam-subcontracting-plan-reports, regulations-gov]
+    - status: 403
+      apis: [sam-entity-management, regulations-gov, touchpoints]
+    - status: 404
+      apis: [sam-entity-management, touchpoints, site-scanning, regulations-gov]
+    - status: 429
+      apis: [regulations-gov]
+      note: Regulations.gov is the only GSA spec that declares the throttled response.
+    - status: 500
+      apis: [sam-entity-management, sam-subaward-bulkupload, contract-awards]
+per_api_registries:
+  - api: general-services-administration:samgov-get-opportunities-api
+    url: https://open.gsa.gov/api/get-opportunities-public-api/
+    note: >-
+      Publishes an "Error Messages" section listing per-parameter validation
+      messages in prose (invalid date range, missing postedFrom/postedTo, ptype
+      values retired). Not machine-readable.

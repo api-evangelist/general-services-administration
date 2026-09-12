@@ -1,0 +1,151 @@
+generated: '2026-09-12'
+method: derived
+source: >-
+  Derived by binding the tool sets of GSA-TTS/mcp-server-gsa-perdiem and
+  GSA-TTS/mcp-server-regulations-gov to the operations in
+  openapi/general-services-administration-per-diem-openapi.yaml and
+  openapi/general-services-administration-regulations-gov-openapi.yaml.
+description: >-
+  Both GSA MCP servers are thin wrappers over a single published OpenAPI each,
+  so the mapping is near one-to-one. Two facts fall out that neither artifact
+  shows alone. First, NEITHER GSA spec declares operationId on the operations
+  these tools call — per diem declares none at all, and Regulations.gov declares
+  exactly one (GetSubmitterKey) across ten operations — so every binding below
+  is addressed by method + path, which is what an agent is actually left with.
+  Second, the per diem M&IE tool has no operation in the per diem OpenAPI: GSA
+  documents GET /v2/rates/conus/mie/{year} on open.gsa.gov and on its own curl
+  examples, but omitted it from the machine-readable contract. The MCP server is
+  the only machine-readable place that endpoint exists.
+surfaces:
+  openapi:
+    - file: openapi/general-services-administration-per-diem-openapi.yaml
+      server: https://api.gsa.gov/travel/perdiem
+      gated: false
+      note: Requires an api.data.gov key; the document itself is public.
+    - file: openapi/general-services-administration-regulations-gov-openapi.yaml
+      server: https://api.regulations.gov/v4
+      gated: false
+      note: >-
+        The document is public on open.gsa.gov, but every request to the host
+        itself (including /.well-known/*) returns API_KEY_MISSING without a key.
+  graphql: null
+  mcp:
+    - server: perdiem_mcp
+      url: null
+      transport: stdio
+      gated: true
+      note: >-
+        No public endpoint. tools/list could not be POSTed; the tool set below
+        was read from the repository source (src/perdiem/tools/__init__.py and
+        src/perdiem/app.py), so input schemas were not introspected live.
+    - server: mcp-server-regulations-gov
+      url: null
+      transport: streamable-http behind the GSA obot gateway
+      gated: true
+      note: >-
+        Tool names and descriptions read from the repository README and the hub
+        catalog toolPreview block; schemas require authenticated introspection.
+crosswalk:
+  - tool: perdiem_get_rates_by_city
+    category: per-diem
+    rest:
+      - 'GET /v2/rates/city/{city}/state/{state}/year/{year}'
+    binding: direct
+    confidence: high
+    note: No operationId declared in the spec; bound by path.
+  - tool: perdiem_get_rates_by_state
+    category: per-diem
+    rest:
+      - 'GET /v2/rates/state/{state}/year/{year}'
+    binding: direct
+    confidence: high
+  - tool: perdiem_get_rates_by_zip
+    category: per-diem
+    rest:
+      - 'GET /v2/rates/zip/{zip}/year/{year}'
+    binding: direct
+    confidence: high
+  - tool: perdiem_get_conus_lodging_rates
+    category: per-diem
+    rest:
+      - 'GET /v2/rates/conus/lodging/{year}'
+    binding: direct
+    confidence: high
+  - tool: perdiem_get_zip_code_mapping
+    category: per-diem
+    rest:
+      - 'GET /v2/rates/conus/zipcodes/{year}'
+    binding: direct
+    confidence: high
+  - tool: regulations_search_documents
+    category: rulemaking
+    rest:
+      - 'GET /documents'
+    binding: direct
+    confidence: high
+  - tool: regulations_get_document
+    category: rulemaking
+    rest:
+      - 'GET /documents/{documentId}'
+    binding: direct
+    confidence: high
+  - tool: regulations_search_comments
+    category: rulemaking
+    rest:
+      - 'GET /comments'
+    binding: direct
+    confidence: high
+  - tool: regulations_get_comment
+    category: rulemaking
+    rest:
+      - 'GET /comments/{commentId}'
+    binding: direct
+    confidence: high
+  - tool: regulations_search_dockets
+    category: rulemaking
+    rest:
+      - 'GET /dockets'
+    binding: direct
+    confidence: high
+  - tool: regulations_get_docket
+    category: rulemaking
+    rest:
+      - 'GET /dockets/{docketId}'
+    binding: direct
+    confidence: high
+mcp_only:
+  - tool: perdiem_get_mie_rates
+    reason: >-
+      GET /v2/rates/conus/mie/{year} is documented on
+      https://open.gsa.gov/api/perdiem/ (and used in GSA's own curl examples)
+      but is absent from the published per diem OpenAPI. The MCP server is the
+      only machine-readable description of it.
+rest_only:
+  - operation: 'POST /comments'
+    api: regulations-gov
+    reason: Comment submission. No MCP tool exposes the write path.
+  - operation: 'POST /submission-keys'
+    api: regulations-gov
+    operationId: GetSubmitterKey
+    reason: Submission-key issuance, part of the comment-submission flow. No MCP tool.
+  - operation: 'POST /file-upload-urls'
+    api: regulations-gov
+    reason: Presigned upload URL for comment attachments. No MCP tool.
+  - operation: 'GET /agency-categories'
+    api: regulations-gov
+    reason: Reference lookup. No MCP tool.
+  - operation: 203 operations across 22 harvested GSA OpenAPIs
+    api: all-other-gsa-apis
+    reason: >-
+      SAM.gov entity, exclusions, opportunities, subaward, PSC and location
+      services, the Data.gov CKAN catalog, Site Scanning, IT Collect, DAP
+      analytics, Search.gov and Touchpoints have no MCP tool of any kind.
+coverage:
+  mcp_tools_total: 12
+  bound_to_rest: 11
+  mcp_only: 1
+  rest_operations_in_wrapped_specs: 15
+  rest_operations_with_a_tool: 11
+  rest_operations_total_harvested: 203
+  apis_with_an_mcp_server: 2
+  apis_in_record: 31

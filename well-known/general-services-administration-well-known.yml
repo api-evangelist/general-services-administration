@@ -1,0 +1,202 @@
+generated: '2026-09-12'
+method: probed
+source: >-
+  Live probes of /.well-known/ paths on every host this record knows: the
+  registrable domain (gsa.gov + www), the API hosts named in the harvested
+  OpenAPI servers[] and the documented curl examples (api.gsa.gov, api.sam.gov,
+  api.regulations.gov, catalog.data.gov, touchpoints.app.cloud.gov), the API
+  management host (api.data.gov) and the developer portal (open.gsa.gov).
+description: >-
+  GSA serves exactly one well-known document across its whole API estate: an
+  RFC 9116 security.txt on gsa.gov (and www.gsa.gov), pointing at the agency
+  vulnerability disclosure policy and its HackerOne programs. No /.well-known/
+  api-catalog, OpenID/OAuth metadata, ai-plugin or A2A agent card was served on
+  any host. Two hosts (search.usa.gov and sftool.gov) answer HTTP 200 with the
+  same HTML page for every path including bogus ones, so their 200s are
+  catch-all shells, not documents, and are recorded as misses.
+hosts:
+  - host: gsa.gov
+    documents:
+      - path: /.well-known/security.txt
+        status: 200
+        type: text/plain
+        file: general-services-administration-security.txt
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: www.gsa.gov
+    documents:
+      - path: /.well-known/security.txt
+        status: 200
+        type: text/plain
+        file: general-services-administration-security.txt
+        note: Byte-identical to the gsa.gov copy; Canonical is https://gsa.gov/.well-known/security.txt
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: open.gsa.gov
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: api.gsa.gov
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+    note: >-
+      api.gsa.gov is fronted by API Umbrella (api.data.gov) and answers every
+      unmatched path with a JSON {"error":{"code":"NOT_FOUND"}} envelope.
+  - host: api.data.gov
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: api.sam.gov
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: sam.gov
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: api.regulations.gov
+    documents:
+      - path: /.well-known/security.txt
+        status: 403
+        note: >-
+          Every path on this host, including /.well-known/*, returns
+          {"error":{"code":"API_KEY_MISSING"}} to an unauthenticated client, so
+          absence cannot be distinguished from gating here.
+      - path: /.well-known/api-catalog
+        status: 403
+      - path: /.well-known/agent-card.json
+        status: 403
+      - path: /.well-known/agent.json
+        status: 403
+  - host: catalog.data.gov
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: touchpoints.app.cloud.gov
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: search.usa.gov
+    documents:
+      - path: /.well-known/security.txt
+        status: 200
+        note: >-
+          NOT a document. This host answers 200 with the same 34KB HTML page for
+          every path, including bogus ones. Recorded as a miss.
+      - path: /.well-known/api-catalog
+        status: 200
+        note: HTML catch-all shell, not a document.
+  - host: sftool.gov
+    documents:
+      - path: /.well-known/security.txt
+        status: 200
+        note: >-
+          NOT a document. sftool.gov now serves one 192KB "Clearinghouse | GSA"
+          page for every path, including /zzz-does-not-exist-123. Recorded as a
+          miss.
+      - path: /.well-known/api-catalog
+        status: 200
+        note: HTML catch-all shell, not a document.

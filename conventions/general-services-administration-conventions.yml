@@ -1,0 +1,192 @@
+generated: '2026-09-12'
+method: searched
+source: >-
+  https://api.data.gov/docs/developer-manual/, the per-API sections on
+  https://open.gsa.gov/api/ (entity-api, get-opportunities-public-api,
+  regulationsgov, site-scanning-api, perdiem), and the 22 OpenAPIs harvested
+  into openapi/.
+description: >-
+  The cross-cutting runtime semantics of the GSA API estate. The honest headline
+  is that there are no estate-wide conventions: GSA is a federation of programs
+  (SAM.gov / IAE, api.data.gov, Search.gov, Site Scanning, Data.gov, Touchpoints,
+  Regulations.gov) that share one gateway and one API key and agree on almost
+  nothing else. Pagination alone is spelled four different ways. The one thing
+  that IS uniform — the api.data.gov error envelope and key model — is uniform
+  because the gateway imposes it, not because the programs converged.
+
+base_urls:
+  - https://api.gsa.gov            # API Umbrella gateway for GSA programs
+  - https://api.sam.gov            # SAM.gov / Integrated Award Environment
+  - https://api.regulations.gov/v4 # Regulations.gov
+  - https://catalog.data.gov/api/3 # Data.gov CKAN catalog
+api_style: REST over HTTPS, JSON responses (several SAM.gov endpoints also emit CSV/XML)
+
+authentication:
+  scheme: API key (api.data.gov), plus HTTP Basic system accounts on SAM.gov sensitive endpoints
+  key_delivery: [X-Api-Key header, api_key query parameter, basic-auth username]
+  docs: https://api.data.gov/docs/developer-manual/
+  detail: authentication/general-services-administration-authentication.yml
+
+idempotency:
+  supported: false
+  coverage: none
+  mechanism: null
+  applies_to: null
+  docs: null
+  detail: >-
+    No GSA API documents an Idempotency-Key header, a client-supplied request
+    token, or any other replay-protection mechanism, and none of the 22
+    harvested OpenAPIs declares one. The estate is overwhelmingly read-only, but
+    the write surfaces that do exist — SAM.gov opportunity create/publish/revise,
+    subaward report save/update/delete, Regulations.gov comment submission, and
+    the api.data.gov admin API's user/key/backend CRUD — carry no replay
+    protection at all. A retried POST /comments on Regulations.gov submits a
+    second public comment.
+
+pagination:
+  uniform: false
+  styles:
+    - style: page-and-size
+      params: {page: 'zero-based page index', size: 'records per page'}
+      used_by: [sam-entity-management, sam-exclusions, contract-awards, assistance-listings]
+      docs: https://open.gsa.gov/api/entity-api/
+    - style: page-and-limit
+      params: {page: 'page index', limit: 'records per page'}
+      used_by: [site-scanning]
+    - style: json-api-bracket
+      params: {'page[number]': 'page index', 'page[size]': 'records per page'}
+      used_by: [regulations-gov]
+      note: >-
+        Regulations.gov also uses filter[...] and sort, and serves
+        application/vnd.api+json — it is a JSON:API surface.
+    - style: limit-and-offset
+      params: {limit: 'records per page', offset: 'starting record'}
+      used_by: [datagov-ckan, sam-get-opportunities]
+  hard_caps:
+    - api: regulations-gov
+      cap: 5000 results per sequential query; use date-range filters to page past it
+    - api: sam-get-opportunities
+      cap: postedFrom/postedTo range may not exceed one year and both are mandatory
+
+filtering_and_search:
+  sam_gov: >-
+    SAM.gov entity endpoints accept a Lucene-style `q` expression alongside
+    discrete filters, and `includeSections` to select which response sections to
+    return — the nearest thing GSA has to sparse fieldsets.
+  regulations_gov: filter[searchTerm], filter[agencyId], filter[postedDate], filter[docketId], sort
+  site_scanning: Every scan column is a query filter (target_url_domain, scan_status, dap_detected_final_url, ...)
+
+field_expansion:
+  supported: false
+  note: >-
+    No GSA API supports expansion of related objects. SAM.gov `includeSections`
+    is the only selection mechanism and it narrows rather than expands.
+
+request_tracing:
+  request_id_header: null
+  note: >-
+    No GSA API documents a correlation/request id header. Support escalation is
+    by email to the owning program office, which means a consumer has no
+    identifier to quote.
+
+versioning:
+  scheme: path-segment major versions, per API, independently governed
+  examples: [/travel/perdiem/v2, /entity-information/v4, /opportunities/v2, /api/3, /technology/site-scanning/v1]
+  estate_wide_policy: false
+  detail: lifecycle/general-services-administration-lifecycle.yml
+
+error_envelope:
+  media_type: application/json
+  shape: '{"error": {"code": "...", "message": "..."}}'
+  stable_field: error.code
+  detail: errors/general-services-administration-problem-types.yml
+
+rate_limit_signaling:
+  headers: [X-RateLimit-Limit, X-RateLimit-Remaining]
+  exhausted_status: 429
+  exhausted_code: OVER_RATE_LIMIT
+  retry_after: false
+  note: >-
+    No Retry-After and no reset header. The documented recovery rule is a
+    one-hour rolling window on api.data.gov and a daily reset on SAM.gov, so an
+    agent has to infer the backoff.
+  detail: rate-limits/general-services-administration-rate-limits.yml
+
+dry_run_mode:
+  supported: false
+  note: >-
+    No preview/validate/simulate mode on any write surface. The nearest
+    equivalent is the SAM.gov alpha (prodlike) environment — a separate
+    environment rather than a dry-run flag. See sandbox/.
+
+reversibility:
+  grade: documented
+  summary: >-
+    Most of the estate is read-only, so reversibility is not applicable to it.
+    Exactly one GSA API ships true paired reversal operations, and it states no
+    window for either; one write surface is explicitly irreversible.
+  surfaces:
+    - api: general-services-administration:samgov-opportunity-management-api
+      spec: openapi/general-services-administration-sam-opportunity-management-openapi.json
+      write_operations: [createOpportunityUsingPOST, publishOpportunityUsingPOST, reviseOpportunityUsingPOST, updateOpportunityUsingPATCH, archiveOpportunityUsingPOST, cancelOpportunityUsingPOST, deleteOpportunityUsingDELETE, createAttachmentUsingPOST, deleteAttachmentUsingDELETE]
+      reversals:
+        - action: archiveOpportunityUsingPOST
+          reverse_with: unArchiveOpportunityUsingPOST
+          path: POST /opps/v1/api/unarchive/{opportunityId}
+          window: null
+          window_source: null
+        - action: cancelOpportunityUsingPOST
+          reverse_with: unCancelOpportunityUsingPOST
+          path: POST /opps/v1/api/uncancel/{opportunityId}
+          window: null
+          window_source: null
+        - action: deleteOpportunityUsingDELETE
+          reverse_with: null
+          note: No restore operation. Delete is terminal in the contract.
+      grade: documented
+      grade_reason: >-
+        Reversal paths exist and are named, but GSA states no window for either
+        un-archive or un-cancel anywhere in the spec or the docs. Recording a
+        window we did not read would be an invention.
+    - api: general-services-administration:regulationsgov-api
+      write_operations: ['POST /comments']
+      reversals: []
+      grade: none
+      grade_reason: >-
+        A submitted public comment has no withdraw, delete or amend operation.
+        The write is final on the public rulemaking record.
+    - api: general-services-administration:samgov-bulkupload-api
+      write_operations: [saveContractsReport, updateContractsReport, deleteContractReport, saveGrantReport, updateGrantsReport, deleteGrantReport]
+      reversals:
+        - action: saveContractsReport
+          reverse_with: deleteContractReport
+          path: DELETE /contract/v1/subcontracts/{subawardReportNumber}
+          window: null
+        - action: saveGrantReport
+          reverse_with: deleteGrantReport
+          path: DELETE /assistance/v1/subawards/{subawardReportNumber}
+          window: null
+      grade: documented
+      grade_reason: A delete path exists per report; no retention or correction window is stated.
+    - api: general-services-administration:api-datagov-admin-api
+      write_operations: [create/update/delete for admins, admin_groups, api_scopes, apis, users, website_backends]
+      reversals:
+        - action: 'POST /api-umbrella/v1/config/publish'
+          reverse_with: null
+          note: >-
+            Backend configuration changes are staged and then published. The
+            spec exposes no unpublish or rollback operation.
+      grade: none
+  read_only_apis:
+    grade: na
+    apis: [per-diem, analytics-dap, datagov-ckan, site-scanning, it-collect, searchgov-results, sam-entity-management, sam-exclusions, contract-awards, assistance-listings, sam-subcontracting-plan-reports, apidatagov-metrics, acquisition-gateway-listings, touchpoints]
+    note: >-
+      Touchpoints form endpoints are explicitly read-only in the spec's own
+      words — creating or editing a form requires the web app.
+
+cross_links:
+  errors: errors/general-services-administration-problem-types.yml
+  lifecycle: lifecycle/general-services-administration-lifecycle.yml
+  authentication: authentication/general-services-administration-authentication.yml
+  rate_limits: rate-limits/general-services-administration-rate-limits.yml
+  sandbox: sandbox/general-services-administration-sandbox.yml

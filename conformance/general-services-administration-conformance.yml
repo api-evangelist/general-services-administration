@@ -1,0 +1,119 @@
+generated: '2026-09-12'
+method: searched
+source: >-
+  The 22 OpenAPIs harvested into openapi/, https://api.data.gov/docs/developer-manual/,
+  https://cloud.gov/, and https://www.gsa.gov/.well-known/security.txt.
+description: >-
+  What the GSA API estate does and does not conform to, judged from the
+  contracts themselves rather than from marketing prose. Two domain standards
+  are declared IN the contract: the Data.gov catalog API is a CKAN Action API,
+  and the Regulations.gov API is a JSON:API surface. Nothing in the estate does
+  OAuth, OIDC, RFC 9457, RFC 8594 or idempotency.
+conformance:
+  - id: ckan
+    name: CKAN Action API
+    conforms: true
+    domain_standard: true
+    evidence: >-
+      openapi/general-services-administration-datagov-ckan-openapi.yaml —
+      servers[0].url https://catalog.data.gov/api/3 and 22 operations under the
+      canonical CKAN action namespace (/action/package_search,
+      /action/package_show, /action/organization_show, /action/tag_list,
+      /action/resource_search). This is the CKAN contract, not a GSA-shaped
+      approximation of it.
+    market: open government data catalogs
+  - id: json-api
+    name: 'JSON:API'
+    conforms: true
+    domain_standard: false
+    evidence: >-
+      openapi/general-services-administration-regulations-gov-openapi.yaml — 36
+      declarations of the application/vnd.api+json media type, plus
+      page[number] / page[size] pagination and filter[...] query parameters
+      across /documents, /comments and /dockets.
+    scope: Regulations.gov API only. No other GSA API uses it.
+  - id: dcat
+    name: DCAT / Project Open Data metadata
+    conforms: partial
+    domain_standard: true
+    evidence: >-
+      Data.gov is the federal DCAT-US harvest target and the catalog it exposes
+      through the CKAN API is populated from agency data.json files. The
+      published GSA OpenAPI for the catalog does not itself declare DCAT
+      vocabulary terms in any schema, so this is recorded as partial: the data
+      model behind the contract is DCAT, the contract does not say so.
+  - id: fedramp
+    name: FedRAMP
+    conforms: partial
+    evidence: >-
+      The Touchpoints API runs on cloud.gov (servers host
+      touchpoints.app.cloud.gov), which cloud.gov states is FedRAMP Authorized
+      at the Moderate baseline. That is an authorization of the hosting
+      platform, not of each GSA API; no GSA API page publishes its own ATO or
+      FedRAMP package reference, so a stronger claim is not supported.
+    probed:
+      - url: https://cloud.gov/
+        status: 200
+      - url: https://cloud.gov/overview/security/security-and-compliance/
+        status: 404
+  - id: rfc9116
+    name: security.txt (RFC 9116)
+    conforms: true
+    evidence: >-
+      https://gsa.gov/.well-known/security.txt — 200, with Contact, Policy,
+      Acknowledgments, Preferred-Languages, Canonical and Expires fields. Saved
+      verbatim at well-known/general-services-administration-security.txt.
+  - id: oauth2
+    name: OAuth 2.0
+    conforms: false
+    evidence: No oauth2 securityScheme in any of the 22 harvested OpenAPIs, and no OAuth documentation on open.gsa.gov.
+  - id: oidc
+    name: OpenID Connect
+    conforms: false
+    evidence: /.well-known/openid-configuration returned 404 on every GSA host probed (see well-known/).
+  - id: rfc9457
+    name: 'RFC 9457 Problem Details'
+    conforms: false
+    evidence: >-
+      Errors are returned as a vendor envelope,
+      {"error":{"code":...,"message":...}}, content-negotiated into JSON, XML,
+      CSV or HTML by API Umbrella. No application/problem+json anywhere.
+  - id: rfc8594
+    name: 'RFC 8594 Sunset header'
+    conforms: false
+    evidence: No Sunset or Deprecation header is documented or declared; deprecation is prose in per-API change logs.
+  - id: idempotency
+    name: Idempotency keys
+    conforms: false
+    evidence: >-
+      No Idempotency-Key header or request-token mechanism in any spec or doc.
+      See conventions/general-services-administration-conventions.yml
+      (idempotency.coverage = none).
+  - id: pagination
+    name: Documented pagination
+    conforms: partial
+    evidence: >-
+      Every list endpoint paginates, but in four mutually incompatible styles
+      (page/size, page/limit, page[number]/page[size], limit/offset) across one
+      provider. See conventions/.
+  - id: scim
+    name: SCIM
+    conforms: false
+    evidence: No urn:ietf:params:scim schema URN anywhere in the estate.
+  - id: odata
+    name: OData
+    conforms: false
+    evidence: No $metadata surface on any host.
+compliance_programs:
+  - name: GSA Vulnerability Disclosure Policy
+    url: https://gsa.gov/vulnerability-disclosure-policy
+    evidence: Declared as Policy in https://gsa.gov/.well-known/security.txt
+  - name: HackerOne Vulnerability Disclosure Program (gsa_vdp)
+    url: https://hackerone.com/gsa_vdp
+    probed_status: 200
+  - name: HackerOne Bug Bounty Program acknowledgments (gsa_bbp)
+    url: https://hackerone.com/gsa_bbp/thanks
+    evidence: Declared as Acknowledgments in the security.txt.
+  - name: FedRAMP (as hosting platform, via cloud.gov)
+    url: https://cloud.gov/
+    note: Platform-level Moderate authorization; see the fedramp entry above.

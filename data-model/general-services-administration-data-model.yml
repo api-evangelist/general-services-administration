@@ -1,0 +1,138 @@
+generated: '2026-09-12'
+method: derived
+source: >-
+  Derived from the component schemas and $ref graph of the 22 OpenAPIs in
+  openapi/, cross-read against the entity/identifier vocabulary documented on
+  https://open.gsa.gov/api/entity-api/ and
+  https://open.gsa.gov/api/get-opportunities-public-api/.
+description: >-
+  There is no single GSA data model. There are six largely disjoint ones, joined
+  almost entirely by federal identifiers rather than by shared schemas: UEI for
+  an entity, CAGE for a contractor establishment, the SAM.gov notice id for an
+  opportunity, PSC and NAICS for what is being bought, the agency/office
+  hierarchy code for who is buying, and the docket id for a rulemaking. Those
+  identifiers are the real join keys across the estate, and none of the specs
+  declares them as a shared component — an agent has to know the vocabulary to
+  stitch two GSA APIs together.
+schema_counts:
+  total_named_schemas: 392
+  by_api:
+    contract-awards: 138
+    it-collect: 91
+    regulations-gov: 37
+    assistance-listings: 27
+    touchpoints: 26
+    apidatagov-admin: 22
+    sam-subcontracting-plan-reports: 20
+    sam-subaward-bulkupload: 15
+    site-scanning: 5
+    searchgov-results: 4
+    apidatagov-metrics: 3
+    analytics-dap: 2
+    acquisition-gateway-listings: 2
+  zero_schema_apis:
+    apis: [per-diem, datagov-ckan, sam-entity-management, sam-exclusions, sam-entity-extracts, sam-opportunity-management, acquisition-subaward-reporting, assistance-subaward-reporting, searchgov-clicks]
+    note: >-
+      Nine harvested specs declare no reusable components at all — responses are
+      inline or, in several SAM.gov cases, undeclared entirely. The SAM.gov
+      Entity Management spec describes 14 operations over the richest data in
+      the estate with zero named schemas.
+domains:
+  - name: Entity (who can be paid)
+    apis: [samgov-entity-management-api, samgov-exclusions-api, samgov-entity-extracts-api]
+    primary_keys: [ueiSAM, cageCode]
+    retired_keys: [DUNS]
+    sections: [entityRegistration, coreData, assertions, repsAndCerts, pointsOfContact]
+    note: >-
+      includeSections selects which blocks are returned. Sensitive (CUI) and
+      FOUO variants of the same record are separate authorizations, not separate
+      schemas.
+  - name: Opportunity (what is being bought)
+    apis: [samgov-get-opportunities-api, samgov-opportunity-management-api, samgov-contract-awards-api]
+    primary_keys: [noticeid, solnum, opportunityId]
+    classifiers: [ptype, typeOfSetAside, naics, classificationCode]
+  - name: Reference data (the controlled vocabularies)
+    apis: [samgov-psc-api, samgov-location-services-api, samgov-fh-public-api, samgov-fh-fouo-api]
+    primary_keys: [pscCode, countryCode, stateOrProvinceCode, fhOrgId]
+    note: >-
+      These four are the join tables of the procurement estate; three of them
+      publish only a paths fragment rather than a whole OpenAPI.
+  - name: Assistance (grants)
+    apis: [samgov-assistance-listings-api, samgov-assistance-subaward-api]
+    primary_keys: [programNumber, subawardReportNumber]
+  - name: Open data catalog
+    apis: [datagov-ckan-api]
+    entities: [package, resource, organization, tag, group]
+    primary_keys: [package id/name, organization id/name]
+    note: Standard CKAN entity graph; packages have_many resources and belong_to one organization.
+  - name: Digital service telemetry
+    apis: [analytics-api, site-scanning-api, searchgov-results-api, searchgov-clicks-api, touchpoints-api]
+    primary_keys: [domain, target_url, form short UUID]
+relationships:
+  - from: Entity
+    to: Exclusion
+    type: has_many
+    via: ueiSAM
+    evidence: Exclusions are queried by the same entity identifier under /entity-information/v4/exclusions.
+  - from: Opportunity
+    to: Entity
+    type: belongs_to
+    via: ueiSAM (awardee)
+    evidence: Award details in the Get Opportunities response carry the awardee UEI.
+  - from: Opportunity
+    to: Federal Hierarchy Organization
+    type: belongs_to
+    via: fhOrgId / deptname / subtier
+    evidence: >-
+      The Get Opportunities change log v1.8 records adding "all FH information
+      for given notices" to both request and response.
+  - from: Opportunity
+    to: Product Service Code
+    type: has_one
+    via: classificationCode
+  - from: Subaward report
+    to: Contract award
+    type: belongs_to
+    via: subawardReportNumber -> prime award identifier
+  - from: CKAN package
+    to: CKAN resource
+    type: has_many
+    via: package id
+  - from: CKAN package
+    to: CKAN organization
+    type: belongs_to
+    via: owner_org
+  - from: Regulations.gov document
+    to: Docket
+    type: belongs_to
+    via: docketId
+    evidence: filter[docketId] on /documents and /comments.
+  - from: Regulations.gov comment
+    to: Document
+    type: belongs_to
+    via: commentOnId
+    evidence: filter[commentOnId] on /comments.
+  - from: Touchpoints response
+    to: Form
+    type: belongs_to
+    via: form short UUID
+    evidence: The 8-character short UUID from the form URL is the addressing key in the spec.
+  - from: Site Scanning analysis
+    to: Website
+    type: has_one
+    via: target_url
+id_prefixes_and_formats:
+  - id: ueiSAM
+    format: 12-character alphanumeric Unique Entity Identifier
+    replaced: DUNS (removed from the data dictionary 2022-11-25)
+  - id: cageCode
+    format: 5-character Commercial and Government Entity code
+  - id: noticeid
+    format: 32-character hex, e.g. 5b345bbb7127b91a3ad577b203fc6f68
+  - id: pscCode
+    format: 4-character Product Service Code
+  - id: docketId
+    format: 'AGENCY-YYYY-OFFICE-NNNN, e.g. EPA-HQ-OAR-2021-0257'
+  - id: form short UUID
+    format: 8-character alphanumeric, taken from the Touchpoints form URL
+render: null

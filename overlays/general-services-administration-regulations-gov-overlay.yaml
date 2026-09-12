@@ -1,0 +1,45 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist overlay — Regulations.gov API
+  version: 1.0.0
+extends: general-services-administration-regulations-gov-openapi.yaml
+x-provenance:
+  generated: '2026-09-12'
+  method: generated
+  source: Generated from openapi/general-services-administration-regulations-gov-openapi.yaml plus the artifacts
+    in this repository. The original contract is never mutated.
+actions:
+- target: $.info
+  description: Record API Evangelist provenance and the operating facts the contract does not carry.
+  update:
+    x-api-evangelist:
+      provider: General Services Administration
+      providerId: general-services-administration
+      harvested: '2026-09-12'
+      harvested_from: https://open.gsa.gov/api/regulationsgov/
+      documentation: https://open.gsa.gov/api/regulationsgov/
+      authentication: authentication/general-services-administration-authentication.yml
+      rate_limits: rate-limits/general-services-administration-rate-limits.yml
+      errors: errors/general-services-administration-problem-types.yml
+      conventions: conventions/general-services-administration-conventions.yml
+- target: $
+  description: Documented production base URL.
+  update:
+    x-api-evangelist-production-server:
+      url: https://api.regulations.gov/v4
+      declared_in_spec:
+      - https://api.regulations.gov/v4
+      source: https://open.gsa.gov/api/regulationsgov/
+- target: $.info
+  description: 9 of the operations in this contract declare no operationId, so nothing can address them by name.
+  update:
+    x-api-evangelist-missing-operation-ids:
+    - GET /documents
+    - GET /documents/{documentId}
+    - GET /comments
+    - POST /comments
+    - GET /comments/{commentId}
+    - GET /dockets
+    - GET /dockets/{docketId}
+    - GET /agency-categories
+    - POST /file-upload-urls

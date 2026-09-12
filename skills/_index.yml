@@ -1,0 +1,31 @@
+generated: '2026-09-12'
+method: generated
+source: >-
+  Authored from the operationIds and paths in the OpenAPIs harvested into
+  openapi/, plus the operating rules in conventions/, rate-limits/,
+  authentication/ and lifecycle/. Every operation named in a skill was grepped
+  out of a real spec; none was invented.
+description: >-
+  Packaged agent skills for the marquee flows across the GSA API estate. They
+  exist because the GSA contracts alone are not enough to act correctly: the
+  fiscal-year convention, the 75% first/last-day rule, the mandatory one-year
+  opportunity window, the retired ptype codes, the four incompatible pagination
+  styles and the UEI-not-DUNS switch are all documented in prose and absent from
+  the machine-readable specs.
+skills:
+  - name: check-vendor-eligibility
+    file: general-services-administration-check-vendor-eligibility.md
+    api: general-services-administration:samgov-entity-management-api
+    summary: Registration + exclusion screening by UEI, with the bulk-extract escape hatch.
+  - name: look-up-travel-per-diem
+    file: general-services-administration-look-up-travel-per-diem.md
+    api: general-services-administration:per-diem-api
+    summary: Correct lodging and M&IE rates, seasonal and first/last-day rules included.
+  - name: find-contract-opportunities
+    file: general-services-administration-find-contract-opportunities.md
+    api: general-services-administration:samgov-get-opportunities-api
+    summary: Opportunity search through to award, with the deprecated parameters flagged.
+  - name: audit-federal-websites
+    file: general-services-administration-audit-federal-websites.md
+    api: general-services-administration:site-scanning-api
+    summary: Site Scanning results joined to DAP analytics for the same domain.

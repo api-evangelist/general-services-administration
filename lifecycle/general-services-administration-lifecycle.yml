@@ -1,0 +1,153 @@
+generated: '2026-09-12'
+method: searched
+source: >-
+  https://open.gsa.gov/api/ and its per-API Change Log / Version Control
+  sections, plus live probes of the retired surfaces and of the candidate status
+  pages, reconciled against the 22 OpenAPIs in openapi/.
+description: >-
+  GSA has no estate-wide lifecycle policy. Each program versions in its own path
+  segment on its own cadence, each publishes (or does not publish) its own dated
+  change log on its open.gsa.gov page, and there is no agency-wide deprecation
+  policy, no Sunset/Deprecation header practice, no SLA and no working status
+  page. What GSA does do well is leave the evidence in place: decommissioned
+  APIs keep a page that says so, and deprecated fields are marked in the
+  parameter tables.
+
+versioning:
+  scheme: path-segment major version, per API
+  estate_wide_policy: false
+  examples:
+    - api: per-diem
+      current: v2
+      base: https://api.gsa.gov/travel/perdiem/v2
+    - api: sam-entity-management
+      current: v4
+      base: https://api.sam.gov/entity-information/v4
+      note: v1, v2 and v3 all still documented and reachable alongside v4.
+    - api: sam-exclusions
+      current: v4
+    - api: sam-get-opportunities
+      current: v2
+      note: v1 (api.sam.gov/prod/opportunities/v1) still appears in the docs.
+    - api: regulations-gov
+      current: v4
+    - api: datagov-ckan
+      current: '3'
+    - api: site-scanning
+      current: v1
+    - api: acquisition-gateway-listings
+      current: v4.0
+  header_negotiation: false
+
+deprecation_policy:
+  published: false
+  sunset_header: false
+  deprecation_header: false
+  detail: >-
+    GSA publishes no agency-wide deprecation policy and no API emits RFC 8594
+    Sunset or Deprecation headers. Deprecation is communicated as prose in the
+    change log and as a "Deprecated" note in the parameter tables.
+  observed_deprecations:
+    - api: samgov-get-opportunities-api
+      item: deptname (Department Name, L1) request parameter
+      state: deprecated
+      evidence: https://open.gsa.gov/api/get-opportunities-public-api/
+    - api: samgov-get-opportunities-api
+      item: subtier (Agency Name, L2) request parameter
+      state: deprecated
+      evidence: https://open.gsa.gov/api/get-opportunities-public-api/
+    - api: samgov-get-opportunities-api
+      item: 'ptype values f (Foreign Government Standard) and l (Fair Opportunity / Limited Sources)'
+      state: retired
+      replacement: 'ptype=u (Justification)'
+      evidence: https://open.gsa.gov/api/get-opportunities-public-api/
+    - api: samgov-entity-management-api
+      item: MPIN field in coreData.entityInformation
+      state: deprecated
+      date: '2023-02-28'
+      evidence: https://open.gsa.gov/api/entity-api/ (change log v4.2)
+    - api: samgov-entity-management-api
+      item: DUNS / D&B identifiers
+      state: removed
+      date: '2022-11-25'
+      replacement: UEI (Unique Entity Identifier)
+      evidence: https://open.gsa.gov/api/entity-api/ (change log v3.9)
+
+retired:
+  - api: acquisition-gateway-api
+    item: AG Document Library API
+    state: decommissioned
+    evidence: >-
+      The v1 OpenAPI GSA still serves at
+      https://open.gsa.gov/api/ag-api/v1/openapi.yaml carries
+      info.title "AG Document Library API (decommissioned)". Only the v4
+      Listings API is current; that is why only v4 was harvested into openapi/.
+  - api: searchgov-suggestions-api
+    item: Search.gov Type-Ahead Suggestions API
+    state: page-removed
+    checked: '2026-09-12'
+    evidence:
+      - url: https://open.gsa.gov/api/searchgov-suggestions/
+        status: 404
+      - url: https://open.gsa.gov/api/searchgov-suggestions/v1/openapi.yml
+        status: 404
+    note: >-
+      The API is no longer listed in the open.gsa.gov API index and both its
+      page and its OpenAPI 404. Search.gov developer material now redirects to
+      digital.gov. GSA published no retirement notice.
+  - api: sustainable-facilities-api
+    item: Sustainable Facilities Tool (SFTool) developer API
+    state: host-retired
+    checked: '2026-09-12'
+    evidence:
+      - url: https://sftool.gov/developers
+        status: 200
+        note: >-
+          Returns a 192KB "Clearinghouse | GSA" page. So does
+          https://sftool.gov/zzz-does-not-exist-123 and every /.well-known/ path
+          — the host is a catch-all, the developer page is gone.
+    note: GSA published no retirement notice for this API either.
+
+status_page:
+  published: false
+  checked: '2026-09-12'
+  evidence:
+    - url: https://gsa.statuspage.io/
+      status: 200
+      note: >-
+        NOT a real status page. The Statuspage tenant exists but is
+        unconfigured: its components.json returns two placeholder components
+        named "API (example)" and "Management Portal (example)", last updated
+        2025-08-24. It advertises nothing about any GSA API.
+    - url: https://status.gsa.gov/
+      status: 0
+      note: Does not resolve.
+    - url: https://open.gsa.gov/status
+      status: 404
+  note: >-
+    No GSA API in this record publishes availability, incident history or
+    planned-maintenance notice. A consumer of api.sam.gov or api.gsa.gov has no
+    machine-readable signal that an outage is in progress.
+
+sla:
+  published: false
+  note: No uptime, latency or support-response commitment is published for any GSA API.
+
+support:
+  channels:
+    - type: contact-form
+      url: https://open.gsa.gov/contact
+    - type: email
+      value: itdb-support@gsa.gov
+      scope: IT Collect API
+    - type: email
+      value: fasdigital@gsa.gov
+      scope: Digital Experience (DX) CALC+ Quick Rate API
+    - type: api-management
+      url: https://api.data.gov/contact/
+      scope: Key and gateway issues across every api.data.gov-fronted API
+  escalation: >-
+    api.data.gov explicitly routes capacity and access escalations to the owning
+    agency program office rather than handling them centrally.
+
+changelog: changelog/general-services-administration-changelog.yml

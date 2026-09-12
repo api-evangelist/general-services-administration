@@ -1,0 +1,100 @@
+generated: '2026-09-12'
+method: searched
+source: >-
+  The per-API "Change Log" tables published on
+  https://open.gsa.gov/api/entity-api/ and
+  https://open.gsa.gov/api/get-opportunities-public-api/ (and the "Version
+  Control" sections on the other SAM.gov pages).
+description: >-
+  GSA publishes no agency-level changelog. What exists is a per-API dated change
+  log, maintained by the SAM.gov / Integrated Award Environment program on the
+  open.gsa.gov page for each of its APIs, with a document version number that is
+  distinct from the API's own path version. Non-SAM.gov programs (per diem, DAP,
+  Site Scanning, Search.gov, Data.gov, Touchpoints, IT Collect) publish no
+  changelog at all. The most recent entry anywhere in the estate is 2024-12-06.
+scheme: per-API document version (vX.Y), dated, most recent last
+estate_wide: false
+feed: null
+logs:
+  - api: general-services-administration:samgov-entity-management-api
+    url: https://open.gsa.gov/api/entity-api/
+    document_version: '4.6'
+    first_entry: '2019-06-03'
+    latest_entry: '2024-12-06'
+    entries:
+      - version: '4.6'
+        date: '2024-12-06'
+        type: addition
+        breaking: false
+        highlights: >-
+          New V4 Entity Management API adding the "Exceeds Domestic Threshold"
+          field to the Reps and Certs section of the response.
+      - version: '4.5'
+        date: '2023-09-29'
+        type: docs
+        breaking: false
+        highlights: Additional Help References now link to the SAM.gov Data Services page.
+      - version: '4.4'
+        date: '2023-08-22'
+        type: docs
+        breaking: false
+        highlights: Revised Data Dictionary with updated Business Types.
+      - version: '4.2'
+        date: '2023-02-28'
+        type: deprecation
+        breaking: false
+        highlights: >-
+          MPIN removed from the Data Dictionary and from the Sensitive (CUI)
+          Data section, and marked deprecated in coreData.entityInformation.
+      - version: '3.9'
+        date: '2022-11-25'
+        type: breaking
+        breaking: true
+        highlights: DUNS / D&B references removed from the SAM Functional Data Dictionary in favour of UEI.
+  - api: general-services-administration:samgov-get-opportunities-api
+    url: https://open.gsa.gov/api/get-opportunities-public-api/
+    document_version: '1.97'
+    first_entry: '2019-05-20'
+    latest_entry: '2021-06-11'
+    stale: true
+    stale_note: >-
+      No entry in five years, while the API itself moved to v2 and retired two
+      ptype values. The change log is no longer a reliable record of this API.
+    entries:
+      - version: '1.97'
+        date: '2021-06-11'
+        type: addition
+        breaking: false
+        highlights: Added "inactive" to the status parameter.
+      - version: '1.92'
+        date: '2021-05-12'
+        type: docs
+        breaking: false
+        highlights: Beta.SAM renamed to SAM and Beta promoted to Production throughout.
+      - version: '1.91'
+        date: '2020-10-25'
+        type: addition
+        breaking: false
+        highlights: New status request field.
+      - version: '1.9'
+        date: '2020-09-14'
+        type: addition
+        breaking: false
+        highlights: OpenAPI Specification section extended to cover the v2 endpoints.
+      - version: '1.1'
+        date: '2019-12-02'
+        type: addition
+        breaking: false
+        highlights: OpenAPI Specification published for the first time.
+apis_without_a_changelog:
+  - general-services-administration:per-diem-api
+  - general-services-administration:analytics-api
+  - general-services-administration:site-scanning-api
+  - general-services-administration:datagov-ckan-api
+  - general-services-administration:searchgov-results-api
+  - general-services-administration:searchgov-clicks-api
+  - general-services-administration:it-collect-api
+  - general-services-administration:touchpoints-api
+  - general-services-administration:regulationsgov-api
+  - general-services-administration:calc-api
+  - general-services-administration:tmss-rate-query-api

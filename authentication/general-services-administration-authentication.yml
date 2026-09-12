@@ -1,0 +1,104 @@
+generated: '2026-09-12'
+method: searched
+source: https://api.data.gov/docs/developer-manual/ (the shared key model for every api.gsa.gov / api.data.gov
+  surface) and the per-API auth sections on open.gsa.gov, reconciled against the securitySchemes in openapi/general-services-administration-analytics-dap-openapi.yaml,
+  openapi/general-services-administration-apidatagov-admin-openapi.yaml, openapi/general-services-administration-apidatagov-metrics-openapi.yaml,
+  openapi/general-services-administration-per-diem-openapi.yaml, openapi/general-services-administration-regulations-gov-openapi.yaml,
+  openapi/general-services-administration-sam-subcontracting-plan-reports-openapi.yaml, openapi/general-services-administration-searchgov-clicks-openapi.yaml,
+  openapi/general-services-administration-touchpoints-openapi.yaml
+summary:
+  types:
+  - apiKey
+  - http
+  api_key_in:
+  - header
+  - query
+schemes:
+- name: ApiKeyAuth
+  type: apiKey
+  in: header
+  parameter: X-API-KEY
+  sources:
+  - openapi/general-services-administration-analytics-dap-openapi.yaml
+  - openapi/general-services-administration-per-diem-openapi.yaml
+  - openapi/general-services-administration-searchgov-clicks-openapi.yaml
+- name: api_key
+  type: apiKey
+  in: header
+  parameter: X-Api-Key
+  sources:
+  - openapi/general-services-administration-apidatagov-admin-openapi.yaml
+  - openapi/general-services-administration-apidatagov-metrics-openapi.yaml
+  - openapi/general-services-administration-regulations-gov-openapi.yaml
+- name: admin_auth_token
+  type: apiKey
+  in: header
+  parameter: X-Admin-Auth-Token
+  sources:
+  - openapi/general-services-administration-apidatagov-admin-openapi.yaml
+- name: ApiKeyQueryAuth
+  type: apiKey
+  in: query
+  parameter: api_key
+  sources:
+  - openapi/general-services-administration-apidatagov-metrics-openapi.yaml
+- name: basicAuth
+  type: http
+  scheme: basic
+  description: System Account name and password provided via HTTP Basic authentication.
+  sources:
+  - openapi/general-services-administration-sam-subcontracting-plan-reports-openapi.yaml
+- name: api_key
+  type: apiKey
+  in: header
+  parameter: x-api-key
+  sources:
+  - openapi/general-services-administration-touchpoints-openapi.yaml
+docs:
+- https://api.data.gov/docs/developer-manual/
+- https://api.data.gov/signup/
+- https://open.gsa.gov/api/entity-api/
+- https://open.gsa.gov/api/get-opportunities-public-api/
+model:
+  shared_key_service: api.data.gov (API Umbrella), operated by GSA Technology Transformation Services
+  description: 'Almost every GSA API is fronted by api.data.gov. One 40-character api.data.gov key works
+    across every participating agency API, GSA''s included. SAM.gov is the exception: its keys are issued
+    from the SAM.gov Account Details page (alpha.sam.gov for the prodlike environment), and its sensitive/FOUO
+    endpoints additionally require a System Account username+password over HTTP Basic.'
+  key_delivery:
+  - style: header
+    parameter: X-Api-Key
+    example: 'curl -H ''X-Api-Key: DEMO_KEY'' https://api.gsa.gov/travel/perdiem/v2/rates/conus/lodging/2025'
+  - style: query
+    parameter: api_key
+    example: https://api.gsa.gov/technology/site-scanning/v1/websites?api_key=DEMO_KEY
+  - style: basic-username
+    parameter: api key as username, empty password
+    example: curl https://YOUR_KEY@api.gsa.gov/...
+  signup: https://api.data.gov/signup/
+  anonymous_exploration_key:
+    value: DEMO_KEY
+    limits: 30 requests per IP per hour, 50 per IP per day
+  sam_gov_system_accounts:
+    applies_to:
+    - SAM.gov Entity Management (FOUO / Sensitive)
+    - SAM.gov Federal Hierarchy FOUO
+    - SAM.gov Subcontracting Plan Reports
+    - SAM.gov Extracts (CUI)
+    mechanism: System Account User ID and password sent as HTTP Basic under Authorization, base64(username:password);
+      the API key must travel in the x-api-key HEADER and not in the request URL; Accept and Content-Type
+      must both be application/json.
+    docs: https://open.gsa.gov/api/entity-api/
+  oauth2: false
+  oidc: false
+  mtls: false
+findings:
+- Six distinct securityScheme names describe ONE mechanism. ApiKeyAuth, api_key, ApiKeyQueryAuth and the
+  Touchpoints api_key are all the same api.data.gov key, spelled X-API-KEY, X-Api-Key, x-api-key and ?api_key=
+  across four specs. An agent reading the contracts alone cannot tell that one credential serves all of
+  them.
+- 14 of the 22 harvested OpenAPIs declare NO securitySchemes at all, including every SAM.gov entity, exclusions,
+  contract-award and subaward spec, even though every one of those endpoints rejects an unkeyed request.
+  Authentication is documented in prose on open.gsa.gov and omitted from the contract.
+- No OAuth 2.0, OpenID Connect or mutual TLS anywhere in the GSA public API estate; scopes/ is therefore
+  not applicable.

@@ -1,0 +1,70 @@
+generated: '2026-09-12'
+method: searched
+source: >-
+  https://api.data.gov/docs/developer-manual/ (DEMO_KEY Rate Limits) and the
+  "Getting Started" sections on https://open.gsa.gov/api/entity-api/,
+  https://open.gsa.gov/api/get-opportunities-public-api/ and the other SAM.gov
+  API pages, which document the alpha / prodlike environment.
+description: >-
+  GSA offers two different pre-production affordances and neither is a sandbox
+  in the commercial sense. api.data.gov publishes a shared anonymous key,
+  DEMO_KEY, that lets anyone call any participating API before signing up.
+  SAM.gov runs a full separate PRODLIKE environment on api-alpha.sam.gov with
+  its own account system and its own API keys, issued from alpha.sam.gov. There
+  are no test fixtures, no seeded records, no time simulation and no trigger
+  tooling anywhere in the estate.
+modes:
+  - name: DEMO_KEY
+    kind: anonymous-exploration-key
+    value: DEMO_KEY
+    applies_to: Every API fronted by api.data.gov / api.gsa.gov
+    how: 'Pass DEMO_KEY as X-Api-Key or ?api_key=DEMO_KEY'
+    limits:
+      requests_per_hour_per_ip: 30
+      requests_per_day_per_ip: 50
+    data: Live production data. DEMO_KEY is a throttle, not an isolated dataset.
+    docs: https://api.data.gov/docs/developer-manual/
+    verified:
+      url: 'https://api.gsa.gov/technology/site-scanning/v1/api-json?api_key=DEMO_KEY'
+      status: 200
+      note: Probed 2026-09-12; returned the live Site Scanning OpenAPI document.
+  - name: SAM.gov alpha (prodlike)
+    kind: separate-environment
+    host: https://api-alpha.sam.gov
+    account_host: https://alpha.sam.gov
+    applies_to:
+      - SAM.gov Entity Management
+      - SAM.gov Exclusions
+      - SAM.gov Get Opportunities
+      - SAM.gov Opportunity Management
+      - SAM.gov Subaward Reporting and Bulk Upload
+      - SAM.gov Entity Extracts
+      - SAM.gov Subcontracting Plan Reports
+    how: >-
+      Register on alpha.sam.gov, generate a separate public API key from that
+      environment's Account Details page, and call the api-alpha.sam.gov host.
+      A production key does not work against alpha and vice versa.
+    path_quirk: >-
+      Several alpha endpoints carry an extra /prodlike/ path segment, e.g.
+      https://api-alpha.sam.gov/prodlike/contract/v1/subcontracts/search.
+    data: Prodlike test data, not production records.
+    docs: https://open.gsa.gov/api/get-opportunities-public-api/
+test_values:
+  published: false
+  note: >-
+    GSA publishes no magic test identifiers, no sample UEIs, no fixture notice
+    IDs and no test entity records. The examples on the API pages use real
+    production values (real solicitation numbers, real ZIP codes, real agency
+    names), which is a documentation convenience but leaves a consumer with no
+    guaranteed-stable record to write an integration test against.
+time_simulation:
+  supported: false
+fixture_tooling:
+  supported: false
+spec_note: >-
+  Five of the harvested OpenAPIs declare the ALPHA host in servers[] rather than
+  production — acquisition-subaward-reporting, assistance-subaward-reporting,
+  sam-entity-extracts, sam-entity-management and sam-subaward-bulkupload all
+  point at api-alpha.sam.gov. A client generated straight from those contracts
+  calls the test environment by default. The production hosts are documented in
+  prose on the same page and are recorded in apis.yml baseURL.

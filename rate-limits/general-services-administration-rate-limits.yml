@@ -3,239 +3,116 @@ specificationVersion: '0.1'
 schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
 provider: General Services Administration
 providerId: general-services-administration
+generated: '2026-09-12'
 created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-04'
-tags:
-  - Federal Government
-  - Procurement
-  - Acquisition
-  - Open Data
-  - Rate Limiting
-  - Quotas
-  - Throttling
-description: Machine-readable rate limit definitions for the General Services Administration API surface.
-  Captures per-tier quotas, burst behavior, response signaling, and recovery semantics. Defaults are scaffold
-  values to be replaced with published provider limits.
+modified: '2026-09-12'
+method: searched
+source: >-
+  https://api.data.gov/docs/developer-manual/ (Web Service Rate Limits and
+  DEMO_KEY Rate Limits) and https://open.gsa.gov/api/entity-api/ (SAM.gov API
+  Key Rate Limits table). Replaces the 2026-05-04 scaffold, which carried
+  invented "professional" and "enterprise" tiers GSA has never published.
+description: >-
+  GSA runs two distinct rate-limit regimes. Everything behind api.gsa.gov /
+  api.data.gov shares one API Umbrella hourly allowance per key. SAM.gov meters
+  DAILY and by WHO holds the key — a non-federal user with no SAM.gov role gets
+  10 requests a day, while a federal system account gets 10,000.
 headers:
   limit: X-RateLimit-Limit
   remaining: X-RateLimit-Remaining
-  reset: X-RateLimit-Reset
-  retryAfter: Retry-After
-  policy: RateLimit-Policy
+  reset: null
+  retryAfter: null
+  policy: null
+  note: >-
+    api.data.gov returns X-RateLimit-Limit and X-RateLimit-Remaining on every
+    response. It publishes no reset header and no Retry-After; the documented
+    recovery rule is that the hourly counter rolls off one hour after each
+    request, so a client must infer the wait.
 responseCodes:
   throttled: 429
   quotaExceeded: 429
-  serviceUnavailable: 503
+  errorCode: OVER_RATE_LIMIT
+limit_count: 8
 limits:
   - tier: free
-    name: Free Tier Default
+    name: api.data.gov default
     scope: api-key
-    metric: requests_per_minute
-    limit: 10
-    burst: 20
-    timeFrame: minute
-    applies:
-      - Acquisition Gateway Listings API
-      - Analytics.usa.gov API
-      - api.data.gov Admin API
-      - api.data.gov Metrics API
-      - Contract-Awarded Labor Category (CALC) API
-      - Data.gov CKAN API
-      - GSA Fleet Vehicles / Vehicle Leasing
-      - IT Collect Public API
-      - Per Diem API
-      - Regulations.gov API
-      - SAM.gov Entity/Exclusions Extracts Download API
-      - SAM.gov Entity Management API
-      - SAM.gov Exclusions API
-      - SAM.gov Federal Hierarchy FOUO API
-      - SAM.gov Federal Hierarchy Public API
-      - SAM.gov Get Opportunities Public API
-      - SAM.gov Opportunity Management API
-      - SAM.gov Product Service Codes (PSC) API
-      - SAM.gov Public Location Services API
-      - SAM.gov Assistance Listings Public API
-      - SAM.gov Acquisition Subaward Reporting Public API
-      - SAM.gov Assistance Subaward Reporting Public API
-      - SAM.gov Contract Awards API
-      - SAM.gov Subaward Reporting Bulk Upload API
-      - Search.gov Clicks API
-      - Search.gov Results API
-      - Search.gov Type-Ahead Suggestions API
-      - Site Scanning API
-      - TMSS 2.0 Rate Query API
-      - Sustainable Facilities Tool API
-      - Touchpoints API
+    metric: requests_per_hour
+    limit: 1000
+    timeFrame: hour
+    window: rolling
+    applies_to: >-
+      Every API fronted by api.data.gov / api.gsa.gov — per diem, DAP analytics,
+      Site Scanning, Search.gov results and clicks, CALC+, TMSS rate query,
+      api.data.gov metrics, Data.gov CKAN, Regulations.gov.
+    source: https://api.data.gov/docs/developer-manual/
+  - tier: anonymous
+    name: DEMO_KEY hourly
+    scope: ip-address
+    metric: requests_per_hour
+    limit: 30
+    timeFrame: hour
+    applies_to: The shared DEMO_KEY used in GSA documentation examples.
+    source: https://api.data.gov/docs/developer-manual/
+  - tier: anonymous
+    name: DEMO_KEY daily
+    scope: ip-address
+    metric: requests_per_day
+    limit: 50
+    timeFrame: day
+    applies_to: The shared DEMO_KEY used in GSA documentation examples.
+    source: https://api.data.gov/docs/developer-manual/
   - tier: free
-    name: Free Tier Monthly Quota
+    name: SAM.gov — non-federal user with no SAM.gov role
     scope: api-key
-    metric: requests_per_month
+    metric: requests_per_day
+    limit: 10
+    timeFrame: day
+    applies_to: SAM.gov personal API keys held by an unaffiliated public user.
+    source: https://open.gsa.gov/api/entity-api/
+  - tier: free
+    name: SAM.gov — non-federal user with a SAM.gov role
+    scope: api-key
+    metric: requests_per_day
     limit: 1000
-    timeFrame: month
-    applies:
-      - Acquisition Gateway Listings API
-      - Analytics.usa.gov API
-      - api.data.gov Admin API
-      - api.data.gov Metrics API
-      - Contract-Awarded Labor Category (CALC) API
-      - Data.gov CKAN API
-      - GSA Fleet Vehicles / Vehicle Leasing
-      - IT Collect Public API
-      - Per Diem API
-      - Regulations.gov API
-      - SAM.gov Entity/Exclusions Extracts Download API
-      - SAM.gov Entity Management API
-      - SAM.gov Exclusions API
-      - SAM.gov Federal Hierarchy FOUO API
-      - SAM.gov Federal Hierarchy Public API
-      - SAM.gov Get Opportunities Public API
-      - SAM.gov Opportunity Management API
-      - SAM.gov Product Service Codes (PSC) API
-      - SAM.gov Public Location Services API
-      - SAM.gov Assistance Listings Public API
-      - SAM.gov Acquisition Subaward Reporting Public API
-      - SAM.gov Assistance Subaward Reporting Public API
-      - SAM.gov Contract Awards API
-      - SAM.gov Subaward Reporting Bulk Upload API
-      - Search.gov Clicks API
-      - Search.gov Results API
-      - Search.gov Type-Ahead Suggestions API
-      - Site Scanning API
-      - TMSS 2.0 Rate Query API
-      - Sustainable Facilities Tool API
-      - Touchpoints API
-  - tier: professional
-    name: Professional Tier Default
+    timeFrame: day
+    applies_to: SAM.gov personal API keys held by a registered entity user.
+    source: https://open.gsa.gov/api/entity-api/
+  - tier: free
+    name: SAM.gov — federal user
     scope: api-key
-    metric: requests_per_minute
-    limit: 100
-    burst: 200
-    timeFrame: minute
-    applies:
-      - Acquisition Gateway Listings API
-      - Analytics.usa.gov API
-      - api.data.gov Admin API
-      - api.data.gov Metrics API
-      - Contract-Awarded Labor Category (CALC) API
-      - Data.gov CKAN API
-      - GSA Fleet Vehicles / Vehicle Leasing
-      - IT Collect Public API
-      - Per Diem API
-      - Regulations.gov API
-      - SAM.gov Entity/Exclusions Extracts Download API
-      - SAM.gov Entity Management API
-      - SAM.gov Exclusions API
-      - SAM.gov Federal Hierarchy FOUO API
-      - SAM.gov Federal Hierarchy Public API
-      - SAM.gov Get Opportunities Public API
-      - SAM.gov Opportunity Management API
-      - SAM.gov Product Service Codes (PSC) API
-      - SAM.gov Public Location Services API
-      - SAM.gov Assistance Listings Public API
-      - SAM.gov Acquisition Subaward Reporting Public API
-      - SAM.gov Assistance Subaward Reporting Public API
-      - SAM.gov Contract Awards API
-      - SAM.gov Subaward Reporting Bulk Upload API
-      - Search.gov Clicks API
-      - Search.gov Results API
-      - Search.gov Type-Ahead Suggestions API
-      - Site Scanning API
-      - TMSS 2.0 Rate Query API
-      - Sustainable Facilities Tool API
-      - Touchpoints API
-  - tier: professional
-    name: Professional Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 100000
-    timeFrame: month
-    applies:
-      - Acquisition Gateway Listings API
-      - Analytics.usa.gov API
-      - api.data.gov Admin API
-      - api.data.gov Metrics API
-      - Contract-Awarded Labor Category (CALC) API
-      - Data.gov CKAN API
-      - GSA Fleet Vehicles / Vehicle Leasing
-      - IT Collect Public API
-      - Per Diem API
-      - Regulations.gov API
-      - SAM.gov Entity/Exclusions Extracts Download API
-      - SAM.gov Entity Management API
-      - SAM.gov Exclusions API
-      - SAM.gov Federal Hierarchy FOUO API
-      - SAM.gov Federal Hierarchy Public API
-      - SAM.gov Get Opportunities Public API
-      - SAM.gov Opportunity Management API
-      - SAM.gov Product Service Codes (PSC) API
-      - SAM.gov Public Location Services API
-      - SAM.gov Assistance Listings Public API
-      - SAM.gov Acquisition Subaward Reporting Public API
-      - SAM.gov Assistance Subaward Reporting Public API
-      - SAM.gov Contract Awards API
-      - SAM.gov Subaward Reporting Bulk Upload API
-      - Search.gov Clicks API
-      - Search.gov Results API
-      - Search.gov Type-Ahead Suggestions API
-      - Site Scanning API
-      - TMSS 2.0 Rate Query API
-      - Sustainable Facilities Tool API
-      - Touchpoints API
-  - tier: enterprise
-    name: Enterprise Negotiated Limit
-    scope: contract
-    metric: requests_per_minute
+    metric: requests_per_day
     limit: 1000
-    burst: 5000
-    timeFrame: minute
-    applies:
-      - Acquisition Gateway Listings API
-      - Analytics.usa.gov API
-      - api.data.gov Admin API
-      - api.data.gov Metrics API
-      - Contract-Awarded Labor Category (CALC) API
-      - Data.gov CKAN API
-      - GSA Fleet Vehicles / Vehicle Leasing
-      - IT Collect Public API
-      - Per Diem API
-      - Regulations.gov API
-      - SAM.gov Entity/Exclusions Extracts Download API
-      - SAM.gov Entity Management API
-      - SAM.gov Exclusions API
-      - SAM.gov Federal Hierarchy FOUO API
-      - SAM.gov Federal Hierarchy Public API
-      - SAM.gov Get Opportunities Public API
-      - SAM.gov Opportunity Management API
-      - SAM.gov Product Service Codes (PSC) API
-      - SAM.gov Public Location Services API
-      - SAM.gov Assistance Listings Public API
-      - SAM.gov Acquisition Subaward Reporting Public API
-      - SAM.gov Assistance Subaward Reporting Public API
-      - SAM.gov Contract Awards API
-      - SAM.gov Subaward Reporting Bulk Upload API
-      - Search.gov Clicks API
-      - Search.gov Results API
-      - Search.gov Type-Ahead Suggestions API
-      - Site Scanning API
-      - TMSS 2.0 Rate Query API
-      - Sustainable Facilities Tool API
-      - Touchpoints API
-policies:
-  - name: Backoff Strategy
-    description: Clients should implement exponential backoff with jitter, honoring the Retry-After header
-      when present.
-  - name: Burst Handling
-    description: Short bursts above the steady-state limit are tolerated up to the documented burst ceiling
-      before throttling engages.
-  - name: Quota Reset
-    description: Monthly quotas reset at the start of each calendar month in UTC. Per-minute and per-second
-      windows reset on a sliding-window basis.
-  - name: Fair Use
-    description: Even on uncapped enterprise tiers, sustained usage that materially impacts shared infrastructure
-      may be subject to fair-use throttling.
-maintainers:
-  - FN: Kin Lane
-    email: kin@apievangelist.com
+    timeFrame: day
+    applies_to: SAM.gov personal API keys held by a federal user.
+    source: https://open.gsa.gov/api/entity-api/
+  - tier: free
+    name: SAM.gov — non-federal system account
+    scope: system-account
+    metric: requests_per_day
+    limit: 1000
+    timeFrame: day
+    applies_to: SAM.gov system account API keys.
+    source: https://open.gsa.gov/api/entity-api/
+  - tier: free
+    name: SAM.gov — federal system account
+    scope: system-account
+    metric: requests_per_day
+    limit: 10000
+    timeFrame: day
+    applies_to: SAM.gov system account API keys held by a federal system.
+    source: https://open.gsa.gov/api/entity-api/
+endpoint_specific:
+  - api: general-services-administration:regulationsgov-api
+    endpoint: /comments
+    limits:
+      - metric: requests_per_minute
+        limit: 50
+      - metric: requests_per_hour
+        limit: 500
+    result_cap: 5000 results per sequential query
+    source: https://github.com/GSA-TTS/mcp-server-regulations-gov
+escalation: >-
+  api.data.gov does not sell a higher tier. Its documented escalation path is to
+  contact the agency that owns the specific API; there is no self-service
+  upgrade and no paid plan.

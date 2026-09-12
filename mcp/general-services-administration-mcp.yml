@@ -1,0 +1,111 @@
+generated: '2026-09-12'
+method: searched
+source: >-
+  https://github.com/GSA-TTS/mcp-server-gsa-perdiem,
+  https://github.com/GSA-TTS/mcp-server-regulations-gov and the GSA MCP Server
+  Hub catalog at https://github.com/GSA-TTS/mcp-server-hub-catalog
+description: >-
+  GSA's Technology Transformation Services (GSA-TTS) is one of the few federal
+  publishers shipping MCP servers, and two of them wrap GSA's OWN APIs: the GSA
+  Per Diem API and the Regulations.gov API. Both are real, first-party code with
+  named tools. Neither is reachable as a public remote endpoint: the per diem
+  server runs over stdio from a cloned repository, and the Regulations.gov
+  server is a container image that the GSA-managed obot MCP gateway hosts
+  per-user behind that gateway, with no published public URL. GSA-TTS also runs
+  a broader hub catalog and a federal-data registry, but the remaining ~28
+  servers there wrap OTHER agencies' APIs (NIH, CDC, EPA, FEMA, Census, BLM,
+  NOAA) and are not GSA API surfaces.
+deployment:
+  mode: local-stdio
+  endpoint: null
+  install: 'uv run --directory /path/to/mcp-server-gsa-perdiem python main.py'
+  package: https://github.com/GSA-TTS/mcp-server-gsa-perdiem
+  auth: api-key
+  verified: searched
+  note: >-
+    mode is local-stdio, not remote. mcp-server-gsa-perdiem calls
+    mcp.run(transport="stdio") unless a PORT/DATABRICKS_APP_PORT env var is set
+    (src/perdiem/app.py). mcp-server-regulations-gov is containerized
+    (ghcr.io/gsa-tts/mcp-server-regulations-gov:0.2.0, port 8080, path /mcp,
+    health /health) but the hub catalog publishes no public gateway URL, and the
+    catalog README states these servers are pilots / proofs of concept and not
+    intended for production use. No endpoint URL is recorded because none is
+    published; guessing one would read as a verified agent surface.
+servers:
+  - name: GSA Per Diem MCP
+    status: published
+    api: general-services-administration:per-diem-api
+    repo: https://github.com/GSA-TTS/mcp-server-gsa-perdiem
+    transport: stdio
+    runtime: python >=3.13 (fastmcp >=3.3.1)
+    auth:
+      type: api-key
+      env: PERDIEM_API_KEY
+      obtain: https://api.data.gov/signup/
+    server_name: perdiem_mcp
+    tools:
+      - name: perdiem_get_rates_by_city
+        description: Per diem rates for a known city + state + fiscal year.
+      - name: perdiem_get_rates_by_zip
+        description: Per diem rates when only a ZIP code is known.
+      - name: perdiem_get_rates_by_state
+        description: Browse or compare destinations within a state for a fiscal year.
+      - name: perdiem_get_mie_rates
+        description: M&IE meal/incidental breakdown and the first/last-day (75%) rate.
+      - name: perdiem_get_conus_lodging_rates
+        description: The full CONUS lodging rate table, paginated.
+      - name: perdiem_get_zip_code_mapping
+        description: Which GSA destination a ZIP code belongs to.
+    instructions_note: >-
+      The server ships model instructions that encode GSA travel policy an
+      OpenAPI cannot express: fiscal years run 1 Oct - 30 Sep; Non-Standard Area
+      lodging rates are seasonal and must be reported per month, never averaged;
+      only 75% of M&IE may be claimed on the first and last travel day;
+      unlisted destinations fall back to the CONUS standard rate.
+  - name: Regulations.gov MCP
+    status: published
+    api: general-services-administration:regulationsgov-api
+    repo: https://github.com/GSA-TTS/mcp-server-regulations-gov
+    transport: streamable-http (containerized, gateway-hosted)
+    image: ghcr.io/gsa-tts/mcp-server-regulations-gov:0.2.0
+    container:
+      port: 8080
+      path: /mcp
+      health: /health
+    hosted_by: GSA-managed obot MCP gateway (singleUser deployment)
+    public_endpoint: null
+    auth:
+      type: api-key
+      env: REGULATIONS_GOV_API_KEY
+      obtain: https://api.data.gov/signup/
+    tools:
+      - name: regulations_search_documents
+        description: Search Rules, Proposed Rules, Notices by keyword, agency, date range, docket.
+      - name: regulations_get_document
+        description: Full metadata for a specific document.
+      - name: regulations_search_comments
+        description: Search public comments by keyword, agency, docket, or document.
+      - name: regulations_get_comment
+        description: Full text and metadata for a specific comment.
+      - name: regulations_search_dockets
+        description: Search dockets by keyword, agency, type.
+      - name: regulations_get_docket
+        description: Full metadata for a specific docket.
+    rate_limit_note: >-
+      Comment endpoints are limited to 50 requests/minute and 500 requests/hour;
+      a sequential query returns at most 5,000 results.
+related_gsa_programs:
+  - name: GSA MCP Server Hub catalog
+    url: https://github.com/GSA-TTS/mcp-server-hub-catalog
+    description: >-
+      Catalog read by the GSA-managed obot MCP gateway; 29 pilot servers, of
+      which only Regulations.gov wraps a GSA-operated API.
+  - name: Federal open-data MCP registry
+    url: https://github.com/GSA-TTS/fed-data-mcp-registry
+    description: >-
+      Curated registry of MCP servers over federal open data. Lists one GSA
+      entry (USA Analytics / analytics.usa.gov, GSA-TTS/usdc-arc-mcp-demo) with
+      no remote URL.
+  - name: MCP Server and AI Agent Government Hackathon
+    url: https://www.gsa.gov/artificial-intelligence/ai-community-of-practice/events-and-training/2026-ai-hackathon
+    description: GSA's 2026 program soliciting MCP servers for agency open data and service delivery.

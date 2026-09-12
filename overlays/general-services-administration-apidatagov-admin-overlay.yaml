@@ -1,0 +1,71 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist overlay — API Umbrella Admin API
+  version: 1.0.0
+extends: general-services-administration-apidatagov-admin-openapi.yaml
+x-provenance:
+  generated: '2026-09-12'
+  method: generated
+  source: Generated from openapi/general-services-administration-apidatagov-admin-openapi.yaml plus the artifacts
+    in this repository. The original contract is never mutated.
+actions:
+- target: $.info
+  description: Record API Evangelist provenance and the operating facts the contract does not carry.
+  update:
+    x-api-evangelist:
+      provider: General Services Administration
+      providerId: general-services-administration
+      harvested: '2026-09-12'
+      harvested_from: https://open.gsa.gov/api/apidatagov/
+      documentation: https://open.gsa.gov/api/apidatagov/
+      authentication: authentication/general-services-administration-authentication.yml
+      rate_limits: rate-limits/general-services-administration-rate-limits.yml
+      errors: errors/general-services-administration-problem-types.yml
+      conventions: conventions/general-services-administration-conventions.yml
+- target: $
+  description: The published contract declares no server. This is the production base documented on https://open.gsa.gov/api/apidatagov/.
+  update:
+    x-api-evangelist-production-server:
+      url: https://api.gsa.gov/operations/api-data-gov/v1
+      declared_in_spec: []
+      source: https://open.gsa.gov/api/apidatagov/
+- target: $.info
+  description: 36 of the operations in this contract declare no operationId, so nothing can address them by name.
+  update:
+    x-api-evangelist-missing-operation-ids:
+    - GET /api-umbrella/v1/admin_groups
+    - POST /api-umbrella/v1/admin_groups
+    - GET /api-umbrella/v1/admin_groups/{id}
+    - PUT /api-umbrella/v1/admin_groups/{id}
+    - DELETE /api-umbrella/v1/admin_groups/{id}
+    - GET /api-umbrella/v1/admin_permissions
+    - GET /api-umbrella/v1/admins
+    - POST /api-umbrella/v1/admins
+    - GET /api-umbrella/v1/admins/{id}
+    - PUT /api-umbrella/v1/admins/{id}
+    - DELETE /api-umbrella/v1/admins/{id}
+    - GET /api-umbrella/v1/analytics/drilldown
+    - GET /api-umbrella/v1/api_scopes
+    - POST /api-umbrella/v1/api_scopes
+    - GET /api-umbrella/v1/api_scopes/{id}
+    - PUT /api-umbrella/v1/api_scopes/{id}
+    - DELETE /api-umbrella/v1/api_scopes/{id}
+    - GET /api-umbrella/v1/apis
+    - POST /api-umbrella/v1/apis
+    - GET /api-umbrella/v1/apis/{id}
+    - PUT /api-umbrella/v1/apis/{id}
+    - DELETE /api-umbrella/v1/apis/{id}
+    - GET /api-umbrella/v1/config/pending_changes
+    - POST /api-umbrella/v1/config/publish
+    - POST /api-umbrella/v1/contact
+    - GET /api-umbrella/v1/user_roles
+    - GET /api-umbrella/v1/users
+    - POST /api-umbrella/v1/users
+    - GET /api-umbrella/v1/users/{id}
+    - PUT /api-umbrella/v1/users/{id}
+    - DELETE /api-umbrella/v1/users/{id}
+    - GET /api-umbrella/v1/website_backends
+    - POST /api-umbrella/v1/website_backends
+    - GET /api-umbrella/v1/website_backends/{id}
+    - PUT /api-umbrella/v1/website_backends/{id}
+    - DELETE /api-umbrella/v1/website_backends/{id}
