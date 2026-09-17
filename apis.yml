@@ -2675,61 +2675,6 @@ apis:
     url: https://github.com/gsa/touchpoints/wiki/API
   - type: Documentation
     url: https://open.gsa.gov/api/spr-api/
-- aid: general-services-administration:general-services-administration-fundingsources-api
-  name: General Services Administration Funding Sources API
-  description: >-
-    The FundingSources API from General Services Administration — 2 operation(s) for fundingsources.
-  humanURL: https://open.gsa.gov/api/ag-api/
-  baseURL: https://api.gsa.gov/acquisitiongateway/api/v4.0
-  tags:
-  - FundingSources
-  properties:
-  - type: OpenAPI
-    url: openapi/general-services-administration-fundingsources-api-openapi.yml
-  - type: Documentation
-    url: https://open.gsa.gov/api/ag-api/
-  - type: Documentation
-    url: https://open.gsa.gov/api/dap/
-  - type: Documentation
-    url: https://open.gsa.gov/api/apidatagov/
-  - type: Documentation
-    url: https://open.gsa.gov/api/apidatagov-metrics/
-  - type: Documentation
-    url: https://open.gsa.gov/api/datadotgov/
-  - type: Documentation
-    url: https://open.gsa.gov/api/itcollect/
-  - type: Documentation
-    url: https://open.gsa.gov/api/perdiem/
-  - type: Documentation
-    url: https://open.gsa.gov/api/regulationsgov/
-  - type: Documentation
-    url: https://open.gsa.gov/api/sam-entity-extracts-api/
-  - type: Documentation
-    url: https://open.gsa.gov/api/entity-api/
-  - type: Documentation
-    url: https://open.gsa.gov/api/exclusions-api/
-  - type: Documentation
-    url: https://open.gsa.gov/api/opportunities-api/
-  - type: Documentation
-    url: https://open.gsa.gov/api/assistance-listings-api/
-  - type: Documentation
-    url: https://open.gsa.gov/api/acquisition-subaward-reporting-api/
-  - type: Documentation
-    url: https://open.gsa.gov/api/assistance-subaward-reporting-api/
-  - type: Documentation
-    url: https://open.gsa.gov/api/contract-awards/
-  - type: Documentation
-    url: https://open.gsa.gov/api/subawards-bulkupload-api/
-  - type: Documentation
-    url: https://open.gsa.gov/api/searchgov-clicks/
-  - type: Documentation
-    url: https://open.gsa.gov/api/searchgov-results/
-  - type: Documentation
-    url: https://open.gsa.gov/api/site-scanning-api/
-  - type: Documentation
-    url: https://github.com/gsa/touchpoints/wiki/API
-  - type: Documentation
-    url: https://open.gsa.gov/api/spr-api/
 - aid: general-services-administration:general-services-administration-investmenttypereport-api
   name: General Services Administration Investment Type Report API
   description: >-
@@ -4496,6 +4441,61 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/general-services-administration-website-backend-api-openapi.yml
+  - type: Documentation
+    url: https://open.gsa.gov/api/ag-api/
+  - type: Documentation
+    url: https://open.gsa.gov/api/dap/
+  - type: Documentation
+    url: https://open.gsa.gov/api/apidatagov/
+  - type: Documentation
+    url: https://open.gsa.gov/api/apidatagov-metrics/
+  - type: Documentation
+    url: https://open.gsa.gov/api/datadotgov/
+  - type: Documentation
+    url: https://open.gsa.gov/api/itcollect/
+  - type: Documentation
+    url: https://open.gsa.gov/api/perdiem/
+  - type: Documentation
+    url: https://open.gsa.gov/api/regulationsgov/
+  - type: Documentation
+    url: https://open.gsa.gov/api/sam-entity-extracts-api/
+  - type: Documentation
+    url: https://open.gsa.gov/api/entity-api/
+  - type: Documentation
+    url: https://open.gsa.gov/api/exclusions-api/
+  - type: Documentation
+    url: https://open.gsa.gov/api/opportunities-api/
+  - type: Documentation
+    url: https://open.gsa.gov/api/assistance-listings-api/
+  - type: Documentation
+    url: https://open.gsa.gov/api/acquisition-subaward-reporting-api/
+  - type: Documentation
+    url: https://open.gsa.gov/api/assistance-subaward-reporting-api/
+  - type: Documentation
+    url: https://open.gsa.gov/api/contract-awards/
+  - type: Documentation
+    url: https://open.gsa.gov/api/subawards-bulkupload-api/
+  - type: Documentation
+    url: https://open.gsa.gov/api/searchgov-clicks/
+  - type: Documentation
+    url: https://open.gsa.gov/api/searchgov-results/
+  - type: Documentation
+    url: https://open.gsa.gov/api/site-scanning-api/
+  - type: Documentation
+    url: https://github.com/gsa/touchpoints/wiki/API
+  - type: Documentation
+    url: https://open.gsa.gov/api/spr-api/
+- aid: general-services-administration:general-services-administration-funding-sources-api
+  name: General Services Administration Funding Sources API
+  description: >-
+    The Funding Sources API from General Services Administration — 2 operation(s) for funding sources.
+  humanURL: https://open.gsa.gov/api/dx-calc-api/
+  baseURL: https://api.gsa.gov/acquisition/calc/v3
+  tags:
+  - Funding Sources
+  properties:
+  - type: OpenAPI
+    url: openapi/general-services-administration-funding-sources-api-openapi.yml
   - type: Documentation
     url: https://open.gsa.gov/api/ag-api/
   - type: Documentation
