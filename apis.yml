@@ -190,6 +190,8 @@ apis:
   humanURL: https://open.gsa.gov/api/ag-api/
   baseURL: https://api.gsa.gov/acquisitiongateway/api/v4.0
   tags:
+  - Action
+  tags_raw:
   - action
   properties:
   - type: OpenAPI
@@ -244,6 +246,8 @@ apis:
   humanURL: https://open.gsa.gov/api/ag-api/
   baseURL: https://api.gsa.gov/acquisitiongateway/api/v4.0
   tags:
+  - Admin
+  tags_raw:
   - admin
   properties:
   - type: OpenAPI
@@ -298,7 +302,8 @@ apis:
     The admin_group API from General Services Administration — 2 operation(s) for admin_group.
   humanURL: https://open.gsa.gov/api/ag-api/
   baseURL: https://api.gsa.gov/acquisitiongateway/api/v4.0
-  tags:
+  tags: []
+  tags_raw:
   - admin_group
   properties:
   - type: OpenAPI
@@ -353,7 +358,8 @@ apis:
     The admin_permission API from General Services Administration — 1 operation(s) for admin_permission.
   humanURL: https://open.gsa.gov/api/ag-api/
   baseURL: https://api.gsa.gov/acquisitiongateway/api/v4.0
-  tags:
+  tags: []
+  tags_raw:
   - admin_permission
   properties:
   - type: OpenAPI
@@ -516,6 +522,8 @@ apis:
   humanURL: https://open.gsa.gov/api/ag-api/
   baseURL: https://api.gsa.gov/acquisitiongateway/api/v4.0
   tags:
+  - Analytics
+  tags_raw:
   - analytics
   properties:
   - type: OpenAPI
@@ -569,7 +577,8 @@ apis:
   description: The api API from General Services Administration — 2 operation(s) for api.
   humanURL: https://open.gsa.gov/api/ag-api/
   baseURL: https://api.gsa.gov/acquisitiongateway/api/v4.0
-  tags:
+  tags: []
+  tags_raw:
   - api
   properties:
   - type: OpenAPI
@@ -623,7 +632,8 @@ apis:
   description: The api_scope API from General Services Administration — 2 operation(s) for api_scope.
   humanURL: https://open.gsa.gov/api/ag-api/
   baseURL: https://api.gsa.gov/acquisitiongateway/api/v4.0
-  tags:
+  tags: []
+  tags_raw:
   - api_scope
   properties:
   - type: OpenAPI
@@ -791,6 +801,8 @@ apis:
   humanURL: https://open.gsa.gov/api/ag-api/
   baseURL: https://api.gsa.gov/acquisitiongateway/api/v4.0
   tags:
+  - Attachments
+  tags_raw:
   - attachments
   properties:
   - type: OpenAPI
@@ -1287,6 +1299,8 @@ apis:
   humanURL: https://open.gsa.gov/api/ag-api/
   baseURL: https://api.gsa.gov/acquisitiongateway/api/v4.0
   tags:
+  - Comments
+  tags_raw:
   - comments
   properties:
   - type: OpenAPI
@@ -1341,6 +1355,8 @@ apis:
   humanURL: https://open.gsa.gov/api/ag-api/
   baseURL: https://api.gsa.gov/acquisitiongateway/api/v4.0
   tags:
+  - Config
+  tags_raw:
   - config
   properties:
   - type: OpenAPI
@@ -1395,6 +1411,8 @@ apis:
   humanURL: https://open.gsa.gov/api/ag-api/
   baseURL: https://api.gsa.gov/acquisitiongateway/api/v4.0
   tags:
+  - Contact
+  tags_raw:
   - contact
   properties:
   - type: OpenAPI
@@ -1948,6 +1966,8 @@ apis:
   humanURL: https://open.gsa.gov/api/ag-api/
   baseURL: https://api.gsa.gov/acquisitiongateway/api/v4.0
   tags:
+  - Dockets
+  tags_raw:
   - dockets
   properties:
   - type: OpenAPI
@@ -2002,6 +2022,8 @@ apis:
   humanURL: https://open.gsa.gov/api/ag-api/
   baseURL: https://api.gsa.gov/acquisitiongateway/api/v4.0
   tags:
+  - Documents
+  tags_raw:
   - documents
   properties:
   - type: OpenAPI
@@ -3120,6 +3142,8 @@ apis:
   humanURL: https://open.gsa.gov/api/ag-api/
   baseURL: https://api.gsa.gov/acquisitiongateway/api/v4.0
   tags:
+  - metric
+  tags_raw:
   - Metric
   properties:
   - type: OpenAPI
@@ -3615,6 +3639,8 @@ apis:
   humanURL: https://open.gsa.gov/api/ag-api/
   baseURL: https://api.gsa.gov/acquisitiongateway/api/v4.0
   tags:
+  - Project
+  tags_raw:
   - Projects
   properties:
   - type: OpenAPI
@@ -3886,6 +3912,8 @@ apis:
   humanURL: https://open.gsa.gov/api/ag-api/
   baseURL: https://api.gsa.gov/acquisitiongateway/api/v4.0
   tags:
+  - Search
+  tags_raw:
   - search
   properties:
   - type: OpenAPI
@@ -4218,6 +4246,8 @@ apis:
   humanURL: https://open.gsa.gov/api/ag-api/
   baseURL: https://api.gsa.gov/acquisitiongateway/api/v4.0
   tags:
+  - User
+  tags_raw:
   - user
   properties:
   - type: OpenAPI
@@ -4272,6 +4302,8 @@ apis:
   humanURL: https://open.gsa.gov/api/ag-api/
   baseURL: https://api.gsa.gov/acquisitiongateway/api/v4.0
   tags:
+  - UserRole
+  tags_raw:
   - user_role
   properties:
   - type: OpenAPI
@@ -4382,6 +4414,8 @@ apis:
   humanURL: https://open.gsa.gov/api/ag-api/
   baseURL: https://api.gsa.gov/acquisitiongateway/api/v4.0
   tags:
+  - Websites
+  tags_raw:
   - Website
   properties:
   - type: OpenAPI
@@ -4436,7 +4470,8 @@ apis:
     The website_backend API from General Services Administration — 2 operation(s) for website_backend.
   humanURL: https://open.gsa.gov/api/ag-api/
   baseURL: https://api.gsa.gov/acquisitiongateway/api/v4.0
-  tags:
+  tags: []
+  tags_raw:
   - website_backend
   properties:
   - type: OpenAPI
