@@ -1,0 +1,49 @@
+openapi: 3.2.0
+info:
+  version: 1.0.0
+  title: Umbrella Admin Admin Permission API
+  description: The admin API is accessible via `/api-umbrella/v1`.
+security:
+- api_key: []
+- admin_auth_token: []
+tags:
+- name: admin_permission
+paths:
+  /api-umbrella/v1/admin_permissions:
+    get:
+      tags:
+      - admin_permission
+      summary: Get a list of all admin permissions
+      description: Get a listing of all admin permission records.
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                title: Response
+                type: object
+                properties:
+                  admin_permissions:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        name:
+                          type: string
+                        display_order:
+                          type: integer
+      operationId: getApiUmbrellaV1AdminPermissions
+      x-operation-id-source: derived
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      in: header
+      name: X-Api-Key
+    admin_auth_token:
+      type: apiKey
+      in: header
+      name: X-Admin-Auth-Token

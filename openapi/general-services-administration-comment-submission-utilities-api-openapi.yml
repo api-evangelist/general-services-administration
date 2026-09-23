@@ -1,0 +1,216 @@
+openapi: 3.2.0
+info:
+  title: Regulations.gov comment submission utilities API
+  description: Public API for Regulations.gov
+  version: '4.0'
+servers:
+- url: https://api.regulations.gov/v4
+  description: Production endpoint for Regulations.gov API
+security:
+- ApiKeyAuth: []
+tags:
+- name: comment submission utilities
+paths:
+  /agency-categories:
+    get:
+      summary: Returns a list of categories
+      description: This endpoint returns list of categories
+      tags:
+      - comment submission utilities
+      parameters:
+      - name: filter[acronym]
+        in: query
+        description: '''Filters results for the agency acronym specified in the value. Example: ''''EPA'''''''
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: List of agency categories
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        default:
+                          type: boolean
+                          description: Defines if its the default category value
+                        acronym:
+                          type: string
+                          description: Agency acronym
+                        categories:
+                          type: string
+                          description: The name of the category
+        '400':
+          description: Validation error
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/JSONError'
+        '403':
+          description: API key is missing or invalid
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/JSONError'
+      operationId: getAgencyCategories
+      x-operation-id-source: derived
+  /submission-keys:
+    post:
+      summary: Creates the unique submission key
+      operationId: GetSubmitterKey
+      tags:
+      - comment submission utilities
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      example: submissionKeys
+      responses:
+        '201':
+          description: Created
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        description: the newly created submission key
+                      type:
+                        type: string
+                        example: submission-keys
+                      links:
+                        $ref: '#/components/schemas/SelfLink'
+        '403':
+          description: API key is missing or invalid
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/JSONError'
+  /file-upload-urls:
+    post:
+      summary: Creates a presigned url to upload file
+      tags:
+      - comment submission utilities
+      description: Returns a pre-signed URL to upload a file to the S3 bucket
+      requestBody:
+        required: true
+        content:
+          application/vnd.api+json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      example: file-upload-urls
+                    attributes:
+                      type: object
+                      properties:
+                        submissionKey:
+                          type: string
+                          description: submission key for the submission
+                        fileName:
+                          type: string
+                          description: name of the file to upload
+                        contentType:
+                          type: string
+                          description: content type of the file
+      responses:
+        '201':
+          description: Created
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        format: uri
+                        description: The pre-signed url to upload the file
+                      type:
+                        type: string
+                        example: file-upload-urls
+                      attributes:
+                        type: object
+                        properties:
+                          submissionKey:
+                            type: string
+                            description: submission key for the submission
+                          fileName:
+                            type: string
+                            description: name of the file to upload
+                          contentType:
+                            type: string
+                            description: content type of the file
+        '400':
+          description: Validation error
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/JSONError'
+        '403':
+          description: API key is missing or invalid
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/JSONError'
+      operationId: postFileUploadUrls
+      x-operation-id-source: derived
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        status:
+          type: integer
+        title:
+          type: string
+        detail:
+          type: string
+    Link:
+      description: A string containing the link URL.
+      type: string
+      format: uri-reference
+      uniqueItems: true
+    JSONError:
+      description: A JSON:API document
+      type: object
+      properties:
+        errors:
+          description: List of JSON:API Error
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+    SelfLink:
+      description: Link to self
+      type: object
+      properties:
+        self:
+          $ref: '#/components/schemas/Link'
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-Api-Key

@@ -1,0 +1,154 @@
+openapi: 3.2.0
+info:
+  title: Site Scanning Analysis API
+  description: Site Scanning API provides information about sites in the federal web presence.
+  version: '2.0'
+  contact: {}
+servers: []
+tags:
+- name: Analysis
+paths:
+  /analysis:
+    get:
+      operationId: AnalysisController_getResults
+      parameters:
+      - name: target_url_domain
+        required: false
+        in: query
+        description: '`target_url_domain` is the domain name plus the top-level domain (TLD) of the target url.
+
+          The `target_url` is the url that the scanner starts with. This is in constrast to the `final_url` which
+
+          is the url where the scanner ends up, after following redirects.'
+        schema:
+          format: uri
+          example: gsa.gov
+          type: string
+      - name: final_url_domain
+        required: false
+        in: query
+        description: '`final_url_domain` is the domain name plus the top-level domain (TLD) of the final url.
+
+          The final url is the url where the scanner ends up, after following redirects. This is in contrast to
+
+          the target url, which is the url the scanner starts with.'
+        schema:
+          format: uri
+          example: gsa.gov
+          type: string
+      - name: final_url_live
+        required: false
+        in: query
+        description: '`final_url_live` is a boolean that records whether the final url returns an HTTP status code that is in the 2xx
+
+          family.'
+        schema:
+          example: true
+          type: boolean
+      - name: target_url_redirects
+        required: false
+        in: query
+        description: '`target_url_redirects` is a boolean that records whether the target url redirects. Another way of thinking about this
+
+          is that when `true`, the target url returned a `3xx` HTTP status code. Technical Note: the scanners have caching disabled, so
+
+          `304` HTTP status codes are not present in the system.'
+        schema:
+          example: true
+          type: boolean
+      - name: target_url_agency_owner
+        required: false
+        in: query
+        description: '`target_url_agency_owner` is the agency that owns/operates the website associated with the target url.
+
+          _Note: The agency name must be url encoded (aka %20 encoded)._'
+        schema:
+          example: Department of Energy
+          type: string
+      - name: target_url_bureau_owner
+        required: false
+        in: query
+        description: '`target_url_bureau_owner` is the bureau that owns/operates the website associated with the target url.
+
+          _Note: The bureau name must be url encoded (aka %20 encoded)._'
+        schema:
+          example: Argonne National Laboratory
+          type: string
+      - name: scan_status
+        required: false
+        in: query
+        description: '`scan_status` captures the status of the scan and any reason for failure (if known). _Note that `unknown_error`
+
+          is reserved for errors that aren''t yet encoded in the system._'
+        schema:
+          example: completed
+          type: string
+          enum:
+          - address_unreachable
+          - completed
+          - connection_closed
+          - connection_refused
+          - connection_reset
+          - dns_resolution_error
+          - empty_response
+          - invalid_response
+          - evaluation_failed
+          - execution_context_destroyed
+          - http2_error
+          - invalid_ssl_cert
+          - not_applicable
+          - page_frame_not_ready
+          - skipped
+          - ssl_version_cipher_mismatch
+          - timeout
+          - too_many_redirects
+          - invalid_auth_credentials
+          - ssl_protocol_error
+          - aborted
+          - unknown_error
+      - name: dap_detected_final_url
+        required: false
+        in: query
+        description: '`dap_detected_final_url` is a boolean that records whether the Digital Analytics Program is detected at the final url.'
+        schema:
+          example: true
+          type: boolean
+      - name: page
+        required: false
+        in: query
+        description: 'page denotes the page number of the results to display. The default value and the
+
+          minimum value are 1.
+
+
+          page works in conjunction with the limit parameter. For example, if there are
+
+          1000 results, and a limit of 10, there would be 100 pages. A value of page=2
+
+          would show you the second page (results 10-19 in a zero-index system).'
+        schema:
+          $ref: '#/components/schemas/Object'
+      - name: limit
+        required: false
+        in: query
+        description: 'limit denotes the number of items that will be returned from the API in the `items` array.
+
+          The default value is 10. The maximum is 100.'
+        schema:
+          $ref: '#/components/schemas/Object'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+      tags:
+      - Analysis
+      summary: Analysis controller get results
+      x-summary-source: derived
+components:
+  schemas:
+    Object:
+      type: object
+      properties: {}

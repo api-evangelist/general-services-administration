@@ -1,0 +1,489 @@
+openapi: 3.2.0
+info:
+  version: 1.0.0
+  title: Umbrella Admin Config API
+  description: The admin API is accessible via `/api-umbrella/v1`.
+security:
+- api_key: []
+- admin_auth_token: []
+tags:
+- name: Config
+paths:
+  /api-umbrella/v1/config/pending_changes:
+    get:
+      tags:
+      - Config
+      summary: Get a summary of pending configuration changes
+      description: Return a summary of configuration changes for API backends and website backends that have not yet been published.
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                title: Response
+                type: object
+                properties:
+                  config:
+                    title: Config
+                    type: object
+                    properties:
+                      apis:
+                        $ref: '#/components/schemas/ConfigDiffGroup'
+                      website_backends:
+                        $ref: '#/components/schemas/ConfigDiffGroup'
+      operationId: getApiUmbrellaV1ConfigPendingChanges
+      x-operation-id-source: derived
+  /api-umbrella/v1/config/publish:
+    post:
+      tags:
+      - Config
+      summary: Publish API backend or website backend changes
+      responses:
+        201:
+          description: Successfully published changes
+          content:
+            application/json:
+              schema:
+                title: Response
+                type: object
+                properties:
+                  config_version:
+                    $ref: '#/components/schemas/ConfigVersion'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: Request
+              type: object
+              properties:
+                config:
+                  title: Config
+                  type: object
+                  properties:
+                    apis:
+                      $ref: '#/components/schemas/ConfigPublish'
+                    website_backends:
+                      $ref: '#/components/schemas/ConfigPublish'
+              example:
+                config:
+                  apis:
+                    uuid_of_api_backend:
+                      publish: '1'
+                    uuid_of_additional_api_backend:
+                      publish: '0'
+                  website_backends:
+                    uuid_of_website_backend:
+                      publish: '0'
+                    uuid_of_additional_website_backend:
+                      publish: '1'
+        description: Object describing which API backends or website records to publish
+        required: true
+      operationId: postApiUmbrellaV1ConfigPublish
+      x-operation-id-source: derived
+components:
+  schemas:
+    ArrayOfConfigDiffs:
+      type: array
+      items:
+        $ref: '#/components/schemas/ConfigDiff'
+    UpdatedAt:
+      type: string
+      format: date-time
+      readOnly: true
+      description: The time the record was last updated (ISO 8601 format)
+    ApiSettingsRateLimit:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        duration:
+          type: integer
+        accuracy:
+          type: integer
+        limit_by:
+          type: string
+          enum:
+          - ip
+          - apiKey
+        distributed:
+          type: boolean
+        response_headers:
+          type: boolean
+    ConfigVersion:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        verison:
+          type: string
+          format: date-time
+        config:
+          title: Config
+          type: object
+          properties:
+            apis:
+              $ref: '#/components/schemas/Api'
+            website_backends:
+              $ref: '#/components/schemas/WebsiteBackend'
+        created_at:
+          $ref: '#/components/schemas/CreatedAt'
+        updated_at:
+          $ref: '#/components/schemas/UpdatedAt'
+    ApiUrlMatch:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        frontend_prefix:
+          type: string
+        backend_prefix:
+          type: string
+      required:
+      - frontend_prefix
+      - backend_prefix
+    ApiSettings:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        append_query_string:
+          type: string
+          description: Append query string parameters
+        headers:
+          description: Set request headers
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiSettingsHeader'
+        headers_string:
+          type: string
+          description: Set the `headers` via a new-line separated list
+        default_response_headers:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiSettingsHeader'
+        default_response_headers_string:
+          type: string
+        override_response_headers:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiSettingsHeader'
+        override_response_headers_string:
+          type: string
+        http_basic_auth:
+          type: string
+          description: HTTP basic authentication
+        require_https:
+          type: string
+          enum:
+          - required_return_error
+          - required_return_redirect
+          - transition_return_error
+          - transition_return_redirect optional
+          description: HTTPS requirements
+        require_https_transition_start_at:
+          type: string
+          format: date-time
+        disable_api_key:
+          type: boolean
+        api_key_verification_level:
+          type: string
+          enum:
+          - none
+          - transition_email
+          - required_email
+        api_key_verification_transition_start_at:
+          type: string
+          format: date-time
+        required_roles:
+          type: array
+          items:
+            type: string
+        required_roles_override:
+          type: boolean
+        allowed_ips:
+          type: array
+          items:
+            type: string
+        allowed_referers:
+          type: array
+          items:
+            type: string
+        rate_limit_mode:
+          type: string
+          enum:
+          - unlimited
+          - custom
+        rate_limits:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiSettingsRateLimit'
+        anonymous_rate_limit_behavior:
+          type: string
+          enum:
+          - ip_fallback
+          - ip_only
+        authenticated_rate_limit_behavior:
+          type: string
+          enum:
+          - all
+          - api_key_only
+        pass_api_key_header:
+          type: boolean
+        pass_api_key_query_param:
+          type: boolean
+        error_templates:
+          type: object
+        error_data:
+          type: object
+        error_data_yaml_strings:
+          type: object
+    ConfigDiff:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        mode:
+          type: string
+          enum:
+          - new
+          - modified
+          - deleted
+          - identical
+        name:
+          type: string
+        active:
+          type: object
+        active_yaml:
+          type: string
+        pending:
+          type: object
+        pending_yaml:
+          type: string
+    ApiServer:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        host:
+          type: string
+        port:
+          type: integer
+      required:
+      - host
+      - port
+    Api:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+        sort_order:
+          type: integer
+        backend_protocol:
+          type: string
+          enum:
+          - http
+          - https
+        frontend_host:
+          type: string
+        backend_host:
+          type: string
+        servers:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiServer'
+        url_matches:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiUrlMatch'
+        balance_algorithm:
+          type: string
+          enum:
+          - least_conn
+          - round_robin
+          - ip_hash
+        settings:
+          $ref: '#/components/schemas/ApiSettings'
+        sub_settings:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiSubSettings'
+        rewrites:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiRewrite'
+        created_at:
+          $ref: '#/components/schemas/CreatedAt'
+        creator:
+          $ref: '#/components/schemas/AdminCreator'
+        updated_at:
+          $ref: '#/components/schemas/UpdatedAt'
+        updater:
+          $ref: '#/components/schemas/AdminUpdater'
+      required:
+      - name
+      - backend_protocol
+      - frontend_host
+      - backend_host
+      - servers
+      - url_matches
+      - balance_algorithm
+    ApiSettingsHeader:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        key:
+          type: string
+        value:
+          type: string
+    WebsiteBackend:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        frontend_host:
+          type: string
+        backend_protocol:
+          type: string
+          enum:
+          - http
+          - https
+        server_host:
+          type: string
+        server_port:
+          type: integer
+        created_at:
+          $ref: '#/components/schemas/CreatedAt'
+        creator:
+          $ref: '#/components/schemas/AdminCreator'
+        updated_at:
+          $ref: '#/components/schemas/UpdatedAt'
+        updater:
+          $ref: '#/components/schemas/AdminUpdater'
+    AdminCreator:
+      type: object
+      readOnly: true
+      properties:
+        username:
+          type: string
+          format: email
+          readOnly: true
+          description: E-mail address of the admin that created the record
+    ApiSubSettings:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        http_method:
+          type: string
+          enum:
+          - any
+          - GET
+          - POST
+          - PUT
+          - DELETE
+          - HEAD
+          - TRACE
+          - OPTIONS
+          - CONNECT
+          - PATCH
+        regex:
+          type: string
+        settings:
+          $ref: '#/components/schemas/ApiSettings'
+    AdminUpdater:
+      type: object
+      readOnly: true
+      properties:
+        username:
+          type: string
+          format: email
+          readOnly: true
+          description: E-mail address of the admin that last updated the record
+    ApiRewrite:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        matcher_type:
+          type: string
+          enum:
+          - route
+          - regex
+        http_method:
+          type: string
+          enum:
+          - any
+          - GET
+          - POST
+          - PUT
+          - DELETE
+          - HEAD
+          - TRACE
+          - OPTIONS
+          - CONNECT
+          - PATCH
+        frontend_matcher:
+          type: string
+        backend_replacement:
+          type: string
+    CreatedAt:
+      type: string
+      format: date-time
+      readOnly: true
+      description: The time the record was created (ISO 8601 format)
+    ConfigPublish:
+      type: object
+      additionalProperties:
+        title: ConfigPublishRecord
+        type: object
+        properties:
+          publish:
+            type: string
+            enum:
+            - '0'
+            - '1'
+    ConfigDiffGroup:
+      type: object
+      properties:
+        new:
+          $ref: '#/components/schemas/ArrayOfConfigDiffs'
+        modified:
+          $ref: '#/components/schemas/ArrayOfConfigDiffs'
+        deleted:
+          $ref: '#/components/schemas/ArrayOfConfigDiffs'
+        identical:
+          $ref: '#/components/schemas/ArrayOfConfigDiffs'
+  securitySchemes:
+    api_key:
+      type: apiKey
+      in: header
+      name: X-Api-Key
+    admin_auth_token:
+      type: apiKey
+      in: header
+      name: X-Admin-Auth-Token

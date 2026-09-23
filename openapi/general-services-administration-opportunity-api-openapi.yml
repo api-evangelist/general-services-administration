@@ -1,0 +1,1264 @@
+openapi: 3.2.0
+info:
+  description: MicroService for GSA IAE Modernized Opportunity
+  version: 0.1.0
+  title: GSA IAE Modernization Opportunity API
+  termsOfService: https://beta.sam.gov
+  contact: {}
+  license:
+    url: http://unlicense.org
+servers:
+- url: https://localhost:8080/
+tags:
+- name: Opportunity
+paths:
+  /opps/v1/api/archive/{opportunityId}:
+    post:
+      tags:
+      - Opportunity
+      summary: Archive contract opportunity
+      description: Archive contract opportunity.
+      operationId: archiveOpportunityUsingPOST
+      parameters:
+      - name: Authorization
+        in: header
+        description: Authorization
+        required: true
+        schema:
+          type: string
+      - name: api_key
+        in: query
+        description: api_key
+        required: true
+        schema:
+          type: string
+      - name: opportunityId
+        in: path
+        description: opportunityId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: string
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: string
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: string
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                type: string
+      deprecated: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+        description: requestJson
+  /opps/v1/api/cancel/{opportunityId}:
+    post:
+      tags:
+      - Opportunity
+      summary: Cancel contract opportunity
+      description: Cancel contract opportunity.
+      operationId: cancelOpportunityUsingPOST
+      parameters:
+      - name: Authorization
+        in: header
+        description: Authorization
+        required: true
+        schema:
+          type: string
+      - name: api_key
+        in: query
+        description: api_key
+        required: true
+        schema:
+          type: string
+      - name: opportunityId
+        in: path
+        description: opportunityId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: string
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: string
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: string
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                type: string
+      deprecated: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+        description: requestJson
+  /opps/v1/api/create:
+    post:
+      tags:
+      - Opportunity
+      summary: Create contract opportunity
+      description: Create contract opportunity.
+      operationId: createOpportunityUsingPOST
+      parameters:
+      - name: Authorization
+        in: header
+        description: Authorization
+        required: true
+        schema:
+          type: string
+      - name: api_key
+        in: query
+        description: api_key
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/*:
+              schema:
+                type: object
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          content:
+            application/*:
+              schema:
+                type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/*:
+              schema:
+                type: string
+        '403':
+          description: Forbidden
+          content:
+            application/*:
+              schema:
+                type: string
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/*:
+              schema:
+                type: string
+        '501':
+          description: Not Implemented
+          content:
+            application/*:
+              schema:
+                type: string
+      deprecated: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+        description: requestJson
+  /opps/v1/api/delete/{opportunityId}:
+    delete:
+      tags:
+      - Opportunity
+      summary: Delete contract opportunity
+      description: Delete contract opportunity.
+      operationId: deleteOpportunityUsingDELETE
+      parameters:
+      - name: Authorization
+        in: header
+        description: Authorization
+        required: true
+        schema:
+          type: string
+      - name: api_key
+        in: query
+        description: api_key
+        required: true
+        schema:
+          type: string
+      - name: opportunityId
+        in: path
+        description: opportunityId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: string
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: string
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: string
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                type: string
+      deprecated: false
+  /opps/v1/api/history/{opportunityId}:
+    get:
+      tags:
+      - Opportunity
+      summary: Get history of Opportunity
+      operationId: getOpportunityHistoryUsingGET
+      parameters:
+      - name: Authorization
+        in: header
+        description: Authorization
+        required: true
+        schema:
+          type: string
+      - name: api_key
+        in: query
+        description: api_key
+        required: true
+        schema:
+          type: string
+      - name: opportunityId
+        in: path
+        description: opportunityId
+        required: true
+        schema:
+          type: string
+      - name: postedFrom
+        in: query
+        description: postedFrom
+        required: false
+        allowEmptyValue: false
+        schema:
+          type: string
+          format: date-time
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: string
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: string
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: string
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                type: string
+      deprecated: false
+  /opps/v1/api/isSolicitationNumberUnique/{parent}/{solicitationNumber}/{type}:
+    get:
+      tags:
+      - Opportunity
+      summary: Check if solicitation number is unique.
+      operationId: getOpportunityHistoryUsingGET_1
+      parameters:
+      - name: Authorization
+        in: header
+        description: Authorization
+        required: true
+        schema:
+          type: string
+      - name: api_key
+        in: query
+        description: api_key
+        required: true
+        schema:
+          type: string
+      - name: parent
+        in: path
+        description: parent
+        required: true
+        schema:
+          type: string
+      - name: solicitationNumber
+        in: path
+        description: solicitationNumber
+        required: true
+        schema:
+          type: string
+      - name: type
+        in: path
+        description: type
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: string
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: string
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: string
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                type: string
+      deprecated: false
+  /opps/v1/api/opportunities/{opportunityId}/relatedopportunities/{type}:
+    get:
+      tags:
+      - Opportunity
+      summary: Get related contract opportunities
+      operationId: getRelatedOpportunitiesGET
+      parameters:
+      - name: Authorization
+        in: header
+        description: Authorization
+        required: true
+        schema:
+          type: string
+      - name: api_key
+        in: query
+        description: api_key
+        required: true
+        schema:
+          type: string
+      - name: opportunityId
+        in: path
+        description: opportunityId
+        required: true
+        schema:
+          type: string
+      - name: page
+        in: query
+        description: page
+        required: false
+        allowEmptyValue: false
+        schema:
+          type: integer
+          format: int32
+          default: 0
+      - name: size
+        in: query
+        description: size
+        required: false
+        allowEmptyValue: false
+        schema:
+          type: integer
+          format: int32
+          default: 10
+      - name: sortBy
+        in: query
+        description: sortBy
+        required: false
+        allowEmptyValue: false
+        schema:
+          type: string
+          default: -modifiedOn
+      - name: type
+        in: path
+        description: type
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: string
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: string
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: string
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                type: string
+      deprecated: false
+  /opps/v1/api/publish/{opportunityId}:
+    post:
+      tags:
+      - Opportunity
+      summary: Publish contract opportunity
+      description: Publish contract opportunity.
+      operationId: publishOpportunityUsingPOST
+      parameters:
+      - name: Authorization
+        in: header
+        description: Authorization
+        required: true
+        schema:
+          type: string
+      - name: api_key
+        in: query
+        description: api_key
+        required: true
+        schema:
+          type: string
+      - name: opportunityId
+        in: path
+        description: opportunityId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: string
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: string
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: string
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                type: string
+      deprecated: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+        description: requestJson
+  /opps/v1/api/revise/{opportunityId}:
+    post:
+      tags:
+      - Opportunity
+      summary: Revise contract opportunity
+      description: Revise contract opportunity.
+      operationId: reviseOpportunityUsingPOST
+      parameters:
+      - name: Authorization
+        in: header
+        description: Authorization
+        required: true
+        schema:
+          type: string
+      - name: api_key
+        in: query
+        description: api_key
+        required: true
+        schema:
+          type: string
+      - name: opportunityId
+        in: path
+        description: opportunityId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: string
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: string
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: string
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                type: string
+      deprecated: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+        description: requestJson
+  /opps/v1/api/search:
+    get:
+      tags:
+      - Opportunity
+      summary: Get Opportunities
+      description: Get all opportunities.
+      operationId: getOpportunitiesUsingGET
+      parameters:
+      - name: Authorization
+        in: header
+        description: Authorization
+        required: true
+        schema:
+          type: string
+      - name: api_key
+        in: query
+        description: api_key
+        required: true
+        schema:
+          type: string
+      - name: archivedFrom
+        in: query
+        description: archivedFrom
+        required: false
+        allowEmptyValue: false
+        schema:
+          type: string
+      - name: archivedTo
+        in: query
+        description: archivedTo
+        required: false
+        allowEmptyValue: false
+        schema:
+          type: string
+      - name: awardNumber
+        in: query
+        description: awardNumber
+        required: false
+        allowEmptyValue: false
+        schema:
+          type: string
+      - name: cancelled
+        in: query
+        description: cancelled
+        required: false
+        allowEmptyValue: false
+        x-example: false
+        schema:
+          type: boolean
+          default: false
+      - name: doNumber
+        in: query
+        description: doNumber
+        required: false
+        allowEmptyValue: false
+        schema:
+          type: string
+      - name: facets
+        in: query
+        description: facets
+        required: false
+        allowEmptyValue: false
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+      - name: includeCount
+        in: query
+        description: includeCount
+        required: false
+        allowEmptyValue: false
+        schema:
+          type: boolean
+          default: true
+      - name: keyword
+        in: query
+        description: keyword
+        required: false
+        allowEmptyValue: false
+        schema:
+          type: string
+      - name: latest
+        in: query
+        description: latest
+        required: false
+        allowEmptyValue: false
+        schema:
+          type: boolean
+          default: true
+      - name: links
+        in: query
+        description: links
+        required: false
+        allowEmptyValue: false
+        schema:
+          type: boolean
+          default: true
+      - name: noticeType
+        in: query
+        description: noticeType
+        required: false
+        allowEmptyValue: false
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+      - name: opportunityIds
+        in: query
+        description: opportunityIds
+        required: false
+        allowEmptyValue: false
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+      - name: organizationId
+        in: query
+        description: organizationId
+        required: false
+        allowEmptyValue: false
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+      - name: page
+        in: query
+        description: page
+        required: false
+        allowEmptyValue: false
+        schema:
+          type: integer
+          format: int32
+          default: 0
+      - name: parentNotice
+        in: query
+        description: parentNotice
+        required: false
+        allowEmptyValue: false
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+      - name: postedFrom
+        in: query
+        description: postedFrom
+        required: false
+        allowEmptyValue: false
+        schema:
+          type: string
+      - name: postedTo
+        in: query
+        description: postedTo
+        required: false
+        allowEmptyValue: false
+        schema:
+          type: string
+      - name: relatedNotice
+        in: query
+        description: relatedNotice
+        required: false
+        allowEmptyValue: false
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+      - name: responseFrom
+        in: query
+        description: responseFrom
+        required: false
+        allowEmptyValue: false
+        schema:
+          type: string
+      - name: responseTo
+        in: query
+        description: responseTo
+        required: false
+        allowEmptyValue: false
+        schema:
+          type: string
+      - name: size
+        in: query
+        description: size
+        required: false
+        allowEmptyValue: false
+        schema:
+          type: integer
+          format: int32
+          default: 10
+      - name: solNumber
+        in: query
+        description: solNumber
+        required: false
+        allowEmptyValue: false
+        schema:
+          type: string
+      - name: sortBy
+        in: query
+        description: sortBy
+        required: false
+        allowEmptyValue: false
+        schema:
+          type: string
+          default: -modifiedOn
+      - name: status
+        in: query
+        description: status
+        required: false
+        allowEmptyValue: false
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: string
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: string
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: string
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+      - Token-based Access: []
+      deprecated: false
+  /opps/v1/api/unarchive/{opportunityId}:
+    post:
+      tags:
+      - Opportunity
+      summary: UnArchive contract opportunity
+      description: UnArchive contract opportunity.
+      operationId: unArchiveOpportunityUsingPOST
+      parameters:
+      - name: Authorization
+        in: header
+        description: Authorization
+        required: true
+        schema:
+          type: string
+      - name: api_key
+        in: query
+        description: api_key
+        required: true
+        schema:
+          type: string
+      - name: opportunityId
+        in: path
+        description: opportunityId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: string
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: string
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: string
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                type: string
+      deprecated: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+        description: requestJson
+  /opps/v1/api/uncancel/{opportunityId}:
+    post:
+      tags:
+      - Opportunity
+      summary: UnCancel contract opportunity
+      description: UnCancel contract opportunity.
+      operationId: unCancelOpportunityUsingPOST
+      parameters:
+      - name: Authorization
+        in: header
+        description: Authorization
+        required: true
+        schema:
+          type: string
+      - name: api_key
+        in: query
+        description: api_key
+        required: true
+        schema:
+          type: string
+      - name: opportunityId
+        in: path
+        description: opportunityId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: string
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: string
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: string
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                type: string
+      deprecated: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+        description: requestJson
+  /opps/v1/api/update/{opportunityId}:
+    patch:
+      tags:
+      - Opportunity
+      summary: Update Opportunity
+      description: Update contract opportunity.
+      operationId: updateOpportunityUsingPATCH
+      parameters:
+      - name: Authorization
+        in: header
+        description: Authorization
+        required: true
+        schema:
+          type: string
+      - name: api_key
+        in: query
+        description: api_key
+        required: true
+        schema:
+          type: string
+      - name: opportunityId
+        in: path
+        description: opportunityId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: string
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: string
+        '404':
+          description: Not Found
+        '412':
+          description: Precondition Failed
+        '428':
+          description: Precondition Required
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: string
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                type: string
+      deprecated: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+        description: requestJson
+  /opps/v1/api/{opportunityId}:
+    get:
+      tags:
+      - Opportunity
+      summary: Get contract opportunity
+      description: Get contract opportunity.
+      operationId: getOpportunityUsingGET
+      parameters:
+      - name: Authorization
+        in: header
+        description: Authorization
+        required: true
+        schema:
+          type: string
+      - name: api_key
+        in: query
+        description: api_key
+        required: true
+        schema:
+          type: string
+      - name: latest
+        in: query
+        description: latest
+        required: false
+        allowEmptyValue: false
+        x-example: false
+        schema:
+          type: boolean
+          default: false
+      - name: opportunityId
+        in: path
+        description: opportunityId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: string
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: string
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: string
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+      - Token-based Access: []
+      deprecated: false

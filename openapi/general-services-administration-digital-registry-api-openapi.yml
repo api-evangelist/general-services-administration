@@ -1,0 +1,334 @@
+openapi: 3.2.0
+info:
+  title: Touchpoints API Reference Digital Registry API
+  description: For an introduction to the Touchpoints API, see the API Overview page.
+  version: v1
+servers:
+- url: https://api.gsa.gov/analytics/touchpoints/v1
+  description: The production Touchpoints API
+tags:
+- name: Digital Registry
+paths:
+  /websites:
+    get:
+      summary: List websites
+      description: Returns a list of websites registered in Touchpoints.
+      tags:
+      - Digital Registry
+      security:
+      - api_key: []
+      parameters:
+      - name: all
+        in: query
+        required: false
+        description: If set to 1, returns all websites. If not set or set to 0, returns only published websites.
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              example:
+                value:
+                  data:
+                  - id: '1'
+                    type: websites
+                    attributes:
+                      domain: touchpoints.app.cloud.gov
+                      organization_id: 1
+                      organization_name: General Service Administration
+                      parent_domain: cloud.gov
+                      office: FAS
+                      sub_office: TTS
+                      contact_email: feedback-analytics@gsa.gov
+                      site_owner_email: john.smith@gsa.gov
+                      production_status: production
+                      type_of_site: Application
+                      digital_brand_category: null
+                      redirects_to: null
+                      status_code: null
+                      cms_platform: null
+                      required_by_law_or_policy: A-11, Section 280
+                      has_dap: false
+                      dap_gtm_code: null
+                      analytics_url: null
+                      uses_feedback: true
+                      feedback_tool: Touchpoints
+                      sitemap_url: null
+                      backlog_tool: GitHub
+                      backlog_url: ''
+                      mobile_friendly: null
+                      has_search: false
+                      uses_tracking_cookies: null
+                      has_authenticated_experience: true
+                      authentication_tool: Login.gov
+                      login_supported: true
+                      notes: null
+                      repository_url: https://github.com/gsa/touchpoints
+                      hosting_platform: cloud.gov
+                      website_contacts: []
+                      uswds_version: '3.1'
+                      https: true
+                      target_decommission_date: null
+                      created_at: '2026-01-01T00:00:00.000Z'
+                      updated_at: '2026-01-01T00:00:00.000Z'
+              schema:
+                type: object
+                required:
+                - data
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/WebsiteResource'
+      operationId: getWebsites
+      x-operation-id-source: derived
+components:
+  schemas:
+    WebsiteResource:
+      type: object
+      required:
+      - id
+      - type
+      - attributes
+      properties:
+        id:
+          type: string
+          description: Numeric identifier of the website (string-encoded).
+        type:
+          type: string
+          enum:
+          - websites
+        attributes:
+          $ref: '#/components/schemas/WebsiteAttributes'
+    WebsiteAttributes:
+      type: object
+      required:
+      - domain
+      - organization_id
+      - organization_name
+      - parent_domain
+      - login_supported
+      - website_contacts
+      - created_at
+      - updated_at
+      properties:
+        domain:
+          type: string
+          description: Fully qualified domain name of the website.
+        organization_id:
+          type: integer
+          description: ID of the organization that owns the website.
+        organization_name:
+          type: string
+          description: Display name of the organization that owns the website.
+        parent_domain:
+          type: string
+          description: Parent domain under which this website resides.
+        office:
+          type:
+          - string
+          - 'null'
+          description: Office within the organization responsible for the website. May be empty string or null.
+        sub_office:
+          type:
+          - string
+          - 'null'
+          description: Sub-office within the office responsible for the website. May be empty string or null.
+        contact_email:
+          type:
+          - string
+          - 'null'
+          format: email
+          description: General contact email for the website. May be empty string or null.
+        site_owner_email:
+          type:
+          - string
+          - 'null'
+          format: email
+          description: Email address of the site owner. May be empty string or null.
+        production_status:
+          type: string
+          enum:
+          - decommissioned
+          - in_development
+          - production
+          - redirect
+          - staging
+          description: Current lifecycle status of the website.
+        type_of_site:
+          type:
+          - string
+          - 'null'
+          description: Categorization of the site's primary purpose (e.g. 'Informational', 'Application', 'API', 'Critical infrastructure'). May be null.
+        digital_brand_category:
+          type:
+          - string
+          - 'null'
+          description: Digital brand classification (e.g. 'GSA Business', 'Hybrid', 'External'). May be empty string or null.
+        redirects_to:
+          type:
+          - string
+          - 'null'
+          description: URL or domain this site redirects to. Null or empty string if not a redirect.
+        status_code:
+          type:
+          - string
+          - 'null'
+          description: Last observed HTTP status code. May be null if not yet checked.
+        cms_platform:
+          type:
+          - string
+          - 'null'
+          description: CMS or hosting platform used to build the site (e.g. 'Federalist', 'Netlify'). May be empty string or null.
+        required_by_law_or_policy:
+          type:
+          - string
+          - 'null'
+          description: Applicable law or policy mandate (e.g. 'A-11, Section 280'). May be empty string or null.
+        has_dap:
+          type:
+          - boolean
+          - 'null'
+          description: Whether the Digital Analytics Program (DAP) is implemented on the site. Null if unknown.
+        dap_gtm_code:
+          type:
+          - string
+          - 'null'
+          description: DAP Google Tag Manager code. May be empty string or null.
+        analytics_url:
+          type:
+          - string
+          - 'null'
+          description: URL to the site's public analytics dashboard. May be empty string or null.
+        uses_feedback:
+          type:
+          - boolean
+          - 'null'
+          description: Whether the site uses a feedback collection tool. Null if unknown.
+        feedback_tool:
+          type:
+          - string
+          - 'null'
+          description: Name of the feedback tool in use (e.g. 'Touchpoints', 'Medallia', 'None'). May be null.
+        sitemap_url:
+          type:
+          - string
+          - 'null'
+          description: URL of the site's XML sitemap. May be empty string or null.
+        backlog_tool:
+          type: string
+          description: Name of the project backlog tool in use (e.g. 'Trello', 'GitHub', 'Jira', 'None'). May be empty string.
+        backlog_url:
+          type: string
+          description: URL to the project backlog. May be empty string.
+        mobile_friendly:
+          type:
+          - boolean
+          - 'null'
+          description: Whether the site is mobile-friendly. Null if unknown.
+        has_search:
+          type:
+          - boolean
+          - 'null'
+          description: Whether the site has a search feature. Null if unknown.
+        uses_tracking_cookies:
+          type:
+          - boolean
+          - 'null'
+          description: Whether the site uses tracking cookies. Null if unknown.
+        has_authenticated_experience:
+          type:
+          - boolean
+          - 'null'
+          description: Whether the site has an authenticated user experience. Null if unknown.
+        authentication_tool:
+          type:
+          - string
+          - 'null'
+          description: Authentication platform used (e.g. 'Login.gov', 'Okta', 'Max.gov', 'None'). May be null.
+        login_supported:
+          type: boolean
+          description: Whether user login is supported on the site.
+        notes:
+          type:
+          - string
+          - 'null'
+          description: Internal freeform notes about the website. May be empty string or null.
+        repository_url:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: URL of the source code repository. May be empty string or null.
+        hosting_platform:
+          type:
+          - string
+          - 'null'
+          description: Infrastructure hosting platform (e.g. 'Cloud.gov', 'Federalist'). May be empty string or null.
+        website_contacts:
+          type: array
+          description: List of contacts associated with this website.
+          items:
+            $ref: '#/components/schemas/User'
+        uswds_version:
+          type:
+          - string
+          - 'null'
+          description: Version of the U.S. Web Design System in use. May be empty string or null.
+        https:
+          type:
+          - boolean
+          - 'null'
+          description: Whether the site enforces HTTPS. Null if unknown.
+        target_decommission_date:
+          type:
+          - string
+          - 'null'
+          format: date
+          description: ISO 8601 date on which the site is planned to be decommissioned. Null if not scheduled.
+        created_at:
+          type: string
+          format: date-time
+          description: ISO 8601 timestamp when the record was created.
+        updated_at:
+          type: string
+          format: date-time
+          description: ISO 8601 timestamp when the record was last updated.
+    User:
+      type: object
+      description: A Touchpoints user account.
+      required:
+      - email
+      properties:
+        email:
+          type: string
+          format: email
+          description: Work email of the user.
+        first_name:
+          type:
+          - string
+          - 'null'
+          description: User's first name. Null if not yet provided.
+        last_name:
+          type:
+          - string
+          - 'null'
+          description: User's last name. Null if not yet provided.
+        position_title:
+          type:
+          - string
+          - 'null'
+          description: User's job title. Null if not yet provided.
+        profile_photo:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: URL to the user's profile photo. Null if not uploaded.
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: x-api-key
+      in: header

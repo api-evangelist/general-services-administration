@@ -1,0 +1,59 @@
+openapi: 3.2.0
+info:
+  version: 1.0.0
+  title: Umbrella Admin Contact API
+  description: The admin API is accessible via `/api-umbrella/v1`.
+security:
+- api_key: []
+- admin_auth_token: []
+tags:
+- name: Contact
+paths:
+  /api-umbrella/v1/contact:
+    post:
+      tags:
+      - Contact
+      summary: Send a support e-mail to the website administrator
+      responses:
+        200:
+          description: Successfully sent e-mail
+          content:
+            application/json:
+              schema:
+                title: Response
+                type: object
+                properties:
+                  submitted:
+                    type: string
+                    format: date-time
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: Request
+              type: object
+              properties:
+                contact:
+                  title: Contact
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    email:
+                      type: string
+                    message:
+                      type: string
+        description: Object describing which API backends or website records to publish
+        required: true
+      operationId: postApiUmbrellaV1Contact
+      x-operation-id-source: derived
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      in: header
+      name: X-Api-Key
+    admin_auth_token:
+      type: apiKey
+      in: header
+      name: X-Admin-Auth-Token

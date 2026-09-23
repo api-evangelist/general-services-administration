@@ -1,0 +1,1237 @@
+openapi: 3.2.0
+info:
+  title: Touchpoints API Reference Forms API
+  description: For an introduction to the Touchpoints API, see the API Overview page.
+  version: v1
+servers:
+- url: https://api.gsa.gov/analytics/touchpoints/v1
+  description: The production Touchpoints API
+tags:
+- name: Forms
+  description: Forms (also called surveys) are used to collect user feedback.
+paths:
+  /forms:
+    get:
+      summary: List forms
+      description: Returns a list of forms accessible to the user with the given API key. Does not include form responses.
+      tags:
+      - Forms
+      security:
+      - api_key: []
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              example:
+                value:
+                  data:
+                  - id: '1'
+                    type: forms
+                    attributes:
+                      name: touchpoints.digital.gov Open-ended Feedback Form
+                      title: Product feedback form
+                      instructions: null
+                      disclaimer_text: null
+                      kind: open_ended
+                      notes: Form responses are exported once a week.
+                      status: null
+                      created_at: '2026-01-01T00:00:00.000Z'
+                      updated_at: '2026-01-01T00:00:00.000Z'
+                      whitelist_url: https://touchpoints.digital.gov/
+                      whitelist_url_1: null
+                      whitelist_url_2: null
+                      whitelist_url_3: null
+                      whitelist_url_4: null
+                      whitelist_url_5: null
+                      whitelist_url_6: null
+                      whitelist_url_7: null
+                      whitelist_url_8: null
+                      whitelist_url_9: null
+                      whitelist_test_url: ''
+                      header_logo_display: banner
+                      logo_alt_text: null
+                      success_text_heading: Success
+                      success_text: Thank you. We appreciate your feedback, and will consider it as we evolve our services.
+                      modal_button_text: How can we improve Touchpoints?
+                      early_submission: false
+                      user_id: null
+                      template: false
+                      uuid: 92b47c29-62d9-431b-b9d0-6312864349ec
+                      short_uuid: 92b47c29
+                      organization_id: 1
+                      audience: public
+                      omb_approval_number: 1234-5678
+                      expiration_date: '2026-03-01'
+                      medium: null
+                      federal_register_url: null
+                      anticipated_delivery_count: null
+                      service_name: null
+                      data_submission_comment: null
+                      survey_instrument_reference: null
+                      agency_poc_email: john.smith@gsa.gov
+                      agency_poc_name: John Smith
+                      department: TTS
+                      bureau: null
+                      notification_emails: john.smith@gsa.gov,jane.smith@gsa.gov
+                      start_date: null
+                      end_date: null
+                      aasm_state: published
+                      delivery_method: modal
+                      element_selector: button-goes-here
+                      survey_form_activations: 279562
+                      load_css: true
+                      logo:
+                        url: null
+                        thumb:
+                          url: null
+                        card:
+                          url: null
+                        tag:
+                          url: null
+                        logo_square:
+                          url: null
+                      time_zone: Eastern Time (US & Canada)
+                      response_count: 2125
+                      last_response_created_at: '2026-01-01T00:00:00.000Z'
+                      tag_list:
+                      - touchpoints
+                      - cx
+                    relationships:
+                      questions:
+                        data:
+                        - id: 1
+                          answer_field: answer_01
+                          character_limit: 200
+                          created_at: '2026-01-01T00:00:00.000Z'
+                          form_id: 1
+                          form_section_id: 1
+                          help_text: ''
+                          is_required: true
+                          placeholder_text: null
+                          position: 1
+                          question_type: text_field
+                          text: Name
+                          updated_at: '2026-01-01T00:00:00.000Z'
+                        - id: 2
+                          answer_field: answer_02
+                          character_limit: 200
+                          created_at: '2026-01-01T00:00:00.000Z'
+                          form_id: 1
+                          form_section_id: 1
+                          help_text: ''
+                          is_required: true
+                          placeholder_text: feedback@example.gov
+                          position: 2
+                          question_type: text_email_field
+                          text: Email
+                          updated_at: '2026-01-01T00:00:00.000Z'
+                        - id: 3
+                          answer_field: answer_03
+                          character_limit: 2500
+                          created_at: '2026-01-01T00:00:00.000Z'
+                          form_id: 1
+                          form_section_id: 1
+                          help_text: ''
+                          is_required: true
+                          placeholder_text: null
+                          position: 3
+                          question_type: textarea
+                          text: How can we improve Touchpoints?
+                          updated_at: '2026-01-01T00:00:00.000Z'
+                      service:
+                        data: null
+              schema:
+                type: object
+                required:
+                - data
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/FormResource'
+      operationId: getForms
+      x-operation-id-source: derived
+  /forms/{uuid}:
+    parameters:
+    - name: uuid
+      in: path
+      description: Short UUID of the form
+      required: true
+      schema:
+        type: string
+    get:
+      summary: Show form
+      description: 'Returns details for the given form. Form must be accessible to the calling user.
+
+
+        **Submissions field is deprecated:** This has traditionally been the endpoint used to retrieve a form''s responses, returned as
+
+        paginated results in the `submissions` field. However, the pagination has known issues that proved difficult to fix in a backward-compatible manner.
+
+        As a result, we’ve introduced a new /v1/forms/{uuid}/responses endpoint, which should be used to retrieve survey responses going forward.'
+      tags:
+      - Forms
+      security:
+      - api_key: []
+      parameters:
+      - name: page
+        in: query
+        required: false
+        description: 'Page number, 1-based (default: 1)'
+        deprecated: true
+        schema:
+          type: integer
+      - name: size
+        in: query
+        required: false
+        description: 'Responses per page (default: 500, max: 5000)'
+        deprecated: true
+        schema:
+          type: integer
+      - name: start_date
+        in: query
+        required: false
+        description: 'Include responses on or after this date, YYYY-MM-DD (default: 1 year ago)'
+        deprecated: true
+        schema:
+          type: string
+      - name: end_date
+        in: query
+        required: false
+        description: 'Include responses on or before this date, YYYY-MM-DD (default: tomorrow)'
+        deprecated: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - data
+                - links
+                properties:
+                  data:
+                    $ref: '#/components/schemas/FormResource'
+                  included:
+                    deprecated: true
+                    type: array
+                    description: Sideloaded submission records for the current page.
+                    items:
+                      $ref: '#/components/schemas/SubmissionResource'
+                  links:
+                    deprecated: true
+                    $ref: '#/components/schemas/DeprecatedPaginationLinks'
+      operationId: getFormsByUuid
+      x-operation-id-source: derived
+  /forms/{uuid}/responses:
+    parameters:
+    - name: uuid
+      in: path
+      description: Short UUID of the form
+      required: true
+      schema:
+        type: string
+    get:
+      summary: List responses for form
+      description: Returns a paginated list of responses submitted for the given form. Form must be accessible to the calling user.
+      tags:
+      - Forms
+      security:
+      - api_key: []
+      parameters:
+      - name: page[number]
+        in: query
+        required: false
+        description: 'Page number, 1-based (default: 1)'
+        schema:
+          type: integer
+      - name: page[size]
+        in: query
+        required: false
+        description: 'Responses per page (default: 500, max: 5000)'
+        schema:
+          type: integer
+      - name: start_date
+        in: query
+        required: false
+        description: 'Include responses on or after this date, YYYY-MM-DD (default: No lower-bound limit)'
+        schema:
+          type: string
+      - name: end_date
+        in: query
+        required: false
+        description: 'Include responses on or before this date, YYYY-MM-DD (default: No upper-bound limit)'
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              example:
+                value:
+                  data:
+                  - id: '1'
+                    type: submissions
+                    attributes:
+                      user_id: null
+                      created_at: '2026-01-01T00:00:00.000Z'
+                      updated_at: '2026-01-01T00:00:00.000Z'
+                      referer: https://feedback.usa.gov/about/
+                      hostname: touchpoints.digital.gov
+                      page: /
+                      query_string: null
+                      user_agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36
+                      answer_01: John Smith
+                      answer_02: john@example.com
+                      answer_03: How can I close a survey without deleting it?
+                      answer_04: null
+                      answer_05: null
+                      answer_06: null
+                      answer_07: null
+                      answer_08: null
+                      answer_09: null
+                      answer_10: null
+                      answer_11: null
+                      answer_12: null
+                      answer_13: null
+                      answer_14: null
+                      answer_15: null
+                      answer_16: null
+                      answer_17: null
+                      answer_18: null
+                      answer_19: null
+                      answer_20: null
+                      answer_21: null
+                      answer_22: null
+                      answer_23: null
+                      answer_24: null
+                      answer_25: null
+                      answer_26: null
+                      answer_27: null
+                      answer_28: null
+                      answer_29: null
+                      answer_30: null
+                      ip_address: 62.107.32.31
+                      location_code: ''
+                      flagged: false
+                      spam: false
+                      spam_determination: null
+                      archived: false
+                      deleted: false
+                      deleted_at: null
+                      aasm_state: received
+                      language: en
+                      uuid: 7bfdc460-8353-4cc3-91ec-debf2b51d8ed
+                      tags: []
+                  - id: '2'
+                    type: submissions
+                    attributes:
+                      user_id: null
+                      created_at: '2026-01-01T00:00:00.000Z'
+                      updated_at: '2026-01-01T00:00:00.000Z'
+                      referer: https://feedback.usa.gov/about/
+                      hostname: touchpoints.digital.gov
+                      page: /
+                      query_string: null
+                      user_agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36
+                      answer_01: July Barr
+                      answer_02: barr@barr.com
+                      answer_03: The buttons on the bottom of your website fail WCAG 2.0 contrast requirements.
+                      answer_04: null
+                      answer_05: null
+                      answer_06: null
+                      answer_07: null
+                      answer_08: null
+                      answer_09: null
+                      answer_10: null
+                      answer_11: null
+                      answer_12: null
+                      answer_13: null
+                      answer_14: null
+                      answer_15: null
+                      answer_16: null
+                      answer_17: null
+                      answer_18: null
+                      answer_19: null
+                      answer_20: null
+                      answer_21: null
+                      answer_22: null
+                      answer_23: null
+                      answer_24: null
+                      answer_25: null
+                      answer_26: null
+                      answer_27: null
+                      answer_28: null
+                      answer_29: null
+                      answer_30: null
+                      ip_address: 62.107.32.31
+                      location_code: ''
+                      flagged: false
+                      spam: false
+                      spam_determination: null
+                      archived: false
+                      deleted: false
+                      deleted_at: null
+                      aasm_state: received
+                      language: en
+                      uuid: 4380cbb8-e085-4d58-9374-2989a051be87
+                      tags: []
+                  links:
+                    self: https://api.gsa.gov/analytics/touchpoints/v1/forms/92b47c29/responses?page%5Bnumber%5D=1&page%5Bsize%5D=2&start_date=2023-01-01
+                    first: https://api.gsa.gov/analytics/touchpoints/v1/forms/92b47c29/responses?page%5Bnumber%5D=1&page%5Bsize%5D=2&start_date=2023-01-01
+                    prev: null
+                    next: https://api.gsa.gov/analytics/touchpoints/v1/forms/92b47c29/responses?page%5Bnumber%5D=2&page%5Bsize%5D=2&start_date=2023-01-01
+                    last: https://api.gsa.gov/analytics/touchpoints/v1/forms/92b47c29/responses?page%5Bnumber%5D=2&page%5Bsize%5D=2&start_date=2023-01-01
+                  meta:
+                    current_page: 1
+                    page_size: 2
+                    total_pages: 2
+                    total_count: 3
+              schema:
+                type: object
+                required:
+                - data
+                - links
+                - meta
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SubmissionResource'
+                  links:
+                    $ref: '#/components/schemas/PaginationLinks'
+                  meta:
+                    $ref: '#/components/schemas/PaginationMeta'
+      operationId: getFormsByUuidResponses
+      x-operation-id-source: derived
+components:
+  schemas:
+    FormRelationships:
+      type: object
+      required:
+      - questions
+      - service
+      properties:
+        questions:
+          type: object
+          required:
+          - data
+          properties:
+            data:
+              type: array
+              items:
+                $ref: '#/components/schemas/FormQuestion'
+        service:
+          type: object
+          required:
+          - data
+          properties:
+            data:
+              type:
+              - object
+              - 'null'
+              description: Reference to the associated service, or null if unlinked.
+              required:
+              - id
+              - type
+              properties:
+                id:
+                  type: string
+                  description: Numeric identifier of the Service (string-encoded).
+                type:
+                  type: string
+                  enum:
+                  - services
+    SubmissionAttributes:
+      type: object
+      required:
+      - page
+      - flagged
+      - archived
+      - deleted
+      - aasm_state
+      - language
+      - uuid
+      - tags
+      - created_at
+      - updated_at
+      - answer_01
+      - answer_02
+      - answer_03
+      - answer_04
+      - answer_05
+      - answer_06
+      - answer_07
+      - answer_08
+      - answer_09
+      - answer_10
+      - answer_11
+      - answer_12
+      - answer_13
+      - answer_14
+      - answer_15
+      - answer_16
+      - answer_17
+      - answer_18
+      - answer_19
+      - answer_20
+      - answer_21
+      - answer_22
+      - answer_23
+      - answer_24
+      - answer_25
+      - answer_26
+      - answer_27
+      - answer_28
+      - answer_29
+      - answer_30
+      properties:
+        user_id:
+          type:
+          - integer
+          - 'null'
+          description: ID of the authenticated user who submitted, if any. Null for anonymous submissions.
+        created_at:
+          type: string
+          format: date-time
+          description: ISO 8601 timestamp when the submission was received.
+        updated_at:
+          type: string
+          format: date-time
+          description: ISO 8601 timestamp when the submission was last updated.
+        referer:
+          type: string
+          description: HTTP Referer header value at time of submission. May be empty string.
+        hostname:
+          type:
+          - string
+          - 'null'
+          description: Hostname of the page that hosted the form at submission time. Null for older submissions.
+        page:
+          type: string
+          description: Path of the page that hosted the form at submission time.
+        query_string:
+          type:
+          - string
+          - 'null'
+          description: URL query string present at submission time. Null for older submissions.
+        user_agent:
+          type: string
+          description: HTTP User-Agent string of the respondent's browser.
+        answer_01:
+          type:
+          - string
+          - 'null'
+          description: Response to question slot 01.
+        answer_02:
+          type:
+          - string
+          - 'null'
+          description: Response to question slot 02.
+        answer_03:
+          type:
+          - string
+          - 'null'
+          description: Response to question slot 03.
+        answer_04:
+          type:
+          - string
+          - 'null'
+          description: Response to question slot 04.
+        answer_05:
+          type:
+          - string
+          - 'null'
+          description: Response to question slot 05.
+        answer_06:
+          type:
+          - string
+          - 'null'
+          description: Response to question slot 06.
+        answer_07:
+          type:
+          - string
+          - 'null'
+          description: Response to question slot 07.
+        answer_08:
+          type:
+          - string
+          - 'null'
+          description: Response to question slot 08.
+        answer_09:
+          type:
+          - string
+          - 'null'
+          description: Response to question slot 09.
+        answer_10:
+          type:
+          - string
+          - 'null'
+          description: Response to question slot 10.
+        answer_11:
+          type:
+          - string
+          - 'null'
+          description: Response to question slot 11.
+        answer_12:
+          type:
+          - string
+          - 'null'
+          description: Response to question slot 12.
+        answer_13:
+          type:
+          - string
+          - 'null'
+          description: Response to question slot 13.
+        answer_14:
+          type:
+          - string
+          - 'null'
+          description: Response to question slot 14.
+        answer_15:
+          type:
+          - string
+          - 'null'
+          description: Response to question slot 15.
+        answer_16:
+          type:
+          - string
+          - 'null'
+          description: Response to question slot 16.
+        answer_17:
+          type:
+          - string
+          - 'null'
+          description: Response to question slot 17.
+        answer_18:
+          type:
+          - string
+          - 'null'
+          description: Response to question slot 18.
+        answer_19:
+          type:
+          - string
+          - 'null'
+          description: Response to question slot 19.
+        answer_20:
+          type:
+          - string
+          - 'null'
+          description: Response to question slot 20.
+        answer_21:
+          type:
+          - string
+          - 'null'
+          description: Response to question slot 21.
+        answer_22:
+          type:
+          - string
+          - 'null'
+          description: Response to question slot 22.
+        answer_23:
+          type:
+          - string
+          - 'null'
+          description: Response to question slot 23.
+        answer_24:
+          type:
+          - string
+          - 'null'
+          description: Response to question slot 24.
+        answer_25:
+          type:
+          - string
+          - 'null'
+          description: Response to question slot 25.
+        answer_26:
+          type:
+          - string
+          - 'null'
+          description: Response to question slot 26.
+        answer_27:
+          type:
+          - string
+          - 'null'
+          description: Response to question slot 27.
+        answer_28:
+          type:
+          - string
+          - 'null'
+          description: Response to question slot 28.
+        answer_29:
+          type:
+          - string
+          - 'null'
+          description: Response to question slot 29.
+        answer_30:
+          type:
+          - string
+          - 'null'
+          description: Response to question slot 30.
+        ip_address:
+          type: string
+          description: IPv4 or IPv6 address of the respondent at submission time.
+        location_code:
+          type: string
+          description: Geographic location code associated with the submission. May be empty string.
+        flagged:
+          type: boolean
+          description: Whether this submission has been flagged for review.
+        spam:
+          type: boolean
+          description: Whether this submission has been marked as spam (manually or by automated spam detection).
+        spam_determination:
+          type:
+          - object
+          - 'null'
+          description: 'Provenance of the spam determination. For manual marks: { source: "manual" }. For automated marks: { source: "automated", checks: { <check_name>: <status> } }. Null when the submission is not marked as spam.'
+        archived:
+          type: boolean
+          description: Whether this submission has been archived.
+        deleted:
+          type: boolean
+          description: Whether this submission has been soft-deleted.
+        deleted_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: ISO 8601 timestamp when the submission was soft-deleted. Null if not deleted.
+        aasm_state:
+          type: string
+          enum:
+          - acknowledged
+          - received
+          - responded
+          description: Current workflow state of the submission.
+        language:
+          type: string
+          description: BCP 47 language tag of the respondent's browser locale.
+        uuid:
+          type: string
+          format: uuid
+          description: Unique identifier for this submission.
+        tags:
+          type: array
+          description: Tags applied to this submission.
+          items:
+            type: string
+    PaginationMeta:
+      type: object
+      required:
+      - current_page
+      - page_size
+      - total_pages
+      - total_count
+      properties:
+        current_page:
+          type: integer
+          description: The current page number (1-indexed).
+        page_size:
+          type: integer
+          description: Number of records requested per page.
+        total_pages:
+          type: integer
+          description: Total number of pages available.
+        total_count:
+          type: integer
+          description: Total number of records across all pages.
+    PaginationLinks:
+      type: object
+      required:
+      - self
+      - first
+      - last
+      properties:
+        self:
+          type: string
+          format: uri
+          description: URL of the current page.
+        first:
+          type: string
+          format: uri
+          description: URL of the first page.
+        prev:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: URL of the previous page. Null on the first page.
+        next:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: URL of the next page. Null on the last page.
+        last:
+          type: string
+          format: uri
+          description: URL of the last page.
+    FormResource:
+      type: object
+      description: A survey form
+      required:
+      - id
+      - type
+      - attributes
+      - relationships
+      properties:
+        id:
+          type: string
+          description: Numeric identifier of the form (string-encoded).
+        type:
+          type: string
+          enum:
+          - forms
+        attributes:
+          $ref: '#/components/schemas/FormAttributes'
+        relationships:
+          $ref: '#/components/schemas/FormRelationships'
+    Logo:
+      type: object
+      required:
+      - url
+      - thumb
+      - card
+      - tag
+      - logo_square
+      properties:
+        url:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: Full-size logo image URL.
+        thumb:
+          $ref: '#/components/schemas/LogoVariant'
+          description: Thumbnail-sized logo variant.
+        card:
+          $ref: '#/components/schemas/LogoVariant'
+          description: Card-sized logo variant.
+        tag:
+          $ref: '#/components/schemas/LogoVariant'
+          description: Tag-sized logo variant.
+        logo_square:
+          $ref: '#/components/schemas/LogoVariant'
+          description: Square-cropped logo variant.
+    LogoVariant:
+      type: object
+      required:
+      - url
+      properties:
+        url:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: URL for this logo size variant. Null if no logo has been uploaded.
+    SubmissionResource:
+      type: object
+      description: A submitted response to a form, representing a single respondent's answers to the survey questions.
+      required:
+      - id
+      - type
+      - attributes
+      properties:
+        id:
+          type: string
+          description: Numeric identifier of the submission (string-encoded).
+        type:
+          type: string
+          enum:
+          - submissions
+        attributes:
+          $ref: '#/components/schemas/SubmissionAttributes'
+    DeprecatedPaginationLinks:
+      type: object
+      deprecated: true
+      description: An older style of pagination links, whose implementation was buggy.
+      required:
+      - first
+      - last
+      properties:
+        first:
+          type: string
+          format: uri
+          description: URL of the first page.
+        prev:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: URL of the previous page. Absent or null on the first page.
+        next:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: URL of the next page. Absent or null on the last page.
+        last:
+          type: string
+          format: uri
+          description: URL of the last page.
+    FormQuestion:
+      type: object
+      required:
+      - id
+      - form_id
+      - text
+      - question_type
+      - answer_field
+      - position
+      - form_section_id
+      - created_at
+      - updated_at
+      properties:
+        id:
+          type: integer
+          description: Numeric identifier of the question.
+        form_id:
+          type: integer
+          description: ID of the form this question belongs to.
+        text:
+          type: string
+          description: Question text displayed to the respondent. May contain HTML. May be empty string.
+        question_type:
+          type: string
+          enum:
+          - big_thumbs_up_down_buttons
+          - checkbox
+          - combobox
+          - custom_text_display
+          - date_select
+          - dropdown
+          - radio_buttons
+          - rich_textarea
+          - states_dropdown
+          - text_display
+          - text_email_field
+          - text_field
+          - text_phone_field
+          - textarea
+          - yes_no_buttons
+          description: The UI control type used to render and capture this question's answer.
+        answer_field:
+          type: string
+          pattern: ^answer_[0-9]{2}$
+          description: Slot identifier for storing this question's response (e.g. 'answer_01').
+        position:
+          type: integer
+          description: Display order of the question within its form section.
+        is_required:
+          type:
+          - boolean
+          - 'null'
+          description: Whether a response to this question is required for form submission. Null if not explicitly set.
+        form_section_id:
+          type: integer
+          description: ID of the form section this question belongs to.
+        character_limit:
+          type:
+          - integer
+          - 'null'
+          description: Maximum number of characters allowed in the response. Null if no limit.
+        placeholder_text:
+          type:
+          - string
+          - 'null'
+          description: Placeholder text shown inside the input. May be empty string or null.
+        help_text:
+          type:
+          - string
+          - 'null'
+          description: Additional guidance shown alongside the question. May be empty string or null.
+        created_at:
+          type: string
+          format: date-time
+          description: ISO 8601 timestamp when the question was created.
+        updated_at:
+          type: string
+          format: date-time
+          description: ISO 8601 timestamp when the question was last updated.
+    FormAttributes:
+      type: object
+      required:
+      - name
+      - title
+      - kind
+      - aasm_state
+      - delivery_method
+      - uuid
+      - short_uuid
+      - organization_id
+      - user_id
+      - audience
+      - header_logo_display
+      - success_text_heading
+      - success_text
+      - modal_button_text
+      - early_submission
+      - template
+      - load_css
+      - survey_form_activations
+      - response_count
+      - logo
+      - time_zone
+      - tag_list
+      - created_at
+      - updated_at
+      properties:
+        name:
+          type: string
+          description: Internal name of the form.
+        title:
+          type: string
+          description: Public-facing title displayed to respondents.
+        instructions:
+          type:
+          - string
+          - 'null'
+          description: HTML instructions displayed above the form. May be empty string or null.
+        disclaimer_text:
+          type:
+          - string
+          - 'null'
+          description: HTML disclaimer text displayed on the form. May be empty string or null.
+        kind:
+          type: string
+          enum:
+          - a11_v2
+          - custom
+          - open_ended
+          description: Form template type.
+        notes:
+          type:
+          - string
+          - 'null'
+          description: Internal notes about the form. May be empty string or null.
+        status:
+          type:
+          - string
+          - 'null'
+          description: Optional status label. Null if not set.
+        created_at:
+          type: string
+          format: date-time
+          description: ISO 8601 timestamp when the form was created.
+        updated_at:
+          type: string
+          format: date-time
+          description: ISO 8601 timestamp when the form was last updated.
+        whitelist_url:
+          type: string
+          description: Primary URL allowed to embed this form. May be empty string.
+        whitelist_url_1:
+          type:
+          - string
+          - 'null'
+          description: Additional allowed embed URL slot 1. Null or empty string if unused.
+        whitelist_url_2:
+          type:
+          - string
+          - 'null'
+          description: Additional allowed embed URL slot 2. Null or empty string if unused.
+        whitelist_url_3:
+          type:
+          - string
+          - 'null'
+          description: Additional allowed embed URL slot 3. Null or empty string if unused.
+        whitelist_url_4:
+          type:
+          - string
+          - 'null'
+          description: Additional allowed embed URL slot 4. Null or empty string if unused.
+        whitelist_url_5:
+          type:
+          - string
+          - 'null'
+          description: Additional allowed embed URL slot 5. Null or empty string if unused.
+        whitelist_url_6:
+          type:
+          - string
+          - 'null'
+          description: Additional allowed embed URL slot 6. Null or empty string if unused.
+        whitelist_url_7:
+          type:
+          - string
+          - 'null'
+          description: Additional allowed embed URL slot 7. Null or empty string if unused.
+        whitelist_url_8:
+          type:
+          - string
+          - 'null'
+          description: Additional allowed embed URL slot 8. Null or empty string if unused.
+        whitelist_url_9:
+          type:
+          - string
+          - 'null'
+          description: Additional allowed embed URL slot 9. Null or empty string if unused.
+        whitelist_test_url:
+          type: string
+          description: Test URL allowed to embed this form. May be empty string.
+        header_logo_display:
+          type: string
+          enum:
+          - banner
+          - square
+          description: Display style for the header logo.
+        success_text_heading:
+          type: string
+          description: Heading shown on the success confirmation screen.
+        success_text:
+          type: string
+          description: HTML body text shown on the success confirmation screen.
+        modal_button_text:
+          type: string
+          description: Label text for the button that opens the form modal.
+        early_submission:
+          type: boolean
+          description: Whether the form supports early/partial submission.
+        template:
+          type: boolean
+          description: Whether this form is a reusable template.
+        uuid:
+          type: string
+          format: uuid
+          description: Full UUID identifier for the form.
+        short_uuid:
+          type: string
+          description: First 8 characters of the UUID, used in short URLs.
+        organization_id:
+          type: integer
+          description: ID of the organization that owns the form.
+        audience:
+          type: string
+          enum:
+          - public
+          description: Intended audience for the form.
+        omb_approval_number:
+          type: string
+          description: OMB PRA approval number. May be empty string if not yet approved.
+        expiration_date:
+          type:
+          - string
+          - 'null'
+          format: date
+          description: ISO 8601 date on which the form or OMB approval expires.
+        medium:
+          type:
+          - string
+          - 'null'
+          description: Distribution medium for the form. May be empty string or null.
+        federal_register_url:
+          type:
+          - string
+          - 'null'
+          description: URL of the Federal Register notice for this form. May be empty string or null.
+        anticipated_delivery_count:
+          type:
+          - integer
+          - 'null'
+          description: Estimated number of responses expected. Null if not specified.
+        service_name:
+          type:
+          - string
+          - 'null'
+          description: Name of the associated service. May be empty string or null.
+        data_submission_comment:
+          type:
+          - string
+          - 'null'
+          description: Comment added at data submission time. Null if not provided.
+        survey_instrument_reference:
+          type:
+          - string
+          - 'null'
+          description: Reference to the original survey instrument. May be empty string or null.
+        agency_poc_email:
+          type:
+          - string
+          - 'null'
+          description: Email address of the agency point of contact. May be empty string or null.
+        agency_poc_name:
+          type:
+          - string
+          - 'null'
+          description: Name of the agency point of contact. May be empty string or null.
+        department:
+          type:
+          - string
+          - 'null'
+          description: Department associated with the form. May be empty string or null.
+        bureau:
+          type:
+          - string
+          - 'null'
+          description: Bureau associated with the form. May be empty string or null.
+        notification_emails:
+          type:
+          - string
+          - 'null'
+          description: Comma-separated list of email addresses to notify on submission. May be empty string or null.
+        start_date:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: ISO 8601 datetime when the form becomes active. Null if always active.
+        end_date:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: ISO 8601 datetime when the form closes. Null if no end date.
+        aasm_state:
+          type: string
+          enum:
+          - archived
+          - created
+          - published
+          description: Current workflow state of the form.
+        delivery_method:
+          type: string
+          enum:
+          - inline
+          - modal
+          - touchpoints-hosted-only
+          description: How the form is delivered to respondents.
+        element_selector:
+          type:
+          - string
+          - 'null'
+          description: CSS selector or element ID used to attach the form. May be empty string.
+        survey_form_activations:
+          type: integer
+          description: Number of times the form has been activated or displayed.
+        load_css:
+          type: boolean
+          description: Whether the form loads its own CSS stylesheet.
+        logo:
+          $ref: '#/components/schemas/Logo'
+        time_zone:
+          type: string
+          description: Time zone used for form timestamps (Rails time zone name).
+        response_count:
+          type: integer
+          description: Total number of responses submitted to this form.
+        last_response_created_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: ISO 8601 timestamp of the most recent submission. Null if no responses yet.
+        tag_list:
+          type: array
+          description: List of tag labels applied to this form.
+          items:
+            type: string
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: x-api-key
+      in: header

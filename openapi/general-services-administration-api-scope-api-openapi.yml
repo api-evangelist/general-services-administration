@@ -1,0 +1,238 @@
+openapi: 3.2.0
+info:
+  version: 1.0.0
+  title: Umbrella Admin API Scope API
+  description: The admin API is accessible via `/api-umbrella/v1`.
+security:
+- api_key: []
+- admin_auth_token: []
+tags:
+- name: api_scope
+paths:
+  /api-umbrella/v1/api_scopes:
+    get:
+      tags:
+      - api_scope
+      summary: Get a list of all API scopes
+      description: 'Get a listing of all API scope records the currently authenticated admin user has permissions to.
+
+
+        This API''s query parameters and responses are intended to be compatible with the DataTables server-side processing API.'
+      parameters:
+      - $ref: '#/components/parameters/datatables-start'
+      - $ref: '#/components/parameters/datatables-length'
+      - $ref: '#/components/parameters/datatables-search-value'
+      - $ref: '#/components/parameters/datatables-order-column'
+      - $ref: '#/components/parameters/datatables-order-dir'
+      - $ref: '#/components/parameters/datatables-columns-data'
+      - $ref: '#/components/parameters/datatables-columns-name'
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                title: Response
+                type: object
+                properties:
+                  draw:
+                    type: integer
+                  recordsTotal:
+                    type: integer
+                  recordsFiltered:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ApiScope'
+      operationId: getApiUmbrellaV1ApiScopes
+      x-operation-id-source: derived
+    post:
+      tags:
+      - api_scope
+      summary: Create a new API scope
+      responses:
+        201:
+          description: Successfully created record
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: Request
+              type: object
+              properties:
+                api_scope:
+                  $ref: '#/components/schemas/ApiScope'
+        description: API scope object to create
+        required: true
+      operationId: postApiUmbrellaV1ApiScopes
+      x-operation-id-source: derived
+  /api-umbrella/v1/api_scopes/{id}:
+    parameters:
+    - name: id
+      in: path
+      description: UUID of the API scope
+      required: true
+      schema:
+        type: string
+        format: uuid
+    get:
+      tags:
+      - api_scope
+      summary: Get the API scope
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                title: Response
+                type: object
+                properties:
+                  api_scope:
+                    type: object
+                    $ref: '#/components/schemas/ApiScope'
+      operationId: getApiUmbrellaV1ApiScopesById
+      x-operation-id-source: derived
+    put:
+      tags:
+      - api_scope
+      summary: Update the API scope
+      responses:
+        204:
+          description: Successfully updated record
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: Request
+              type: object
+              properties:
+                api_scope:
+                  $ref: '#/components/schemas/ApiScope'
+        description: API scope object to update
+        required: true
+      operationId: putApiUmbrellaV1ApiScopesById
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - api_scope
+      summary: Delete the API scope
+      responses:
+        204:
+          description: Successfully deleted record
+      operationId: deleteApiUmbrellaV1ApiScopesById
+      x-operation-id-source: derived
+components:
+  schemas:
+    UpdatedAt:
+      type: string
+      format: date-time
+      readOnly: true
+      description: The time the record was last updated (ISO 8601 format)
+    ApiScope:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+        host:
+          type: string
+        path_prefix:
+          type: string
+        created_at:
+          $ref: '#/components/schemas/CreatedAt'
+        creator:
+          $ref: '#/components/schemas/AdminCreator'
+        updated_at:
+          $ref: '#/components/schemas/UpdatedAt'
+        updater:
+          $ref: '#/components/schemas/AdminUpdater'
+    AdminCreator:
+      type: object
+      readOnly: true
+      properties:
+        username:
+          type: string
+          format: email
+          readOnly: true
+          description: E-mail address of the admin that created the record
+    CreatedAt:
+      type: string
+      format: date-time
+      readOnly: true
+      description: The time the record was created (ISO 8601 format)
+    AdminUpdater:
+      type: object
+      readOnly: true
+      properties:
+        username:
+          type: string
+          format: email
+          readOnly: true
+          description: E-mail address of the admin that last updated the record
+  parameters:
+    datatables-length:
+      name: length
+      in: query
+      description: Limit the number of records returned for pagination
+      required: false
+      schema:
+        type: integer
+    datatables-columns-name:
+      name: columns[i][name]
+      in: query
+      description: The human-readable name of the column displayed at index `i`
+      required: false
+      schema:
+        type: string
+    datatables-order-dir:
+      name: order[i][dir]
+      in: query
+      description: Size of array
+      required: false
+      schema:
+        type: string
+        enum:
+        - asc
+        - desc
+    datatables-start:
+      name: start
+      in: query
+      description: Offset for pagination (0 based - 0 is the first record)
+      required: false
+      schema:
+        type: integer
+    datatables-search-value:
+      name: search[value]
+      in: query
+      description: Perform a text search across all records for this string
+      required: false
+      schema:
+        type: string
+    datatables-order-column:
+      name: order[i][column]
+      in: query
+      description: Size of array
+      required: false
+      schema:
+        type: integer
+    datatables-columns-data:
+      name: columns[i][data]
+      in: query
+      description: The database field name of the column displayed at index `i`
+      required: false
+      schema:
+        type: string
+  securitySchemes:
+    api_key:
+      type: apiKey
+      in: header
+      name: X-Api-Key
+    admin_auth_token:
+      type: apiKey
+      in: header
+      name: X-Admin-Auth-Token

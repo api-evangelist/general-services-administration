@@ -1,0 +1,476 @@
+openapi: 3.2.0
+info:
+  description: MicroService for GSA IAE Modernized Opportunity
+  version: 0.1.0
+  title: GSA IAE Opportunity Modernization Attachments API
+  termsOfService: https://beta.sam.gov
+  contact: {}
+  license:
+    url: http://unlicense.org
+servers:
+- url: https://localhost:8080/
+tags:
+- name: Attachments
+paths:
+  /opps/v1/api/attachments:
+    get:
+      tags:
+      - Attachments
+      summary: Download all attachments from an opportunity
+      description: Download attachments for an opportunity.
+      operationId: downloadAttchmentsUsingGET
+      parameters:
+      - name: Authorization
+        in: header
+        description: Authorization
+        required: true
+        schema:
+          type: string
+      - name: api_key
+        in: query
+        description: api_key
+        required: true
+        schema:
+          type: string
+      - name: excludeDeleted
+        in: query
+        description: 'excludeDeleted '
+        required: false
+        allowEmptyValue: false
+        schema:
+          type: boolean
+      - name: opportunityId
+        in: query
+        description: opportunityId
+        required: true
+        allowEmptyValue: false
+        schema:
+          type: string
+      - name: resourceId
+        in: query
+        description: 'resourceId '
+        required: false
+        allowEmptyValue: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: string
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: string
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: string
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                type: string
+      deprecated: false
+  /opps/v1/api/resources/files/{resourceId}/download:
+    get:
+      tags:
+      - Attachments
+      summary: get attachment
+      description: get attachment.
+      operationId: getAttachmentUsingGET
+      parameters:
+      - name: Authorization
+        in: header
+        description: Authorization
+        required: true
+        schema:
+          type: string
+      - name: api_key
+        in: query
+        description: api_key
+        required: true
+        schema:
+          type: string
+      - name: resourceId
+        in: path
+        description: resourceId
+        required: true
+        schema:
+          type: string
+      - name: status
+        in: query
+        description: status
+        required: false
+        allowEmptyValue: false
+        schema:
+          type: string
+      - name: token
+        in: query
+        description: token
+        required: false
+        allowEmptyValue: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                type: string
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                type: string
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                type: string
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        '501':
+          description: Not Implemented
+          content:
+            '*/*':
+              schema:
+                type: string
+      deprecated: false
+  /opps/v1/api/{opportunityId}/attachments:
+    post:
+      tags:
+      - Attachments
+      summary: Add attachment to an opportunity
+      description: Add attachment to an opportunity.
+      operationId: createAttachmentUsingPOST
+      parameters:
+      - name: Authorization
+        in: header
+        description: Authorization
+        required: true
+        schema:
+          type: string
+      - name: api_key
+        in: query
+        description: api_key
+        required: true
+        schema:
+          type: string
+      - name: opportunityId
+        in: path
+        description: opportunityId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: string
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: string
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: string
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                type: string
+      deprecated: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+        description: requestJson
+  /opps/v1/api/{opportunityId}/attachments/{resourceId}:
+    delete:
+      tags:
+      - Attachments
+      summary: Delete attachment for an opportunity
+      description: Delete attachment for an opportunity.
+      operationId: deleteAttachmentUsingDELETE
+      parameters:
+      - name: Authorization
+        in: header
+        description: Authorization
+        required: true
+        schema:
+          type: string
+      - name: api_key
+        in: query
+        description: api_key
+        required: true
+        schema:
+          type: string
+      - name: deleteAll
+        in: query
+        description: deleteAll
+        required: true
+        allowEmptyValue: false
+        schema:
+          type: string
+          default: 'false'
+      - name: opportunityId
+        in: path
+        description: opportunityId
+        required: true
+        schema:
+          type: string
+      - name: resourceId
+        in: path
+        description: resourceId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: string
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: string
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: string
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                type: string
+      deprecated: false
+    patch:
+      tags:
+      - Attachments
+      summary: Update attachment to an opportunity
+      description: Update attachment for an opportunity.
+      operationId: updateAttachmentUsingPATCH
+      parameters:
+      - name: Authorization
+        in: header
+        description: Authorization
+        required: true
+        schema:
+          type: string
+      - name: api_key
+        in: query
+        description: api_key
+        required: true
+        schema:
+          type: string
+      - name: opportunityId
+        in: path
+        description: opportunityId
+        required: true
+        schema:
+          type: string
+      - name: resourceId
+        in: path
+        description: resourceId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: string
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: string
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: string
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                type: string
+      deprecated: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+        description: requestJson
+  /opps/v1/api/{opportunityId}/resources/download/zip:
+    get:
+      tags:
+      - Attachments
+      summary: Download Opportunity's attachments as zip
+      description: Download Opportunity's attachments as zip.
+      operationId: downloadAttachmentsAsZipUsingGET
+      parameters:
+      - name: Authorization
+        in: header
+        description: Authorization
+        required: true
+        schema:
+          type: string
+      - name: api_key
+        in: query
+        description: api_key
+        required: true
+        schema:
+          type: string
+      - name: opportunityId
+        in: path
+        description: opportunityId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/zip:
+              schema:
+                type: object
+        '400':
+          description: Bad Request
+          content:
+            application/zip:
+              schema:
+                type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/zip:
+              schema:
+                type: string
+        '403':
+          description: Forbidden
+          content:
+            application/zip:
+              schema:
+                type: string
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/zip:
+              schema:
+                type: string
+        '501':
+          description: Not Implemented
+          content:
+            application/zip:
+              schema:
+                type: string
+      deprecated: false

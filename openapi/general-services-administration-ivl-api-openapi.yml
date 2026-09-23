@@ -1,0 +1,308 @@
+openapi: 3.2.0
+info:
+  description: MicroService for GSA IAE Modernized Opportunity
+  version: 0.1.0
+  title: GSA IAE Opportunity Modernization IVL API
+  termsOfService: https://beta.sam.gov
+  contact: {}
+  license:
+    url: http://unlicense.org
+servers:
+- url: https://localhost:8080/
+tags:
+- name: IVL
+paths:
+  /opps/v1/api/organization/{orgId}/ivl:
+    put:
+      tags:
+      - IVL
+      summary: Save IVL Settings
+      description: Save IVL Settings by Organization.
+      operationId: saveIVLOrganizationSettingsByIOrgIdUsingPUT
+      parameters:
+      - name: Authorization
+        in: header
+        description: Authorization
+        required: true
+        schema:
+          type: string
+      - name: api_key
+        in: query
+        description: api_key
+        required: true
+        schema:
+          type: string
+      - name: orgId
+        in: path
+        description: orgId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: string
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: string
+        '404':
+          description: Not Found
+        '412':
+          description: Precondition Failed
+        '428':
+          description: Precondition Required
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: string
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                type: string
+      deprecated: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+        description: requestJson
+  /opps/v1/api/{opportunityId}/ivl:
+    get:
+      tags:
+      - IVL
+      summary: Get IVL
+      description: Get IVL for contract opportunity.
+      operationId: getIVLUsingGET
+      parameters:
+      - name: Authorization
+        in: header
+        description: Authorization
+        required: true
+        schema:
+          type: string
+      - name: api_key
+        in: query
+        description: api_key
+        required: true
+        schema:
+          type: string
+      - name: opportunityId
+        in: path
+        description: opportunityId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: string
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: string
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: string
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+      - Token-based Access: []
+      deprecated: false
+  /opps/v1/api/{opportunityId}/ivl/{duns}:
+    get:
+      tags:
+      - IVL
+      summary: Get IVL by DUNS
+      description: Get IVL by DUNS for contract opportunity.
+      operationId: getIVLByDUNS
+      parameters:
+      - name: Authorization
+        in: header
+        description: Authorization
+        required: true
+        schema:
+          type: string
+      - name: api_key
+        in: query
+        description: api_key
+        required: true
+        schema:
+          type: string
+      - name: duns
+        in: path
+        description: duns
+        required: true
+        schema:
+          type: string
+      - name: opportunityId
+        in: path
+        description: opportunityId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: string
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: string
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: string
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+      - Token-based Access: []
+      deprecated: false
+  /opps/v2/opportunities/{opportunityId}/ivl/{entityid}:
+    delete:
+      tags:
+      - IVL
+      summary: Delete Vendor for Opportunity
+      description: Delete Vendor for Opportunity.
+      operationId: deleteVendorUsingDELETE
+      parameters:
+      - name: Authorization
+        in: header
+        description: Authorization
+        required: true
+        schema:
+          type: string
+      - name: api_key
+        in: query
+        description: api_key
+        required: true
+        schema:
+          type: string
+      - name: entityid
+        in: path
+        description: entityid
+        required: true
+        schema:
+          type: string
+      - name: opportunityId
+        in: path
+        description: opportunityId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: string
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: string
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: string
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                type: string
+      deprecated: false

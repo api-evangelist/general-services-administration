@@ -1,0 +1,552 @@
+openapi: 3.2.0
+info:
+  title: ITCollect Public By 2026 Metric Feed API
+  version: 0.1-beta
+  description: 'The IT Dashboard team aims to build a modern API that acts as the center-piece of a modular IT data reporting ecosystem. This OpenAPI spec shows the initial direction of ITCollect Public data architecture for budget year 2026, and it is aimed at providing real-time updates to the IT Collect Public By 2026 API. It will serve as living documentation of the latest changes.
+
+
+    In order to access ITCollect Public Api, Please fill out the below form to obtain an authorization key
+
+
+    Loading signup form...'
+  x-logo:
+    url: images/logo-gsa.svg
+    backgroundColor: '#FFFFFF'
+    altText: U.S General Services Administration
+servers:
+- url: /
+  description: ''
+tags:
+- name: MetricFeed
+paths:
+  /v1/feeds/metric:
+    parameters: []
+    get:
+      operationId: getMetricFeedCollection
+      tags:
+      - MetricFeed
+      responses:
+        '200':
+          description: MetricFeed collection
+          content:
+            application/ld+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MetricFeed-metricFeed_readItem'
+            text/csv:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MetricFeed-metricFeed_readItem'
+        '400':
+          description: Bad Request
+          content:
+            application/ld+json:
+              schema:
+                type: object
+                properties:
+                  '@context':
+                    type: string
+                    example: /contexts/ConstraintViolationList
+                  '@type':
+                    type: string
+                    example: ConstraintViolationList
+                  hydra:title:
+                    type: string
+                    example: Validation Errors Encountered
+                  hydra:description:
+                    type: string
+                    example: Found `2` constraint violations
+                  violations:
+                    type: array
+                    items:
+                    - type: object
+                      properties:
+                        propertyPath:
+                          type: string
+                          example: propertyName
+                        message:
+                          type: string
+                          example: Sample error message 1
+                        code:
+                          type: string
+                          example: 25c84bec-2466-47ba-83d2-3b7243593897
+                    - type: object
+                      properties:
+                        propertyPath:
+                          type: string
+                          example: propertyName
+                        message:
+                          type: string
+                          example: Sample error message 2
+                        code:
+                          type: string
+                          example: 70bafca1-5975-4171-92cc-e3cdde9b4b7d
+                  hydra:request_id:
+                    type: string
+                    example: xzf6bgh6-8ba2-83jn-p5a1-e4ac0f74nf5g
+            application/json:
+              schema:
+                type: object
+                properties:
+                  '@context':
+                    type: string
+                    example: /contexts/ConstraintViolationList
+                  '@type':
+                    type: string
+                    example: ConstraintViolationList
+                  hydra:title:
+                    type: string
+                    example: Validation Errors Encountered
+                  hydra:description:
+                    type: string
+                    example: Found `2` constraint violations
+                  violations:
+                    type: array
+                    items:
+                    - type: object
+                      properties:
+                        propertyPath:
+                          type: string
+                          example: propertyName
+                        message:
+                          type: string
+                          example: Sample error message 1
+                        code:
+                          type: string
+                          example: 25c84bec-2466-47ba-83d2-3b7243593897
+                    - type: object
+                      properties:
+                        propertyPath:
+                          type: string
+                          example: propertyName
+                        message:
+                          type: string
+                          example: Sample error message 2
+                        code:
+                          type: string
+                          example: 70bafca1-5975-4171-92cc-e3cdde9b4b7d
+                  hydra:request_id:
+                    type: string
+                    example: xzf6bgh6-8ba2-83jn-p5a1-e4ac0f74nf5g
+        '404':
+          description: Resource Not Found
+          content:
+            application/ld+json:
+              schema:
+                type: object
+                properties:
+                  '@context':
+                    type: string
+                    example: /contexts/Error
+                  '@type':
+                    type: string
+                    example: hydra:Error
+                  hydra:title:
+                    type: string
+                    example: NotFoundHttpException
+                  hydra:description:
+                    type: string
+                    example: Not Found
+                  hydra:request_id:
+                    type: string
+                    example: xzf6bgh6-8ba2-83jn-p5a1-e4ac0f74nf5g
+            application/json:
+              schema:
+                type: object
+                properties:
+                  '@context':
+                    type: string
+                    example: /contexts/Error
+                  '@type':
+                    type: string
+                    example: hydra:Error
+                  hydra:title:
+                    type: string
+                    example: NotFoundHttpException
+                  hydra:description:
+                    type: string
+                    example: Not Found
+                  hydra:request_id:
+                    type: string
+                    example: xzf6bgh6-8ba2-83jn-p5a1-e4ac0f74nf5g
+        '406':
+          description: Unsupported Media Type
+          content:
+            application/ld+json:
+              schema:
+                type: object
+                properties:
+                  '@context':
+                    type: string
+                    example: /contexts/Error
+                  '@type':
+                    type: string
+                    example: hydra:Error
+                  hydra:title:
+                    type: string
+                    example: UnsupportedMediaTypeHttpException
+                  hydra:description:
+                    type: string
+                    example:
+                      Unsupported Media Type:
+                        The provided content-type is not supported, Supported MIME types are:
+                          POST/PUT/DELETE: application/json, or application/ld+json
+                          PATCH: application/merge-patch+json
+                          GET: application/json, application/ld+json, or text/csv
+                  hydra:request_id:
+                    type: string
+                    example: xzf6bgh6-8ba2-83jn-p5a1-e4ac0f74nf5g
+            application/json:
+              schema:
+                type: object
+                properties:
+                  '@context':
+                    type: string
+                    example: /contexts/Error
+                  '@type':
+                    type: string
+                    example: hydra:Error
+                  hydra:title:
+                    type: string
+                    example: UnsupportedMediaTypeHttpException
+                  hydra:description:
+                    type: string
+                    example:
+                      Unsupported Media Type:
+                        The provided content-type is not supported, Supported MIME types are:
+                          POST/PUT/DELETE: application/json, or application/ld+json
+                          PATCH: application/merge-patch+json
+                          GET: application/json, application/ld+json, or text/csv
+                  hydra:request_id:
+                    type: string
+                    example: xzf6bgh6-8ba2-83jn-p5a1-e4ac0f74nf5g
+        '500':
+          description: Internal Server Error
+          content:
+            application/ld+json:
+              schema:
+                type: object
+                properties:
+                  '@context':
+                    type: string
+                    example: /contexts/Error
+                  '@type':
+                    type: string
+                    example: hydra:Error
+                  hydra:title:
+                    type: string
+                    example: InternalServerErrorException
+                  hydra:description:
+                    type: string
+                    example: Internal Server Error
+                  hydra:request_id:
+                    type: string
+                    example: xzf6bgh6-8ba2-83jn-p5a1-e4ac0f74nf5g
+            application/json:
+              schema:
+                type: object
+                properties:
+                  '@context':
+                    type: string
+                    example: /contexts/Error
+                  '@type':
+                    type: string
+                    example: hydra:Error
+                  hydra:title:
+                    type: string
+                    example: InternalServerErrorException
+                  hydra:description:
+                    type: string
+                    example: Internal Server Error
+                  hydra:request_id:
+                    type: string
+                    example: xzf6bgh6-8ba2-83jn-p5a1-e4ac0f74nf5g
+      summary: Retrieves the collection of MetricFeed resources
+      description: Retrieves the collection of MetricFeed resources.
+      parameters:
+      - name: agency
+        in: query
+        description: Three digit agency code
+        required: false
+        deprecated: false
+        allowEmptyValue: false
+        schema:
+          type: string
+          enum:
+          - '006'
+          - '007'
+          - 009
+          - '010'
+          - '011'
+          - '012'
+          - '014'
+          - '015'
+          - '016'
+          - 018
+          - 019
+          - '020'
+          - '021'
+          - '023'
+          - '024'
+          - '025'
+          - '026'
+          - '027'
+          - 028
+          - 029
+          - '100'
+          - '184'
+          - '202'
+          - '393'
+          - '422'
+          - '429'
+        style: form
+        explode: false
+        allowReserved: false
+      - name: metTarget
+        in: query
+        description: Wether or not the actual has MET, NOT MET or is N/A relative to the target
+        required: false
+        deprecated: false
+        allowEmptyValue: false
+        schema:
+          type: string
+          enum:
+          - MET
+          - NOT MET
+          - N/A
+        style: form
+        explode: false
+        allowReserved: false
+      - name: performanceMeasurementCategory
+        in: query
+        description: Identify the measurement category of this metric
+        required: false
+        deprecated: false
+        allowEmptyValue: false
+        schema:
+          type: string
+          enum:
+          - Customer Satisfaction
+          - Strategic and Business Results
+          - Financial Performance
+          - Innovation
+        style: form
+        explode: false
+        allowReserved: false
+      - name: serviceId
+        in: query
+        description: The Service agencyId associated with the Metric Doc
+        required: false
+        deprecated: false
+        allowEmptyValue: false
+        schema:
+          type: string
+        style: form
+        explode: false
+        allowReserved: false
+      - name: agencyId
+        in: query
+        description: The metric agencyId.
+        required: false
+        deprecated: false
+        allowEmptyValue: false
+        schema:
+          type: string
+        style: form
+        explode: false
+        allowReserved: false
+      - name: lastModifiedPrior
+        in: query
+        description: Enter Date to Compare lastModifiedPrior
+        required: false
+        deprecated: false
+        allowEmptyValue: false
+        schema:
+          type: string
+        style: form
+        explode: false
+        allowReserved: false
+      - name: lastModifiedSince
+        in: query
+        description: Enter Date to Compare lastModifiedSince
+        required: false
+        deprecated: false
+        allowEmptyValue: false
+        schema:
+          type: string
+        style: form
+        explode: false
+        allowReserved: false
+      - name: page
+        in: query
+        description: The collection page number
+        required: false
+        deprecated: false
+        allowEmptyValue: true
+        schema:
+          type: integer
+          default: 1
+        style: form
+        explode: false
+        allowReserved: false
+      - name: agency[]
+        in: query
+        description: ''
+        required: false
+        deprecated: false
+        allowEmptyValue: true
+        schema:
+          type: array
+          items:
+            type: string
+        style: form
+        explode: true
+        allowReserved: false
+      - name: serviceId[]
+        in: query
+        description: ''
+        required: false
+        deprecated: false
+        allowEmptyValue: true
+        schema:
+          type: array
+          items:
+            type: string
+        style: form
+        explode: true
+        allowReserved: false
+      - name: agencyId[]
+        in: query
+        description: ''
+        required: false
+        deprecated: false
+        allowEmptyValue: true
+        schema:
+          type: array
+          items:
+            type: string
+        style: form
+        explode: true
+        allowReserved: false
+      - name: performanceMeasurementCategory[]
+        in: query
+        description: ''
+        required: false
+        deprecated: false
+        allowEmptyValue: true
+        schema:
+          type: array
+          items:
+            type: string
+        style: form
+        explode: true
+        allowReserved: false
+      - name: metTarget[]
+        in: query
+        description: ''
+        required: false
+        deprecated: false
+        allowEmptyValue: true
+        schema:
+          type: array
+          items:
+            type: string
+        style: form
+        explode: true
+        allowReserved: false
+      - name: sort[lastModified]
+        in: query
+        description: ''
+        required: false
+        deprecated: false
+        allowEmptyValue: true
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+        style: form
+        explode: false
+        allowReserved: false
+      - name: sort[created]
+        in: query
+        description: ''
+        required: false
+        deprecated: false
+        allowEmptyValue: true
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+        style: form
+        explode: false
+        allowReserved: false
+      deprecated: false
+components:
+  schemas:
+    MetricFeed-metricFeed_readItem:
+      type: object
+      description: ''
+      properties:
+        serviceId:
+          readOnly: true
+          description: A readonly boolean indicating whether the document is masked from the public.
+          type: string
+        metTarget:
+          readOnly: true
+          description: A readonly boolean indicating whether the document is masked from the public.
+          default: 'null'
+          example: 'null'
+          type: string
+        actualResult:
+          readOnly: true
+          description: A readonly boolean indicating whether the document is masked from the public.
+          type: number
+        actualDate:
+          readOnly: true
+          description: A readonly boolean indicating whether the document is masked from the public.
+          default: 'null'
+          example: 'null'
+          type: string
+        rebaseLines:
+          type: array
+          example:
+          - 018-000001234
+          readOnly: true
+          description: A list of associated rebaseLine IDs
+          items:
+            type: string
+        agencyId:
+          type: string
+          format: alphanumeric
+          minLength: 1
+          maxLength: 32
+          description: Enter a required Unique ID provided by Agency for the metric
+        serviceAgencyId:
+          type: string
+          example: Service22304
+          description: Enter the Service ID of the investment that this performance metric applies to here
+        isRetired:
+          type: bool
+          example: false
+          description: Set this value to true when this performance metrics is no longer useful for investment management.
+        created:
+          type: string
+          format: timestamp
+          example: '2020-01-01 15:00:00'
+          readOnly: true
+          description: Created date/time
+        lastModified:
+          type: string
+          format: timestamp
+          example: '2020-01-01 15:00:00'
+          readOnly: true
+          description: Last modified date/time
+        agencyCode:
+          type: string
+          format: string
+          example: 018
+          description: The agency code of the user who created the record

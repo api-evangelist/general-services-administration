@@ -1,0 +1,1008 @@
+openapi: 3.2.0
+info:
+  title: ITCollect Public By 2026 Projects API
+  version: 0.1-beta
+  description: 'The IT Dashboard team aims to build a modern API that acts as the center-piece of a modular IT data reporting ecosystem. This OpenAPI spec shows the initial direction of ITCollect Public data architecture for budget year 2026, and it is aimed at providing real-time updates to the IT Collect Public By 2026 API. It will serve as living documentation of the latest changes.
+
+
+    In order to access ITCollect Public Api, Please fill out the below form to obtain an authorization key
+
+
+    Loading signup form...'
+  x-logo:
+    url: images/logo-gsa.svg
+    backgroundColor: '#FFFFFF'
+    altText: U.S General Services Administration
+servers:
+- url: /
+  description: ''
+tags:
+- name: Projects
+paths:
+  /v1/services/{service}/projects:
+    parameters:
+    - name: service
+      in: path
+      description: ''
+      required: true
+      deprecated: false
+      allowEmptyValue: false
+      schema: []
+      style: simple
+      explode: false
+      allowReserved: false
+    get:
+      operationId: getProjectsCollection
+      tags:
+      - Projects
+      responses:
+        '200':
+          description: Projects collection
+          content:
+            application/ld+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Projects-read'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Projects-read'
+        '400':
+          description: Bad Request
+          content:
+            application/ld+json:
+              schema:
+                type: object
+                properties:
+                  '@context':
+                    type: string
+                    example: /contexts/ConstraintViolationList
+                  '@type':
+                    type: string
+                    example: ConstraintViolationList
+                  hydra:title:
+                    type: string
+                    example: Validation Errors Encountered
+                  hydra:description:
+                    type: string
+                    example: Found `2` constraint violations
+                  violations:
+                    type: array
+                    items:
+                    - type: object
+                      properties:
+                        propertyPath:
+                          type: string
+                          example: propertyName
+                        message:
+                          type: string
+                          example: Sample error message 1
+                        code:
+                          type: string
+                          example: 25c84bec-2466-47ba-83d2-3b7243593897
+                    - type: object
+                      properties:
+                        propertyPath:
+                          type: string
+                          example: propertyName
+                        message:
+                          type: string
+                          example: Sample error message 2
+                        code:
+                          type: string
+                          example: 70bafca1-5975-4171-92cc-e3cdde9b4b7d
+                  hydra:request_id:
+                    type: string
+                    example: xzf6bgh6-8ba2-83jn-p5a1-e4ac0f74nf5g
+            application/json:
+              schema:
+                type: object
+                properties:
+                  '@context':
+                    type: string
+                    example: /contexts/ConstraintViolationList
+                  '@type':
+                    type: string
+                    example: ConstraintViolationList
+                  hydra:title:
+                    type: string
+                    example: Validation Errors Encountered
+                  hydra:description:
+                    type: string
+                    example: Found `2` constraint violations
+                  violations:
+                    type: array
+                    items:
+                    - type: object
+                      properties:
+                        propertyPath:
+                          type: string
+                          example: propertyName
+                        message:
+                          type: string
+                          example: Sample error message 1
+                        code:
+                          type: string
+                          example: 25c84bec-2466-47ba-83d2-3b7243593897
+                    - type: object
+                      properties:
+                        propertyPath:
+                          type: string
+                          example: propertyName
+                        message:
+                          type: string
+                          example: Sample error message 2
+                        code:
+                          type: string
+                          example: 70bafca1-5975-4171-92cc-e3cdde9b4b7d
+                  hydra:request_id:
+                    type: string
+                    example: xzf6bgh6-8ba2-83jn-p5a1-e4ac0f74nf5g
+        '404':
+          description: Resource Not Found
+          content:
+            application/ld+json:
+              schema:
+                type: object
+                properties:
+                  '@context':
+                    type: string
+                    example: /contexts/Error
+                  '@type':
+                    type: string
+                    example: hydra:Error
+                  hydra:title:
+                    type: string
+                    example: NotFoundHttpException
+                  hydra:description:
+                    type: string
+                    example: Not Found
+                  hydra:request_id:
+                    type: string
+                    example: xzf6bgh6-8ba2-83jn-p5a1-e4ac0f74nf5g
+            application/json:
+              schema:
+                type: object
+                properties:
+                  '@context':
+                    type: string
+                    example: /contexts/Error
+                  '@type':
+                    type: string
+                    example: hydra:Error
+                  hydra:title:
+                    type: string
+                    example: NotFoundHttpException
+                  hydra:description:
+                    type: string
+                    example: Not Found
+                  hydra:request_id:
+                    type: string
+                    example: xzf6bgh6-8ba2-83jn-p5a1-e4ac0f74nf5g
+        '406':
+          description: Unsupported Media Type
+          content:
+            application/ld+json:
+              schema:
+                type: object
+                properties:
+                  '@context':
+                    type: string
+                    example: /contexts/Error
+                  '@type':
+                    type: string
+                    example: hydra:Error
+                  hydra:title:
+                    type: string
+                    example: UnsupportedMediaTypeHttpException
+                  hydra:description:
+                    type: string
+                    example:
+                      Unsupported Media Type:
+                        The provided content-type is not supported, Supported MIME types are:
+                          POST/PUT/DELETE: application/json, or application/ld+json
+                          PATCH: application/merge-patch+json
+                          GET: application/json, application/ld+json, or text/csv
+                  hydra:request_id:
+                    type: string
+                    example: xzf6bgh6-8ba2-83jn-p5a1-e4ac0f74nf5g
+            application/json:
+              schema:
+                type: object
+                properties:
+                  '@context':
+                    type: string
+                    example: /contexts/Error
+                  '@type':
+                    type: string
+                    example: hydra:Error
+                  hydra:title:
+                    type: string
+                    example: UnsupportedMediaTypeHttpException
+                  hydra:description:
+                    type: string
+                    example:
+                      Unsupported Media Type:
+                        The provided content-type is not supported, Supported MIME types are:
+                          POST/PUT/DELETE: application/json, or application/ld+json
+                          PATCH: application/merge-patch+json
+                          GET: application/json, application/ld+json, or text/csv
+                  hydra:request_id:
+                    type: string
+                    example: xzf6bgh6-8ba2-83jn-p5a1-e4ac0f74nf5g
+        '500':
+          description: Internal Server Error
+          content:
+            application/ld+json:
+              schema:
+                type: object
+                properties:
+                  '@context':
+                    type: string
+                    example: /contexts/Error
+                  '@type':
+                    type: string
+                    example: hydra:Error
+                  hydra:title:
+                    type: string
+                    example: InternalServerErrorException
+                  hydra:description:
+                    type: string
+                    example: Internal Server Error
+                  hydra:request_id:
+                    type: string
+                    example: xzf6bgh6-8ba2-83jn-p5a1-e4ac0f74nf5g
+            application/json:
+              schema:
+                type: object
+                properties:
+                  '@context':
+                    type: string
+                    example: /contexts/Error
+                  '@type':
+                    type: string
+                    example: hydra:Error
+                  hydra:title:
+                    type: string
+                    example: InternalServerErrorException
+                  hydra:description:
+                    type: string
+                    example: Internal Server Error
+                  hydra:request_id:
+                    type: string
+                    example: xzf6bgh6-8ba2-83jn-p5a1-e4ac0f74nf5g
+      summary: Retrieves the collection of Projects resources
+      description: Retrieves the collection of Projects resources.
+      parameters:
+      - name: service
+        in: path
+        description: ''
+        required: true
+        deprecated: false
+        allowEmptyValue: false
+        schema: []
+        style: simple
+        explode: false
+        allowReserved: false
+      - name: page
+        in: query
+        description: The collection page number
+        required: false
+        deprecated: false
+        allowEmptyValue: true
+        schema:
+          type: integer
+          default: 1
+        style: form
+        explode: false
+        allowReserved: false
+      - name: sort[lastModified]
+        in: query
+        description: ''
+        required: false
+        deprecated: false
+        allowEmptyValue: true
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+        style: form
+        explode: false
+        allowReserved: false
+      deprecated: false
+  /v1/services/{service}/projects/{agencyId}:
+    parameters:
+    - name: service
+      in: path
+      description: ''
+      required: true
+      deprecated: false
+      allowEmptyValue: false
+      schema: []
+      style: simple
+      explode: false
+      allowReserved: false
+    get:
+      operationId: getProjectsItem
+      tags:
+      - Projects
+      responses:
+        '200':
+          description: Projects resource
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Projects-read_readItem_readItemSubRes'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Projects-read_readItem_readItemSubRes'
+        '400':
+          description: Bad Request
+          content:
+            application/ld+json:
+              schema:
+                type: object
+                properties:
+                  '@context':
+                    type: string
+                    example: /contexts/ConstraintViolationList
+                  '@type':
+                    type: string
+                    example: ConstraintViolationList
+                  hydra:title:
+                    type: string
+                    example: Validation Errors Encountered
+                  hydra:description:
+                    type: string
+                    example: Found `2` constraint violations
+                  violations:
+                    type: array
+                    items:
+                    - type: object
+                      properties:
+                        propertyPath:
+                          type: string
+                          example: propertyName
+                        message:
+                          type: string
+                          example: Sample error message 1
+                        code:
+                          type: string
+                          example: 25c84bec-2466-47ba-83d2-3b7243593897
+                    - type: object
+                      properties:
+                        propertyPath:
+                          type: string
+                          example: propertyName
+                        message:
+                          type: string
+                          example: Sample error message 2
+                        code:
+                          type: string
+                          example: 70bafca1-5975-4171-92cc-e3cdde9b4b7d
+                  hydra:request_id:
+                    type: string
+                    example: xzf6bgh6-8ba2-83jn-p5a1-e4ac0f74nf5g
+            application/json:
+              schema:
+                type: object
+                properties:
+                  '@context':
+                    type: string
+                    example: /contexts/ConstraintViolationList
+                  '@type':
+                    type: string
+                    example: ConstraintViolationList
+                  hydra:title:
+                    type: string
+                    example: Validation Errors Encountered
+                  hydra:description:
+                    type: string
+                    example: Found `2` constraint violations
+                  violations:
+                    type: array
+                    items:
+                    - type: object
+                      properties:
+                        propertyPath:
+                          type: string
+                          example: propertyName
+                        message:
+                          type: string
+                          example: Sample error message 1
+                        code:
+                          type: string
+                          example: 25c84bec-2466-47ba-83d2-3b7243593897
+                    - type: object
+                      properties:
+                        propertyPath:
+                          type: string
+                          example: propertyName
+                        message:
+                          type: string
+                          example: Sample error message 2
+                        code:
+                          type: string
+                          example: 70bafca1-5975-4171-92cc-e3cdde9b4b7d
+                  hydra:request_id:
+                    type: string
+                    example: xzf6bgh6-8ba2-83jn-p5a1-e4ac0f74nf5g
+        '404':
+          description: Resource Not Found
+          content:
+            application/ld+json:
+              schema:
+                type: object
+                properties:
+                  '@context':
+                    type: string
+                    example: /contexts/Error
+                  '@type':
+                    type: string
+                    example: hydra:Error
+                  hydra:title:
+                    type: string
+                    example: NotFoundHttpException
+                  hydra:description:
+                    type: string
+                    example: Not Found
+                  hydra:request_id:
+                    type: string
+                    example: xzf6bgh6-8ba2-83jn-p5a1-e4ac0f74nf5g
+            application/json:
+              schema:
+                type: object
+                properties:
+                  '@context':
+                    type: string
+                    example: /contexts/Error
+                  '@type':
+                    type: string
+                    example: hydra:Error
+                  hydra:title:
+                    type: string
+                    example: NotFoundHttpException
+                  hydra:description:
+                    type: string
+                    example: Not Found
+                  hydra:request_id:
+                    type: string
+                    example: xzf6bgh6-8ba2-83jn-p5a1-e4ac0f74nf5g
+        '406':
+          description: Unsupported Media Type
+          content:
+            application/ld+json:
+              schema:
+                type: object
+                properties:
+                  '@context':
+                    type: string
+                    example: /contexts/Error
+                  '@type':
+                    type: string
+                    example: hydra:Error
+                  hydra:title:
+                    type: string
+                    example: UnsupportedMediaTypeHttpException
+                  hydra:description:
+                    type: string
+                    example:
+                      Unsupported Media Type:
+                        The provided content-type is not supported, Supported MIME types are:
+                          POST/PUT/DELETE: application/json, or application/ld+json
+                          PATCH: application/merge-patch+json
+                          GET: application/json, application/ld+json, or text/csv
+                  hydra:request_id:
+                    type: string
+                    example: xzf6bgh6-8ba2-83jn-p5a1-e4ac0f74nf5g
+            application/json:
+              schema:
+                type: object
+                properties:
+                  '@context':
+                    type: string
+                    example: /contexts/Error
+                  '@type':
+                    type: string
+                    example: hydra:Error
+                  hydra:title:
+                    type: string
+                    example: UnsupportedMediaTypeHttpException
+                  hydra:description:
+                    type: string
+                    example:
+                      Unsupported Media Type:
+                        The provided content-type is not supported, Supported MIME types are:
+                          POST/PUT/DELETE: application/json, or application/ld+json
+                          PATCH: application/merge-patch+json
+                          GET: application/json, application/ld+json, or text/csv
+                  hydra:request_id:
+                    type: string
+                    example: xzf6bgh6-8ba2-83jn-p5a1-e4ac0f74nf5g
+        '500':
+          description: Internal Server Error
+          content:
+            application/ld+json:
+              schema:
+                type: object
+                properties:
+                  '@context':
+                    type: string
+                    example: /contexts/Error
+                  '@type':
+                    type: string
+                    example: hydra:Error
+                  hydra:title:
+                    type: string
+                    example: InternalServerErrorException
+                  hydra:description:
+                    type: string
+                    example: Internal Server Error
+                  hydra:request_id:
+                    type: string
+                    example: xzf6bgh6-8ba2-83jn-p5a1-e4ac0f74nf5g
+            application/json:
+              schema:
+                type: object
+                properties:
+                  '@context':
+                    type: string
+                    example: /contexts/Error
+                  '@type':
+                    type: string
+                    example: hydra:Error
+                  hydra:title:
+                    type: string
+                    example: InternalServerErrorException
+                  hydra:description:
+                    type: string
+                    example: Internal Server Error
+                  hydra:request_id:
+                    type: string
+                    example: xzf6bgh6-8ba2-83jn-p5a1-e4ac0f74nf5g
+      summary: Retrieves a Projects resource
+      description: Retrieves a Projects resource.
+      parameters:
+      - name: service
+        in: path
+        description: ''
+        required: true
+        deprecated: false
+        allowEmptyValue: false
+        schema: []
+        style: simple
+        explode: false
+        allowReserved: false
+      - name: agencyId
+        in: path
+        description: Resource identifier
+        required: true
+        deprecated: false
+        allowEmptyValue: false
+        schema:
+          type: string
+        style: simple
+        explode: false
+        allowReserved: false
+      deprecated: false
+components:
+  schemas:
+    Projects-read_readItem_readItemSubRes:
+      type: object
+      description: ''
+      properties:
+        agencyId:
+          type: string
+          format: alphanumeric
+          minLength: 1
+          maxLength: 64
+          description: A unique identifier for the document provided by the submitting user.
+        projectId:
+          type: string
+          format: string
+          example: GSAProj1
+          description: An Agency-specified alphanumeric code that uniquely identifies the project within the Investment.
+        projectName:
+          type: string
+          format: string
+          example: API Submissions Development
+          maxLength: 100
+          description: Name used by the Agency to refer specifically to the project.
+        projectGoal:
+          type: string
+          format: string
+          example: Develop a mechanism to collect CPIC data
+          maxLength: 250
+          description: 'Brief description of primary goal/outcome the project is planning to provide for the Investment
+
+            upon completion. This field is masked from public view.'
+        plannedStartDate:
+          type:
+          - string
+          - 'null'
+          format: date
+          example: '2020-08-15'
+          description: 'Enter the planned start date [YYYY-MM-DD] of this project.
+
+            Modifying this field via PUT or PATCH operation will require a rebaseline'
+        projectedStartDate:
+          type:
+          - string
+          - 'null'
+          format: date
+          example: '2020-08-15'
+          description: Enter the projected start date [YYYY-MM-DD] of this project.
+        actualStartDate:
+          type:
+          - string
+          - 'null'
+          format: date
+          example: '2020-08-15'
+          description: Enter the actual start date [YYYY-MM-DD] of this project.
+        plannedEndDate:
+          type:
+          - string
+          - 'null'
+          format: date
+          example: '2020-11-20'
+          description: 'Enter the planned end date [YYYY-MM-DD] of this project.
+
+            Modifying this field via PUT or PATCH operation will require a rebaseline.'
+        projectedEndDate:
+          type:
+          - string
+          - 'null'
+          format: date
+          example: '2020-11-20'
+          description: Enter the projected end date [YYYY-MM-DD] of this project.
+        actualEndDate:
+          type:
+          - string
+          - 'null'
+          format: date
+          example: '2020-11-20'
+          description: Enter the actual end date [YYYY-MM-DD] of this project.
+        plannedTotalCost:
+          type:
+          - number
+          - 'null'
+          format: decimal
+          example: 100
+          description: 'Enter the planned total cost of this project in millions.
+
+            [$mm] Modifying this field via PUT or PATCH operation will require a rebaseline.'
+        projectedTotalCost:
+          type:
+          - number
+          - 'null'
+          format: decimal
+          example: 100
+          description: Enter the projected total cost of this project in millions. [$mm]
+        actualTotalCost:
+          type:
+          - number
+          - 'null'
+          format: float
+          example: 1100
+          description: Enter the actual total cost of this project in millions. [$mm]
+        softwareProject:
+          type:
+          - bool
+          - 'null'
+          example: false
+          description: 'Enter whether this project is developing or deploying software solutions
+
+            as a primary focus of this project.'
+        tmfInitiative:
+          type: string
+          format: string
+          example: ''
+          description: Enter a valid and existing tmfInitiative from the TMF Initiatives collection.
+        rebaseLines:
+          type: array
+          readOnly: true
+          description: A list of associated rebaseLine IDs
+          items:
+            type: string
+        incrementalDevelopment:
+          type:
+          - bool
+          - 'null'
+          example: false
+          description: Are information technology investments adequately implementing incremental development methodology?
+        iterationFrequencyAmount:
+          type:
+          - number
+          - 'null'
+          format: float
+          example: 2.5
+          description: Enter the frequency of the incremental development release iterations
+        iterationFrequencyUnits:
+          type:
+          - string
+          - 'null'
+          enum:
+          - Days
+          - Weeks
+          - Months
+          - Years
+          example: Weeks
+          description: Select the frequency of incremental development release iterations units
+        iterativeDescription:
+          type:
+          - string
+          - 'null'
+          format: string
+          example: This Project deploys following all two week sprint intervals
+          maxLength: 500
+          description: Please briefly describe the iterative development methodology being employed.
+        isMasked:
+          type: bool
+          example: true
+          description: A readonly boolean indicating whether the document is masked from the public.
+          default: true
+        costVariance:
+          type: float
+          format: float
+          example: '0.0'
+          description: Project Variance Score.
+        costVarianceMonetaryAmount:
+          type: float
+          format: float
+          example: '0.0'
+          description: The Dollar amount for costVariance (numerator in costVariance calculation).
+        scheduleVariance:
+          type: float
+          format: float
+          example: '0.0'
+          description: Schedule Variance Score.
+        scheduleVarianceDayAmount:
+          type: int
+          format: int
+          example: 0
+          description: Schedule Variance Day amount (numerator in schedule variance score calculation).
+        projectStatus:
+          type:
+          - string
+          - 'null'
+          enum:
+          - Not Started
+          - In Progress
+          - Completed
+          - Deferred
+          - Canceled
+          example: In Progress
+          description: Enter the project's current status
+        archiveProjectStatus:
+          description: Enter the project's current status
+          type:
+          - string
+          - 'null'
+        created:
+          type: string
+          format: timestamp
+          example: '2020-01-01 15:00:00'
+          readOnly: true
+          description: Created date/time
+        lastModified:
+          type: string
+          format: timestamp
+          example: '2020-01-01 15:00:00'
+          readOnly: true
+          description: Last modified date/time
+        agencyCode:
+          type: string
+          format: string
+          example: 018
+          description: The agency code of the user who created the record
+    Projects-read:
+      type: object
+      description: ''
+      properties:
+        agencyId:
+          type: string
+          format: alphanumeric
+          minLength: 1
+          maxLength: 64
+          description: A unique identifier for the document provided by the submitting user.
+        projectId:
+          type: string
+          format: string
+          example: GSAProj1
+          description: An Agency-specified alphanumeric code that uniquely identifies the project within the Investment.
+        projectName:
+          type: string
+          format: string
+          example: API Submissions Development
+          maxLength: 100
+          description: Name used by the Agency to refer specifically to the project.
+        projectGoal:
+          type: string
+          format: string
+          example: Develop a mechanism to collect CPIC data
+          maxLength: 250
+          description: 'Brief description of primary goal/outcome the project is planning to provide for the Investment
+
+            upon completion. This field is masked from public view.'
+        plannedStartDate:
+          type:
+          - string
+          - 'null'
+          format: date
+          example: '2020-08-15'
+          description: 'Enter the planned start date [YYYY-MM-DD] of this project.
+
+            Modifying this field via PUT or PATCH operation will require a rebaseline'
+        projectedStartDate:
+          type:
+          - string
+          - 'null'
+          format: date
+          example: '2020-08-15'
+          description: Enter the projected start date [YYYY-MM-DD] of this project.
+        actualStartDate:
+          type:
+          - string
+          - 'null'
+          format: date
+          example: '2020-08-15'
+          description: Enter the actual start date [YYYY-MM-DD] of this project.
+        plannedEndDate:
+          type:
+          - string
+          - 'null'
+          format: date
+          example: '2020-11-20'
+          description: 'Enter the planned end date [YYYY-MM-DD] of this project.
+
+            Modifying this field via PUT or PATCH operation will require a rebaseline.'
+        projectedEndDate:
+          type:
+          - string
+          - 'null'
+          format: date
+          example: '2020-11-20'
+          description: Enter the projected end date [YYYY-MM-DD] of this project.
+        actualEndDate:
+          type:
+          - string
+          - 'null'
+          format: date
+          example: '2020-11-20'
+          description: Enter the actual end date [YYYY-MM-DD] of this project.
+        plannedTotalCost:
+          type:
+          - number
+          - 'null'
+          format: decimal
+          example: 100
+          description: 'Enter the planned total cost of this project in millions.
+
+            [$mm] Modifying this field via PUT or PATCH operation will require a rebaseline.'
+        projectedTotalCost:
+          type:
+          - number
+          - 'null'
+          format: decimal
+          example: 100
+          description: Enter the projected total cost of this project in millions. [$mm]
+        actualTotalCost:
+          type:
+          - number
+          - 'null'
+          format: float
+          example: 1100
+          description: Enter the actual total cost of this project in millions. [$mm]
+        softwareProject:
+          type:
+          - bool
+          - 'null'
+          example: false
+          description: 'Enter whether this project is developing or deploying software solutions
+
+            as a primary focus of this project.'
+        tmfInitiative:
+          type: string
+          format: string
+          example: ''
+          description: Enter a valid and existing tmfInitiative from the TMF Initiatives collection.
+        rebaseLines:
+          type: array
+          readOnly: true
+          description: A list of associated rebaseLine IDs
+          items:
+            type: string
+        incrementalDevelopment:
+          type:
+          - bool
+          - 'null'
+          example: false
+          description: Are information technology investments adequately implementing incremental development methodology?
+        iterationFrequencyAmount:
+          type:
+          - number
+          - 'null'
+          format: float
+          example: 2.5
+          description: Enter the frequency of the incremental development release iterations
+        iterationFrequencyUnits:
+          type:
+          - string
+          - 'null'
+          enum:
+          - Days
+          - Weeks
+          - Months
+          - Years
+          example: Weeks
+          description: Select the frequency of incremental development release iterations units
+        iterativeDescription:
+          type:
+          - string
+          - 'null'
+          format: string
+          example: This Project deploys following all two week sprint intervals
+          maxLength: 500
+          description: Please briefly describe the iterative development methodology being employed.
+        isMasked:
+          type: bool
+          example: true
+          description: A readonly boolean indicating whether the document is masked from the public.
+          default: true
+        costVariance:
+          type: float
+          format: float
+          example: '0.0'
+          description: Project Variance Score.
+        costVarianceMonetaryAmount:
+          type: float
+          format: float
+          example: '0.0'
+          description: The Dollar amount for costVariance (numerator in costVariance calculation).
+        scheduleVariance:
+          type: float
+          format: float
+          example: '0.0'
+          description: Schedule Variance Score.
+        scheduleVarianceDayAmount:
+          type: int
+          format: int
+          example: 0
+          description: Schedule Variance Day amount (numerator in schedule variance score calculation).
+        projectStatus:
+          type:
+          - string
+          - 'null'
+          enum:
+          - Not Started
+          - In Progress
+          - Completed
+          - Deferred
+          - Canceled
+          example: In Progress
+          description: Enter the project's current status
+        archiveProjectStatus:
+          description: Enter the project's current status
+          type:
+          - string
+          - 'null'
+        created:
+          type: string
+          format: timestamp
+          example: '2020-01-01 15:00:00'
+          readOnly: true
+          description: Created date/time
+        lastModified:
+          type: string
+          format: timestamp
+          example: '2020-01-01 15:00:00'
+          readOnly: true
+          description: Last modified date/time
+        agencyCode:
+          type: string
+          format: string
+          example: 018
+          description: The agency code of the user who created the record

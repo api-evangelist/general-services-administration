@@ -1,0 +1,102 @@
+# x-archived-from: general-services-administration-searchgov-clicks-openapi.yaml
+# x-archived-on: 2026-09-16
+openapi: 3.0.0
+info:
+  title: SearchGov clicks API
+  description: SearchGov is a configurable search engine built by the government, for the government, with the government. Use the clicks API to send us click data and improve the relevance of your search results.
+  version: 2.0
+
+paths:
+  /clicks/:
+    get:
+      summary: Click tracking
+      description: 'This endpoint allows you to send in click data.'
+      parameters:
+        - name: affiliate
+          in: query
+          description: 'The unique site handle you created for the affiliate site when you set up your search experience. Find your site handle on the Settings page in the Admin Center.'
+          required: true
+          schema:
+            type: string
+            format: string
+        - name: access_key
+          in: query
+          description: 'The site’s unique API access key that was automatically generated when you set up your search experience. Find your access key on the API Access Key page in the Admin Center.'
+          required: true
+          schema:
+            type: integer
+            format: integer
+            default: 0
+        - name: query
+          in: query
+          description: 'The query entered by a user via your site’s search box, which resulted in a click.'
+          required: true
+          schema:
+            type: string
+            format: string
+        - name: url
+          in: query
+          description: 'The URL of the result that was clicked on search results page.'
+          required: true
+          schema:
+              type: string
+              format: string
+        - name: position
+          in: query
+          description: 'The ranked position of the clicked result, such as 1 or 2.'
+          required: true
+          schema:
+            type: integer
+            format: string
+        - name: module_code
+          in: query
+          description: 'The module code of the clicked result. Must be a valid module code.'
+          required: true
+          schema:
+            type: integer
+            format: integer
+            default: 20
+        - name: client_ip
+          in: query
+          description: 'The IP address of the user who clicked on the result.'
+          required: false
+          schema:
+            type: string
+            format: string
+        - name: user_agent
+          in: query
+          description: 'The user agent of the user who clicked on the result.'
+          required: false
+          schema:
+            type: string
+            format: string
+        - name: referrer
+          in: query
+          description: 'The URL of the page the user was on when clicking on the result.'
+          required: false
+          schema:
+            type: string
+            format: string
+      tags:
+      - search
+
+      responses:            
+        "200":
+          description: Successfully retrieved click data.
+        "400":
+          description: Query cannot be blank.
+        "401":
+          description: Errors with inputs, such as an unparseable URL or invalid affiliate site, access key, or module code.
+          
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+      
+security: 
+  - ApiKeyAuth: []
+                
+servers:
+  - url: 'https://api.gsa.gov/technology/searchgov/v2'

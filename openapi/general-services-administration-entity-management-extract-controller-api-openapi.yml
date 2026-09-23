@@ -1,0 +1,79 @@
+openapi: 3.2.0
+info:
+  title: Entity Management Rest Entity Management Extract Controller…
+  description: Swagger Documentation for Entity Management Rest API
+  license:
+    name: GSA
+  version: 0.1.0
+servers:
+- url: //api-alpha.sam.gov/
+tags:
+- name: entity-management-extract-controller
+  description: Operations pertaining to Entity Management Data
+paths:
+  /entity-information/v1/download-entities:
+    get:
+      tags:
+      - entity-management-extract-controller
+      summary: getFileFromS3
+      operationId: getFileFromS3UsingGET_1
+      parameters:
+      - name: token
+        in: query
+        description: token
+        required: true
+        schema:
+          type: string
+      - name: api_key
+        in: query
+        description: api_key
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/zip: null
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+    post:
+      tags:
+      - entity-management-extract-controller
+      summary: getFileFromS3
+      operationId: getFileFromS3UsingPOST_1
+      parameters:
+      - name: token
+        in: query
+        description: token
+        required: true
+        schema:
+          type: string
+      - name: api_key
+        in: query
+        description: api_key
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/zip: null
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}

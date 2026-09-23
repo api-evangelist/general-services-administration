@@ -1,0 +1,666 @@
+openapi: 3.2.0
+info:
+  title: Touchpoints API Reference CX Collections API
+  description: For an introduction to the Touchpoints API, see the API Overview page.
+  version: v1
+servers:
+- url: https://api.gsa.gov/analytics/touchpoints/v1
+  description: The production Touchpoints API
+tags:
+- name: CX Collections
+paths:
+  /cx_collection_details:
+    get:
+      summary: List CX collection details
+      description: Returns a list of all CX collection details.
+      tags:
+      - CX Collections
+      security:
+      - api_key: []
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              example:
+                value:
+                  data:
+                  - id: '1'
+                    type: cx_collection_details
+                    attributes:
+                      cx_collection_id: 1
+                      service_id: 1
+                      service_name: Navigating information and tasks during critical life experiences
+                      service_provider_id: 1
+                      service_provider_name: Public Experience Portfolio
+                      channel: email
+                      service_stage_id: 2
+                      service_stage_name: process
+                      volume_of_customers: null
+                      volume_of_customers_provided_survey_opportunity: 300
+                      volume_of_respondents: 3
+                      omb_control_number: 0345-0012
+                      survey_type: likert_scale
+                      survey_title: FY25 Customer Satisfaction Survey
+                      trust_question_text: Based on your experience, do you trust this agency?
+                      created_at: '2026-01-01T00:00:00.000Z'
+                      updated_at: '2026-01-01T00:00:00.000Z'
+              schema:
+                type: object
+                required:
+                - data
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CxCollectionDetailResource'
+      operationId: getCxCollectionDetails
+      x-operation-id-source: derived
+  /cx_collections:
+    get:
+      summary: List CX collections
+      description: Returns a list of all CX collections.
+      tags:
+      - CX Collections
+      security:
+      - api_key: []
+      parameters:
+      - name: all
+        in: query
+        required: false
+        description: If set to 1, returns all CX collections. If not set or set to 0, returns only published CX collections.
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              example:
+                value:
+                  data:
+                  - id: '1'
+                    type: cx_collections
+                    attributes:
+                      user_id: 1
+                      name: CX Quarterly Reporting
+                      organization_id: 1
+                      service_provider_id: 1
+                      service_id: 1
+                      service_name: Navigating information and tasks during critical life experiences
+                      fiscal_year: '2024'
+                      quarter: '2'
+                      aasm_state: published
+                      rating: 'TRUE'
+                      integrity_hash: null
+                      created_at: '2026-01-01T00:00:00.000Z'
+                      submitted_at: null
+                      updated_at: '2026-01-01T00:00:00.000Z'
+              schema:
+                type: object
+                required:
+                - data
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CxCollectionResource'
+      operationId: getCxCollections
+      x-operation-id-source: derived
+  /cx_responses:
+    get:
+      summary: List CX responses
+      description: Returns a paginated list of CX responses for all CX collection details
+      tags:
+      - CX Collections
+      security:
+      - api_key: []
+      parameters:
+      - name: page[number]
+        in: query
+        required: false
+        description: 'Page number, 1-based (default: 1)'
+        schema:
+          type: integer
+      - name: page[size]
+        in: query
+        required: false
+        description: 'Responses per page (default: 500, max: 5000)'
+        schema:
+          type: integer
+      - name: start_date
+        in: query
+        required: false
+        description: 'Include responses on or after this date, YYYY-MM-DD (default: 2024-10-01)'
+        schema:
+          type: string
+      - name: end_date
+        in: query
+        required: false
+        description: 'Include responses on or before this date, YYYY-MM-DD (default: tomorrow)'
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              example:
+                value:
+                  data:
+                  - id: '1'
+                    type: cx_responses
+                    attributes:
+                      cx_collection_detail_id: 1
+                      cx_collection_detail_upload_id: 1
+                      question_1: '1'
+                      positive_effectiveness: '0'
+                      positive_ease: '1'
+                      positive_efficiency: '0'
+                      positive_transparency: 'null'
+                      positive_humanity: 'null'
+                      positive_employee: 'null'
+                      positive_other: '0'
+                      negative_effectiveness: '0'
+                      negative_ease: '0'
+                      negative_efficiency: '0'
+                      negative_transparency: 'null'
+                      negative_humanity: 'null'
+                      negative_employee: 'null'
+                      negative_other: '0'
+                      question_4: USA.gov provides free yearly credit reports!
+                      job_id: '3889'
+                      created_at: '2024-10-07T14:47:14.260Z'
+                      updated_at: '2024-10-07T14:47:14.260Z'
+                      external_id: '5983548'
+                  - id: '2'
+                    type: cx_responses
+                    attributes:
+                      cx_collection_detail_id: 1
+                      cx_collection_detail_upload_id: 1
+                      question_1: '0'
+                      positive_effectiveness: '0'
+                      positive_ease: '0'
+                      positive_efficiency: '0'
+                      positive_transparency: 'null'
+                      positive_humanity: 'null'
+                      positive_employee: 'null'
+                      positive_other: '0'
+                      negative_effectiveness: '0'
+                      negative_ease: '0'
+                      negative_efficiency: '0'
+                      negative_transparency: 'null'
+                      negative_humanity: 'null'
+                      negative_employee: 'null'
+                      negative_other: '1'
+                      question_4: Not sure, I only used the passport application
+                      job_id: '3889'
+                      created_at: '2024-10-19T14:47:14.260Z'
+                      updated_at: '2024-10-19T14:47:14.260Z'
+                      external_id: 59BzdLf549wnw5P
+                  links:
+                    self: https://api.gsa.gov/analytics/touchpoints/v1/cx_responses?end_date=2026-01-01&page%5Bnumber%5D=1&page%5Bsize%5D=2
+                    first: https://api.gsa.gov/analytics/touchpoints/v1/cx_responses?end_date=2026-01-01&page%5Bnumber%5D=1&page%5Bsize%5D=2
+                    prev: null
+                    next: https://api.gsa.gov/analytics/touchpoints/v1/cx_responses?end_date=2026-01-01&page%5Bnumber%5D=2&page%5Bsize%5D=2
+                    last: https://api.gsa.gov/analytics/touchpoints/v1/cx_responses?end_date=2026-01-01&page%5Bnumber%5D=2&page%5Bsize%5D=2
+                  meta:
+                    current_page: 1
+                    size: 2
+                    page_size: 2
+                    total_pages: 2
+                    total_count: 3
+              schema:
+                type: object
+                required:
+                - data
+                - links
+                - meta
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CxResponseResource'
+                  links:
+                    $ref: '#/components/schemas/PaginationLinks'
+                  meta:
+                    $ref: '#/components/schemas/PaginationMeta'
+      operationId: getCxResponses
+      x-operation-id-source: derived
+components:
+  schemas:
+    CxCollectionResource:
+      type: object
+      description: Represents a fiscal quarter's worth of CX feedback submitted for a specific service. Feedback can be collected via multiple channels/surveys and at multiple service journey stages.
+      required:
+      - id
+      - type
+      - attributes
+      properties:
+        id:
+          type: string
+          description: Numeric identifier of the CX collection (string-encoded).
+        type:
+          type: string
+          enum:
+          - cx_collections
+        attributes:
+          $ref: '#/components/schemas/CxCollectionAttributes'
+    CxCollectionDetailAttributes:
+      type: object
+      required:
+      - cx_collection_id
+      - service_id
+      - service_name
+      - service_provider_id
+      - service_provider_name
+      - channel
+      - service_stage_id
+      - service_stage_name
+      - volume_of_customers_provided_survey_opportunity
+      - volume_of_respondents
+      - omb_control_number
+      - survey_type
+      - survey_title
+      - trust_question_text
+      - created_at
+      - updated_at
+      properties:
+        cx_collection_id:
+          type: integer
+          description: Foreign key referencing the parent CX collection record.
+        service_id:
+          type: integer
+          description: ID of the service being measured.
+        service_name:
+          type: string
+          description: Display name of the service being measured.
+        service_provider_id:
+          type: integer
+          description: ID of the service provider associated with this detail.
+        service_provider_name:
+          type: string
+          description: Display name of the service provider associated with this detail.
+        channel:
+          type: string
+          enum:
+          - computer
+          - mobile
+          - email
+          - chatbot
+          - phone
+          - automated_phone
+          - in_person
+          - paper
+          - postal_mail
+          - fax
+          - self_service_kiosk
+          - other_non_digital
+          - website
+          - mobile_app
+          - live_chat
+          - sms_text_messages
+          - social_media
+          - other_digital
+          description: Delivery channel through which the survey was administered.
+        service_stage_id:
+          type:
+          - integer
+          - 'null'
+          description: ID of the service journey stage at which the survey was administered.
+        service_stage_name:
+          type:
+          - string
+          - 'null'
+          description: Display name of the service journey stage (e.g. 'Beg', 'Middle', 'End').
+        volume_of_customers:
+          type:
+          - integer
+          - 'null'
+          description: Total number of customers who interacted with the service during the reporting period. Null if not reported.
+        volume_of_customers_provided_survey_opportunity:
+          type: integer
+          description: Number of customers who were offered the opportunity to complete the survey.
+        volume_of_respondents:
+          type: integer
+          description: Number of customers who completed the survey.
+        omb_control_number:
+          type: string
+          description: OMB Paperwork Reduction Act control number for the survey instrument.
+        survey_type:
+          type: string
+          enum:
+          - likert_scale
+          - thumbs_up_down
+          description: Response format used by the survey instrument.
+        survey_title:
+          type: string
+          description: Title of the survey instrument.
+        trust_question_text:
+          type: string
+          description: Verbatim text of the trust question posed to respondents.
+        created_at:
+          type: string
+          format: date-time
+          description: ISO 8601 timestamp when the detail record was created.
+        updated_at:
+          type: string
+          format: date-time
+          description: ISO 8601 timestamp when the detail record was last updated.
+    CxCollectionDetailResource:
+      type: object
+      description: Represents CX feedback collected via a single channel at a single service journey stage for a CX Collection.
+      required:
+      - id
+      - type
+      - attributes
+      properties:
+        id:
+          type: string
+          description: Numeric identifier of the CX collection detail (string-encoded).
+        type:
+          type: string
+          enum:
+          - cx_collection_details
+        attributes:
+          $ref: '#/components/schemas/CxCollectionDetailAttributes'
+    PaginationMeta:
+      type: object
+      required:
+      - current_page
+      - page_size
+      - total_pages
+      - total_count
+      properties:
+        current_page:
+          type: integer
+          description: The current page number (1-indexed).
+        page_size:
+          type: integer
+          description: Number of records requested per page.
+        total_pages:
+          type: integer
+          description: Total number of pages available.
+        total_count:
+          type: integer
+          description: Total number of records across all pages.
+    CxCollectionAttributes:
+      type: object
+      required:
+      - user_id
+      - name
+      - organization_id
+      - service_provider_id
+      - service_id
+      - service_name
+      - fiscal_year
+      - quarter
+      - aasm_state
+      - created_at
+      - updated_at
+      properties:
+        user_id:
+          type: integer
+          description: ID of the user who created the collection.
+        name:
+          type: string
+          description: Display name of the collection.
+        organization_id:
+          type: integer
+          description: ID of the organization associated with this collection.
+        service_provider_id:
+          type: integer
+          description: ID of the service provider associated with this collection.
+        service_id:
+          type: integer
+          description: ID of the service being reported on.
+        service_name:
+          type: string
+          description: Display name of the service being reported on.
+        fiscal_year:
+          type: string
+          pattern: ^[0-9]{4}$
+          description: Federal fiscal year for this reporting period (string-encoded four-digit year).
+        quarter:
+          type: string
+          enum:
+          - '1'
+          - '2'
+          - '3'
+          - '4'
+          description: Federal fiscal quarter for this reporting period (string-encoded).
+        aasm_state:
+          type: string
+          enum:
+          - draft
+          - submitted
+          - published
+          - not_reported
+          - change_requested
+          - archived
+          description: Current workflow state of the collection record.
+        rating:
+          type:
+          - string
+          - 'null'
+          description: Overall rating for the collection. 'TRUE' denotes green, 'PARTIAL' is yellow, 'FALSE' means red. Null or empty string if not yet rated.
+        integrity_hash:
+          type:
+          - string
+          - 'null'
+          description: Hash used to verify data integrity of the submitted collection. Null if not yet computed.
+        created_at:
+          type: string
+          format: date-time
+          description: ISO 8601 timestamp when the collection was created.
+        submitted_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: ISO 8601 timestamp when the collection was submitted. Null if not yet submitted.
+        updated_at:
+          type: string
+          format: date-time
+          description: ISO 8601 timestamp when the collection was last updated.
+    CxResponseAttributes:
+      type: object
+      required:
+      - cx_collection_detail_id
+      - cx_collection_detail_upload_id
+      - question_1
+      - positive_effectiveness
+      - positive_ease
+      - positive_efficiency
+      - positive_transparency
+      - positive_humanity
+      - positive_employee
+      - positive_other
+      - negative_effectiveness
+      - negative_ease
+      - negative_efficiency
+      - negative_transparency
+      - negative_humanity
+      - negative_employee
+      - negative_other
+      - job_id
+      - created_at
+      - updated_at
+      - external_id
+      properties:
+        cx_collection_detail_id:
+          type: integer
+          description: Foreign key referencing the CX collection detail record.
+        cx_collection_detail_upload_id:
+          type: integer
+          description: Foreign key referencing the batch upload that produced this response.
+        question_1:
+          type: string
+          enum:
+          - '0'
+          - '1'
+          description: Binary satisfaction response — '1' for positive, '0' for negative (string-encoded).
+        positive_effectiveness:
+          type: string
+          enum:
+          - '0'
+          - '1'
+          description: Whether the respondent cited effectiveness as a positive factor.
+        positive_ease:
+          type: string
+          enum:
+          - '0'
+          - '1'
+          description: Whether the respondent cited ease as a positive factor.
+        positive_efficiency:
+          type: string
+          enum:
+          - '0'
+          - '1'
+          description: Whether the respondent cited efficiency as a positive factor.
+        positive_transparency:
+          type: string
+          enum:
+          - '0'
+          - '1'
+          - 'null'
+          description: Whether the respondent cited transparency as a positive factor.
+        positive_humanity:
+          type: string
+          enum:
+          - '0'
+          - '1'
+          - 'null'
+          description: Whether the respondent cited humanity as a positive factor. 'null' (string) indicates the dimension was not applicable for this collection.
+        positive_employee:
+          type: string
+          enum:
+          - '0'
+          - '1'
+          - 'null'
+          description: Whether the respondent cited employee as a positive factor. 'null' (string) indicates the dimension was not applicable for this collection.
+        positive_other:
+          type: string
+          enum:
+          - '0'
+          - '1'
+          - 'null'
+          description: Whether the respondent cited other as a positive factor. 'null' (string) indicates the dimension was not applicable for this collection.
+        negative_effectiveness:
+          type: string
+          enum:
+          - '0'
+          - '1'
+          description: Whether the respondent cited effectiveness as a negative factor.
+        negative_ease:
+          type: string
+          enum:
+          - '0'
+          - '1'
+          description: Whether the respondent cited ease as a negative factor.
+        negative_efficiency:
+          type: string
+          enum:
+          - '0'
+          - '1'
+          description: Whether the respondent cited efficiency as a negative factor.
+        negative_transparency:
+          type: string
+          enum:
+          - '0'
+          - '1'
+          - 'null'
+          description: Whether the respondent cited transparency as a negative factor.
+        negative_humanity:
+          type: string
+          enum:
+          - '0'
+          - '1'
+          - 'null'
+          description: Whether the respondent cited humanity as a negative factor. 'null' (string) indicates the dimension was not applicable for this collection.
+        negative_employee:
+          type: string
+          enum:
+          - '0'
+          - '1'
+          - 'null'
+          description: Whether the respondent cited employee as a negative factor. 'null' (string) indicates the dimension was not applicable for this collection.
+        negative_other:
+          type: string
+          enum:
+          - '0'
+          - '1'
+          - 'null'
+          description: Whether the respondent cited other as a negative factor. 'null' (string) indicates the dimension was not applicable for this collection.
+        question_4:
+          type:
+          - string
+          - 'null'
+          description: Open-text response to question 4. Null if not answered.
+        job_id:
+          type: string
+          description: Identifier of the batch import job that created this response.
+        created_at:
+          type: string
+          format: date-time
+          description: ISO 8601 timestamp when the response was created.
+        updated_at:
+          type: string
+          format: date-time
+          description: ISO 8601 timestamp when the response was last updated.
+        external_id:
+          type: string
+          description: Identifier of this response in the originating external system.
+    PaginationLinks:
+      type: object
+      required:
+      - self
+      - first
+      - last
+      properties:
+        self:
+          type: string
+          format: uri
+          description: URL of the current page.
+        first:
+          type: string
+          format: uri
+          description: URL of the first page.
+        prev:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: URL of the previous page. Null on the first page.
+        next:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: URL of the next page. Null on the last page.
+        last:
+          type: string
+          format: uri
+          description: URL of the last page.
+    CxResponseResource:
+      type: object
+      description: Response to a CX collection detail survey, representing a single respondent's answers to the survey questions.
+      required:
+      - id
+      - type
+      - attributes
+      properties:
+        id:
+          type: string
+          description: Numeric identifier of the CX response (string-encoded).
+        type:
+          type: string
+          enum:
+          - cx_responses
+        attributes:
+          $ref: '#/components/schemas/CxResponseAttributes'
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: x-api-key
+      in: header

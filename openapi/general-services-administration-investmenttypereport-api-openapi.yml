@@ -1,0 +1,479 @@
+openapi: 3.2.0
+info:
+  title: ITCollect Public By 2026 Investment Type Report API
+  version: 0.1-beta
+  description: 'The IT Dashboard team aims to build a modern API that acts as the center-piece of a modular IT data reporting ecosystem. This OpenAPI spec shows the initial direction of ITCollect Public data architecture for budget year 2026, and it is aimed at providing real-time updates to the IT Collect Public By 2026 API. It will serve as living documentation of the latest changes.
+
+
+    In order to access ITCollect Public Api, Please fill out the below form to obtain an authorization key
+
+
+    Loading signup form...'
+  x-logo:
+    url: images/logo-gsa.svg
+    backgroundColor: '#FFFFFF'
+    altText: U.S General Services Administration
+servers:
+- url: /
+  description: ''
+tags:
+- name: InvestmentTypeReport
+paths:
+  /v1/timeseries/investment-type:
+    parameters: []
+    get:
+      operationId: getInvestmentTypeReportCollection
+      tags:
+      - InvestmentTypeReport
+      responses:
+        '200':
+          description: InvestmentTypeReport collection
+          content:
+            application/ld+json:
+              schema:
+                type: object
+                properties:
+                  hydra:member:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/InvestmentTypeReport.jsonld-read'
+                  hydra:totalItems:
+                    type: integer
+                    minimum: 0
+                  hydra:view:
+                    type: object
+                    properties:
+                      '@id':
+                        type: string
+                        format: string
+                      '@type':
+                        type: string
+                      hydra:first:
+                        example: ../page=1
+                        type: string
+                        format: string
+                      hydra:last:
+                        example: ../page=200
+                        type: string
+                        format: string
+                      hydra:previous:
+                        example: ../page=0
+                        type: string
+                        format: string
+                      hydra:next:
+                        example: ../page=2
+                        type: string
+                        format: string
+                  hydra:search:
+                    type: object
+                    properties:
+                      '@type':
+                        type: string
+                      hydra:template:
+                        type: string
+                      hydra:variableRepresentation:
+                        type: string
+                      hydra:mapping:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            '@type':
+                              type: string
+                            variable:
+                              type: string
+                            property:
+                              type:
+                              - string
+                              - 'null'
+                            required:
+                              type: boolean
+                required:
+                - hydra:member
+        '400':
+          description: Bad Request
+          content:
+            application/ld+json:
+              schema:
+                type: object
+                properties:
+                  '@context':
+                    type: string
+                    example: /contexts/ConstraintViolationList
+                  '@type':
+                    type: string
+                    example: ConstraintViolationList
+                  hydra:title:
+                    type: string
+                    example: Validation Errors Encountered
+                  hydra:description:
+                    type: string
+                    example: Found `2` constraint violations
+                  violations:
+                    type: array
+                    items:
+                    - type: object
+                      properties:
+                        propertyPath:
+                          type: string
+                          example: propertyName
+                        message:
+                          type: string
+                          example: Sample error message 1
+                        code:
+                          type: string
+                          example: 25c84bec-2466-47ba-83d2-3b7243593897
+                    - type: object
+                      properties:
+                        propertyPath:
+                          type: string
+                          example: propertyName
+                        message:
+                          type: string
+                          example: Sample error message 2
+                        code:
+                          type: string
+                          example: 70bafca1-5975-4171-92cc-e3cdde9b4b7d
+                  hydra:request_id:
+                    type: string
+                    example: xzf6bgh6-8ba2-83jn-p5a1-e4ac0f74nf5g
+            application/json:
+              schema:
+                type: object
+                properties:
+                  '@context':
+                    type: string
+                    example: /contexts/ConstraintViolationList
+                  '@type':
+                    type: string
+                    example: ConstraintViolationList
+                  hydra:title:
+                    type: string
+                    example: Validation Errors Encountered
+                  hydra:description:
+                    type: string
+                    example: Found `2` constraint violations
+                  violations:
+                    type: array
+                    items:
+                    - type: object
+                      properties:
+                        propertyPath:
+                          type: string
+                          example: propertyName
+                        message:
+                          type: string
+                          example: Sample error message 1
+                        code:
+                          type: string
+                          example: 25c84bec-2466-47ba-83d2-3b7243593897
+                    - type: object
+                      properties:
+                        propertyPath:
+                          type: string
+                          example: propertyName
+                        message:
+                          type: string
+                          example: Sample error message 2
+                        code:
+                          type: string
+                          example: 70bafca1-5975-4171-92cc-e3cdde9b4b7d
+                  hydra:request_id:
+                    type: string
+                    example: xzf6bgh6-8ba2-83jn-p5a1-e4ac0f74nf5g
+        '404':
+          description: Resource Not Found
+          content:
+            application/ld+json:
+              schema:
+                type: object
+                properties:
+                  '@context':
+                    type: string
+                    example: /contexts/Error
+                  '@type':
+                    type: string
+                    example: hydra:Error
+                  hydra:title:
+                    type: string
+                    example: NotFoundHttpException
+                  hydra:description:
+                    type: string
+                    example: Not Found
+                  hydra:request_id:
+                    type: string
+                    example: xzf6bgh6-8ba2-83jn-p5a1-e4ac0f74nf5g
+            application/json:
+              schema:
+                type: object
+                properties:
+                  '@context':
+                    type: string
+                    example: /contexts/Error
+                  '@type':
+                    type: string
+                    example: hydra:Error
+                  hydra:title:
+                    type: string
+                    example: NotFoundHttpException
+                  hydra:description:
+                    type: string
+                    example: Not Found
+                  hydra:request_id:
+                    type: string
+                    example: xzf6bgh6-8ba2-83jn-p5a1-e4ac0f74nf5g
+        '406':
+          description: Unsupported Media Type
+          content:
+            application/ld+json:
+              schema:
+                type: object
+                properties:
+                  '@context':
+                    type: string
+                    example: /contexts/Error
+                  '@type':
+                    type: string
+                    example: hydra:Error
+                  hydra:title:
+                    type: string
+                    example: UnsupportedMediaTypeHttpException
+                  hydra:description:
+                    type: string
+                    example:
+                      Unsupported Media Type:
+                        The provided content-type is not supported, Supported MIME types are:
+                          POST/PUT/DELETE: application/json, or application/ld+json
+                          PATCH: application/merge-patch+json
+                          GET: application/json, application/ld+json, or text/csv
+                  hydra:request_id:
+                    type: string
+                    example: xzf6bgh6-8ba2-83jn-p5a1-e4ac0f74nf5g
+            application/json:
+              schema:
+                type: object
+                properties:
+                  '@context':
+                    type: string
+                    example: /contexts/Error
+                  '@type':
+                    type: string
+                    example: hydra:Error
+                  hydra:title:
+                    type: string
+                    example: UnsupportedMediaTypeHttpException
+                  hydra:description:
+                    type: string
+                    example:
+                      Unsupported Media Type:
+                        The provided content-type is not supported, Supported MIME types are:
+                          POST/PUT/DELETE: application/json, or application/ld+json
+                          PATCH: application/merge-patch+json
+                          GET: application/json, application/ld+json, or text/csv
+                  hydra:request_id:
+                    type: string
+                    example: xzf6bgh6-8ba2-83jn-p5a1-e4ac0f74nf5g
+        '500':
+          description: Internal Server Error
+          content:
+            application/ld+json:
+              schema:
+                type: object
+                properties:
+                  '@context':
+                    type: string
+                    example: /contexts/Error
+                  '@type':
+                    type: string
+                    example: hydra:Error
+                  hydra:title:
+                    type: string
+                    example: InternalServerErrorException
+                  hydra:description:
+                    type: string
+                    example: Internal Server Error
+                  hydra:request_id:
+                    type: string
+                    example: xzf6bgh6-8ba2-83jn-p5a1-e4ac0f74nf5g
+            application/json:
+              schema:
+                type: object
+                properties:
+                  '@context':
+                    type: string
+                    example: /contexts/Error
+                  '@type':
+                    type: string
+                    example: hydra:Error
+                  hydra:title:
+                    type: string
+                    example: InternalServerErrorException
+                  hydra:description:
+                    type: string
+                    example: Internal Server Error
+                  hydra:request_id:
+                    type: string
+                    example: xzf6bgh6-8ba2-83jn-p5a1-e4ac0f74nf5g
+      summary: Retrieves the collection of InvestmentTypeReport resources
+      description: Retrieves the collection of InvestmentTypeReport resources.
+      parameters:
+      - name: source
+        in: query
+        description: This value should be 'Internal Funding' or 'Contributions'.
+        required: false
+        deprecated: false
+        allowEmptyValue: false
+        schema:
+          type: string
+          enum:
+          - Internal Funding
+          - Contributions
+        style: form
+        explode: false
+        allowReserved: false
+      - name: investmentType
+        in: query
+        description: The service investment type. Two digit string.
+        required: false
+        deprecated: false
+        allowEmptyValue: false
+        schema:
+          type: string
+          enum:
+          - '01'
+          - '02'
+          - '03'
+          - '04'
+          - '05'
+        style: form
+        explode: false
+        allowReserved: false
+      - name: currentUII
+        in: query
+        description: Current UII of the service
+        required: false
+        deprecated: false
+        allowEmptyValue: false
+        schema:
+          type: string
+        style: form
+        explode: false
+        allowReserved: false
+      - name: agency
+        in: query
+        description: Three digit agency code
+        required: false
+        deprecated: false
+        allowEmptyValue: false
+        schema:
+          type: string
+        style: form
+        explode: false
+        allowReserved: false
+      - name: agencyId
+        in: query
+        description: Agency ID submitted with the service
+        required: false
+        deprecated: false
+        allowEmptyValue: false
+        schema:
+          type: string
+        style: form
+        explode: false
+        allowReserved: false
+      - name: fundingSource
+        in: query
+        description: The fundingSource value in the ledger document
+        required: false
+        deprecated: false
+        allowEmptyValue: false
+        schema:
+          type: string
+        style: form
+        explode: false
+        allowReserved: false
+      - name: type
+        in: query
+        description: Select ledger type
+        required: false
+        deprecated: false
+        allowEmptyValue: false
+        schema:
+          type: string
+          enum:
+          - O&M
+          - DME
+        style: form
+        explode: false
+        allowReserved: false
+      - name: year
+        in: query
+        description: Select ledger year
+        required: false
+        deprecated: false
+        allowEmptyValue: false
+        schema:
+          type: string
+        style: form
+        explode: false
+        allowReserved: false
+      - name: missionSupportCategories
+        in: query
+        description: Mission Support Categories
+        required: false
+        deprecated: false
+        allowEmptyValue: false
+        schema:
+          type: string
+          enum:
+          - ''
+          - '01'
+          - '02'
+          - '03'
+          - '04'
+          - '05'
+          - '06'
+          - '07'
+          - 08
+          - 09
+        style: form
+        explode: false
+        allowReserved: false
+      - name: bureauCode
+        in: query
+        description: Two digit bureau code
+        required: false
+        deprecated: false
+        allowEmptyValue: false
+        schema:
+          type: string
+        style: form
+        explode: false
+        allowReserved: false
+      - name: changeInStatuses
+        in: query
+        description: Denotes change in status of an investment.
+        required: false
+        deprecated: false
+        allowEmptyValue: false
+        schema:
+          type: array
+          items:
+            type: integer
+        style: form
+        explode: false
+        allowReserved: false
+      deprecated: false
+components:
+  schemas:
+    InvestmentTypeReport.jsonld-read:
+      type: object
+      description: ''
+      additionalProperties: false
+      properties:
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string

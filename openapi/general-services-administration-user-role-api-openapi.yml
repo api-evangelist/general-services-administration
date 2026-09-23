@@ -1,0 +1,44 @@
+openapi: 3.2.0
+info:
+  version: 1.0.0
+  title: Umbrella Admin User Role API
+  description: The admin API is accessible via `/api-umbrella/v1`.
+security:
+- api_key: []
+- admin_auth_token: []
+tags:
+- name: User Role
+paths:
+  /api-umbrella/v1/user_roles:
+    get:
+      tags:
+      - User Role
+      summary: Get a list of all user roles available
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                title: Response
+                type: object
+                properties:
+                  user_roles:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+      operationId: getApiUmbrellaV1UserRoles
+      x-operation-id-source: derived
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      in: header
+      name: X-Api-Key
+    admin_auth_token:
+      type: apiKey
+      in: header
+      name: X-Admin-Auth-Token

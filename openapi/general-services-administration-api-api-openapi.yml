@@ -1,0 +1,487 @@
+openapi: 3.2.0
+info:
+  version: 1.0.0
+  title: Umbrella Admin API
+  description: The admin API is accessible via `/api-umbrella/v1`.
+security:
+- api_key: []
+- admin_auth_token: []
+tags:
+- name: api
+paths:
+  /api-umbrella/v1/apis:
+    get:
+      tags:
+      - api
+      summary: Get a list of all API backends
+      description: 'Get a listing of all API backend records the currently authenticated admin user has permissions to.
+
+
+        This API''s query parameters and responses are intended to be compatible with the DataTables server-side processing API.'
+      parameters:
+      - $ref: '#/components/parameters/datatables-start'
+      - $ref: '#/components/parameters/datatables-length'
+      - $ref: '#/components/parameters/datatables-search-value'
+      - $ref: '#/components/parameters/datatables-order-column'
+      - $ref: '#/components/parameters/datatables-order-dir'
+      - $ref: '#/components/parameters/datatables-columns-data'
+      - $ref: '#/components/parameters/datatables-columns-name'
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                title: Response
+                type: object
+                properties:
+                  draw:
+                    type: integer
+                  recordsTotal:
+                    type: integer
+                  recordsFiltered:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Api'
+      operationId: getApiUmbrellaV1Apis
+      x-operation-id-source: derived
+    post:
+      tags:
+      - api
+      summary: Create a new API backend
+      responses:
+        201:
+          description: Successfully created record
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: Request
+              type: object
+              properties:
+                api:
+                  $ref: '#/components/schemas/Api'
+        description: API backend object to create
+        required: true
+      operationId: postApiUmbrellaV1Apis
+      x-operation-id-source: derived
+  /api-umbrella/v1/apis/{id}:
+    parameters:
+    - name: id
+      in: path
+      description: UUID of the API backend
+      required: true
+      schema:
+        type: string
+        format: uuid
+    get:
+      tags:
+      - api
+      summary: Get the API backend
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                title: Response
+                type: object
+                properties:
+                  admin:
+                    type: object
+                    $ref: '#/components/schemas/Api'
+      operationId: getApiUmbrellaV1ApisById
+      x-operation-id-source: derived
+    put:
+      tags:
+      - api
+      summary: Update the API backend
+      responses:
+        204:
+          description: Successfully updated record
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: Request
+              type: object
+              properties:
+                admin_group:
+                  $ref: '#/components/schemas/Api'
+        description: API backend object to update
+        required: true
+      operationId: putApiUmbrellaV1ApisById
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - api
+      summary: Delete the API backend
+      responses:
+        204:
+          description: Successfully deleted record
+      operationId: deleteApiUmbrellaV1ApisById
+      x-operation-id-source: derived
+components:
+  schemas:
+    ApiSettingsRateLimit:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        duration:
+          type: integer
+        accuracy:
+          type: integer
+        limit_by:
+          type: string
+          enum:
+          - ip
+          - apiKey
+        distributed:
+          type: boolean
+        response_headers:
+          type: boolean
+    AdminUpdater:
+      type: object
+      readOnly: true
+      properties:
+        username:
+          type: string
+          format: email
+          readOnly: true
+          description: E-mail address of the admin that last updated the record
+    CreatedAt:
+      type: string
+      format: date-time
+      readOnly: true
+      description: The time the record was created (ISO 8601 format)
+    Api:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+        sort_order:
+          type: integer
+        backend_protocol:
+          type: string
+          enum:
+          - http
+          - https
+        frontend_host:
+          type: string
+        backend_host:
+          type: string
+        servers:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiServer'
+        url_matches:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiUrlMatch'
+        balance_algorithm:
+          type: string
+          enum:
+          - least_conn
+          - round_robin
+          - ip_hash
+        settings:
+          $ref: '#/components/schemas/ApiSettings'
+        sub_settings:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiSubSettings'
+        rewrites:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiRewrite'
+        created_at:
+          $ref: '#/components/schemas/CreatedAt'
+        creator:
+          $ref: '#/components/schemas/AdminCreator'
+        updated_at:
+          $ref: '#/components/schemas/UpdatedAt'
+        updater:
+          $ref: '#/components/schemas/AdminUpdater'
+      required:
+      - name
+      - backend_protocol
+      - frontend_host
+      - backend_host
+      - servers
+      - url_matches
+      - balance_algorithm
+    UpdatedAt:
+      type: string
+      format: date-time
+      readOnly: true
+      description: The time the record was last updated (ISO 8601 format)
+    ApiSettingsHeader:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        key:
+          type: string
+        value:
+          type: string
+    ApiSubSettings:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        http_method:
+          type: string
+          enum:
+          - any
+          - GET
+          - POST
+          - PUT
+          - DELETE
+          - HEAD
+          - TRACE
+          - OPTIONS
+          - CONNECT
+          - PATCH
+        regex:
+          type: string
+        settings:
+          $ref: '#/components/schemas/ApiSettings'
+    ApiSettings:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        append_query_string:
+          type: string
+          description: Append query string parameters
+        headers:
+          description: Set request headers
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiSettingsHeader'
+        headers_string:
+          type: string
+          description: Set the `headers` via a new-line separated list
+        default_response_headers:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiSettingsHeader'
+        default_response_headers_string:
+          type: string
+        override_response_headers:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiSettingsHeader'
+        override_response_headers_string:
+          type: string
+        http_basic_auth:
+          type: string
+          description: HTTP basic authentication
+        require_https:
+          type: string
+          enum:
+          - required_return_error
+          - required_return_redirect
+          - transition_return_error
+          - transition_return_redirect optional
+          description: HTTPS requirements
+        require_https_transition_start_at:
+          type: string
+          format: date-time
+        disable_api_key:
+          type: boolean
+        api_key_verification_level:
+          type: string
+          enum:
+          - none
+          - transition_email
+          - required_email
+        api_key_verification_transition_start_at:
+          type: string
+          format: date-time
+        required_roles:
+          type: array
+          items:
+            type: string
+        required_roles_override:
+          type: boolean
+        allowed_ips:
+          type: array
+          items:
+            type: string
+        allowed_referers:
+          type: array
+          items:
+            type: string
+        rate_limit_mode:
+          type: string
+          enum:
+          - unlimited
+          - custom
+        rate_limits:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiSettingsRateLimit'
+        anonymous_rate_limit_behavior:
+          type: string
+          enum:
+          - ip_fallback
+          - ip_only
+        authenticated_rate_limit_behavior:
+          type: string
+          enum:
+          - all
+          - api_key_only
+        pass_api_key_header:
+          type: boolean
+        pass_api_key_query_param:
+          type: boolean
+        error_templates:
+          type: object
+        error_data:
+          type: object
+        error_data_yaml_strings:
+          type: object
+    ApiUrlMatch:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        frontend_prefix:
+          type: string
+        backend_prefix:
+          type: string
+      required:
+      - frontend_prefix
+      - backend_prefix
+    AdminCreator:
+      type: object
+      readOnly: true
+      properties:
+        username:
+          type: string
+          format: email
+          readOnly: true
+          description: E-mail address of the admin that created the record
+    ApiRewrite:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        matcher_type:
+          type: string
+          enum:
+          - route
+          - regex
+        http_method:
+          type: string
+          enum:
+          - any
+          - GET
+          - POST
+          - PUT
+          - DELETE
+          - HEAD
+          - TRACE
+          - OPTIONS
+          - CONNECT
+          - PATCH
+        frontend_matcher:
+          type: string
+        backend_replacement:
+          type: string
+    ApiServer:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        host:
+          type: string
+        port:
+          type: integer
+      required:
+      - host
+      - port
+  parameters:
+    datatables-order-dir:
+      name: order[i][dir]
+      in: query
+      description: Size of array
+      required: false
+      schema:
+        type: string
+        enum:
+        - asc
+        - desc
+    datatables-search-value:
+      name: search[value]
+      in: query
+      description: Perform a text search across all records for this string
+      required: false
+      schema:
+        type: string
+    datatables-length:
+      name: length
+      in: query
+      description: Limit the number of records returned for pagination
+      required: false
+      schema:
+        type: integer
+    datatables-order-column:
+      name: order[i][column]
+      in: query
+      description: Size of array
+      required: false
+      schema:
+        type: integer
+    datatables-columns-data:
+      name: columns[i][data]
+      in: query
+      description: The database field name of the column displayed at index `i`
+      required: false
+      schema:
+        type: string
+    datatables-start:
+      name: start
+      in: query
+      description: Offset for pagination (0 based - 0 is the first record)
+      required: false
+      schema:
+        type: integer
+    datatables-columns-name:
+      name: columns[i][name]
+      in: query
+      description: The human-readable name of the column displayed at index `i`
+      required: false
+      schema:
+        type: string
+  securitySchemes:
+    api_key:
+      type: apiKey
+      in: header
+      name: X-Api-Key
+    admin_auth_token:
+      type: apiKey
+      in: header
+      name: X-Admin-Auth-Token
