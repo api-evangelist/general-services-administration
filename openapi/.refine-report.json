@@ -29,11 +29,11 @@
     "general-services-administration-agencies-api-openapi.yml",
     "general-services-administration-domain-api-openapi.yml",
     "general-services-administration-reports-api-openapi.yml",
+    "general-services-administration-api-umbrella-api-openapi.yml",
     "general-services-administration-admin-api-openapi.yml",
     "general-services-administration-admin-group-api-openapi.yml",
     "general-services-administration-admin-permission-api-openapi.yml",
     "general-services-administration-analytics-api-openapi.yml",
-    "general-services-administration-api-api-openapi.yml",
     "general-services-administration-api-scope-api-openapi.yml",
     "general-services-administration-config-api-openapi.yml",
     "general-services-administration-contact-api-openapi.yml",
@@ -105,7 +105,7 @@
     "general-services-administration-forms-api-openapi.yml"
   ],
   "archived": [
-    "deleted 1 superseded output(s) from the previous generation"
+    "deleted 2 superseded output(s) from the previous generation"
   ],
   "errors": [],
   "warnings": [],
@@ -126,11 +126,16 @@
     "general-services-administration-analytics-dap-openapi.yaml: declared missing tag: Domain",
     "general-services-administration-analytics-dap-openapi.yaml: declared missing tag: Reports",
     "general-services-administration-apidatagov-admin-openapi.yaml: upgraded swagger 2.0 -> OpenAPI 3.2.0",
+    "general-services-administration-apidatagov-admin-openapi.yaml: tagged paths GET /api-umbrella/v1/apis -> Api Umbrella",
+    "general-services-administration-apidatagov-admin-openapi.yaml: tagged paths POST /api-umbrella/v1/apis -> Api Umbrella",
+    "general-services-administration-apidatagov-admin-openapi.yaml: tagged paths GET /api-umbrella/v1/apis/{id} -> Api Umbrella",
+    "general-services-administration-apidatagov-admin-openapi.yaml: tagged paths PUT /api-umbrella/v1/apis/{id} -> Api Umbrella",
+    "general-services-administration-apidatagov-admin-openapi.yaml: tagged paths DELETE /api-umbrella/v1/apis/{id} -> Api Umbrella",
+    "general-services-administration-apidatagov-admin-openapi.yaml: declared missing tag: Api Umbrella",
     "general-services-administration-apidatagov-admin-openapi.yaml: declared missing tag: admin",
     "general-services-administration-apidatagov-admin-openapi.yaml: declared missing tag: admin_group",
     "general-services-administration-apidatagov-admin-openapi.yaml: declared missing tag: admin_permission",
     "general-services-administration-apidatagov-admin-openapi.yaml: declared missing tag: analytics",
-    "general-services-administration-apidatagov-admin-openapi.yaml: declared missing tag: api",
     "general-services-administration-apidatagov-admin-openapi.yaml: declared missing tag: api_scope",
     "general-services-administration-apidatagov-admin-openapi.yaml: declared missing tag: config",
     "general-services-administration-apidatagov-admin-openapi.yaml: declared missing tag: contact",
@@ -200,8 +205,8 @@
     "tag 'analytics' spans 2 source specs (general-services-administration-apidatagov-admin-openapi.yaml, general-services-administration-apidatagov-metrics-openapi.yaml): per-path servers applied",
     "tag 'Services' spans 2 source specs (general-services-administration-it-collect-openapi.json, general-services-administration-touchpoints-openapi.yaml): per-path servers applied",
     "tag 'search' spans 2 source specs (general-services-administration-searchgov-clicks-openapi.yaml, general-services-administration-searchgov-results-openapi.yaml): per-path servers applied",
-    "superseded outputs removed: general-services-administration-funding-sources-api-openapi.yml",
-    "apis.yml register: written (+1 apis, 89 total)"
+    "superseded outputs removed: general-services-administration-api-api-openapi.yml, general-services-administration-funding-sources-api-openapi.yml",
+    "apis.yml register: written (+2 apis, 89 total)"
   ],
   "skipped": [
     "_original/general-services-administration-assistance-subaward-reporting-openapi.yaml: archived document superseded by a larger archived document",

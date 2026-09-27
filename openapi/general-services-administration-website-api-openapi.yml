@@ -204,6 +204,30 @@ components:
       - itemsPerPage
       - totalPages
       - currentPage
+    Links:
+      type: object
+      properties:
+        first:
+          type: string
+          description: '`first` is a link to the first page of results.'
+          example: /websites/?page=1&limit=1
+        previous:
+          type: string
+          description: '`previous` is a link to the previous page of results. On the first page of results this will be an empty string `""`.'
+          example: /websites/?page=1&limit=1
+        next:
+          type: string
+          description: '`next` is a link to the next page of results. On the last page of results this will be an empty string `""`.'
+          example: /websites/?page=3&limit=1
+        last:
+          type: string
+          description: '`last` is a link to the last page of results.'
+          example: /websites/?page=1000&limit=1
+      required:
+      - first
+      - previous
+      - next
+      - last
     WebsiteApiResultDto:
       type: object
       properties:
@@ -619,30 +643,6 @@ components:
     Object:
       type: object
       properties: {}
-    Links:
-      type: object
-      properties:
-        first:
-          type: string
-          description: '`first` is a link to the first page of results.'
-          example: /websites/?page=1&limit=1
-        previous:
-          type: string
-          description: '`previous` is a link to the previous page of results. On the first page of results this will be an empty string `""`.'
-          example: /websites/?page=1&limit=1
-        next:
-          type: string
-          description: '`next` is a link to the next page of results. On the last page of results this will be an empty string `""`.'
-          example: /websites/?page=3&limit=1
-        last:
-          type: string
-          description: '`last` is a link to the last page of results.'
-          example: /websites/?page=1000&limit=1
-      required:
-      - first
-      - previous
-      - next
-      - last
     PaginatedWebsiteResponseDto:
       type: object
       properties:

@@ -411,6 +411,515 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    PaginationLinks:
+      type: object
+      required:
+      - self
+      - first
+      - last
+      properties:
+        self:
+          type: string
+          format: uri
+          description: URL of the current page.
+        first:
+          type: string
+          format: uri
+          description: URL of the first page.
+        prev:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: URL of the previous page. Null on the first page.
+        next:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: URL of the next page. Null on the last page.
+        last:
+          type: string
+          format: uri
+          description: URL of the last page.
+    DeprecatedPaginationLinks:
+      type: object
+      deprecated: true
+      description: An older style of pagination links, whose implementation was buggy.
+      required:
+      - first
+      - last
+      properties:
+        first:
+          type: string
+          format: uri
+          description: URL of the first page.
+        prev:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: URL of the previous page. Absent or null on the first page.
+        next:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: URL of the next page. Absent or null on the last page.
+        last:
+          type: string
+          format: uri
+          description: URL of the last page.
+    LogoVariant:
+      type: object
+      required:
+      - url
+      properties:
+        url:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: URL for this logo size variant. Null if no logo has been uploaded.
+    FormAttributes:
+      type: object
+      required:
+      - name
+      - title
+      - kind
+      - aasm_state
+      - delivery_method
+      - uuid
+      - short_uuid
+      - organization_id
+      - user_id
+      - audience
+      - header_logo_display
+      - success_text_heading
+      - success_text
+      - modal_button_text
+      - early_submission
+      - template
+      - load_css
+      - survey_form_activations
+      - response_count
+      - logo
+      - time_zone
+      - tag_list
+      - created_at
+      - updated_at
+      properties:
+        name:
+          type: string
+          description: Internal name of the form.
+        title:
+          type: string
+          description: Public-facing title displayed to respondents.
+        instructions:
+          type:
+          - string
+          - 'null'
+          description: HTML instructions displayed above the form. May be empty string or null.
+        disclaimer_text:
+          type:
+          - string
+          - 'null'
+          description: HTML disclaimer text displayed on the form. May be empty string or null.
+        kind:
+          type: string
+          enum:
+          - a11_v2
+          - custom
+          - open_ended
+          description: Form template type.
+        notes:
+          type:
+          - string
+          - 'null'
+          description: Internal notes about the form. May be empty string or null.
+        status:
+          type:
+          - string
+          - 'null'
+          description: Optional status label. Null if not set.
+        created_at:
+          type: string
+          format: date-time
+          description: ISO 8601 timestamp when the form was created.
+        updated_at:
+          type: string
+          format: date-time
+          description: ISO 8601 timestamp when the form was last updated.
+        whitelist_url:
+          type: string
+          description: Primary URL allowed to embed this form. May be empty string.
+        whitelist_url_1:
+          type:
+          - string
+          - 'null'
+          description: Additional allowed embed URL slot 1. Null or empty string if unused.
+        whitelist_url_2:
+          type:
+          - string
+          - 'null'
+          description: Additional allowed embed URL slot 2. Null or empty string if unused.
+        whitelist_url_3:
+          type:
+          - string
+          - 'null'
+          description: Additional allowed embed URL slot 3. Null or empty string if unused.
+        whitelist_url_4:
+          type:
+          - string
+          - 'null'
+          description: Additional allowed embed URL slot 4. Null or empty string if unused.
+        whitelist_url_5:
+          type:
+          - string
+          - 'null'
+          description: Additional allowed embed URL slot 5. Null or empty string if unused.
+        whitelist_url_6:
+          type:
+          - string
+          - 'null'
+          description: Additional allowed embed URL slot 6. Null or empty string if unused.
+        whitelist_url_7:
+          type:
+          - string
+          - 'null'
+          description: Additional allowed embed URL slot 7. Null or empty string if unused.
+        whitelist_url_8:
+          type:
+          - string
+          - 'null'
+          description: Additional allowed embed URL slot 8. Null or empty string if unused.
+        whitelist_url_9:
+          type:
+          - string
+          - 'null'
+          description: Additional allowed embed URL slot 9. Null or empty string if unused.
+        whitelist_test_url:
+          type: string
+          description: Test URL allowed to embed this form. May be empty string.
+        header_logo_display:
+          type: string
+          enum:
+          - banner
+          - square
+          description: Display style for the header logo.
+        success_text_heading:
+          type: string
+          description: Heading shown on the success confirmation screen.
+        success_text:
+          type: string
+          description: HTML body text shown on the success confirmation screen.
+        modal_button_text:
+          type: string
+          description: Label text for the button that opens the form modal.
+        early_submission:
+          type: boolean
+          description: Whether the form supports early/partial submission.
+        template:
+          type: boolean
+          description: Whether this form is a reusable template.
+        uuid:
+          type: string
+          format: uuid
+          description: Full UUID identifier for the form.
+        short_uuid:
+          type: string
+          description: First 8 characters of the UUID, used in short URLs.
+        organization_id:
+          type: integer
+          description: ID of the organization that owns the form.
+        audience:
+          type: string
+          enum:
+          - public
+          description: Intended audience for the form.
+        omb_approval_number:
+          type: string
+          description: OMB PRA approval number. May be empty string if not yet approved.
+        expiration_date:
+          type:
+          - string
+          - 'null'
+          format: date
+          description: ISO 8601 date on which the form or OMB approval expires.
+        medium:
+          type:
+          - string
+          - 'null'
+          description: Distribution medium for the form. May be empty string or null.
+        federal_register_url:
+          type:
+          - string
+          - 'null'
+          description: URL of the Federal Register notice for this form. May be empty string or null.
+        anticipated_delivery_count:
+          type:
+          - integer
+          - 'null'
+          description: Estimated number of responses expected. Null if not specified.
+        service_name:
+          type:
+          - string
+          - 'null'
+          description: Name of the associated service. May be empty string or null.
+        data_submission_comment:
+          type:
+          - string
+          - 'null'
+          description: Comment added at data submission time. Null if not provided.
+        survey_instrument_reference:
+          type:
+          - string
+          - 'null'
+          description: Reference to the original survey instrument. May be empty string or null.
+        agency_poc_email:
+          type:
+          - string
+          - 'null'
+          description: Email address of the agency point of contact. May be empty string or null.
+        agency_poc_name:
+          type:
+          - string
+          - 'null'
+          description: Name of the agency point of contact. May be empty string or null.
+        department:
+          type:
+          - string
+          - 'null'
+          description: Department associated with the form. May be empty string or null.
+        bureau:
+          type:
+          - string
+          - 'null'
+          description: Bureau associated with the form. May be empty string or null.
+        notification_emails:
+          type:
+          - string
+          - 'null'
+          description: Comma-separated list of email addresses to notify on submission. May be empty string or null.
+        start_date:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: ISO 8601 datetime when the form becomes active. Null if always active.
+        end_date:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: ISO 8601 datetime when the form closes. Null if no end date.
+        aasm_state:
+          type: string
+          enum:
+          - archived
+          - created
+          - published
+          description: Current workflow state of the form.
+        delivery_method:
+          type: string
+          enum:
+          - inline
+          - modal
+          - touchpoints-hosted-only
+          description: How the form is delivered to respondents.
+        element_selector:
+          type:
+          - string
+          - 'null'
+          description: CSS selector or element ID used to attach the form. May be empty string.
+        survey_form_activations:
+          type: integer
+          description: Number of times the form has been activated or displayed.
+        load_css:
+          type: boolean
+          description: Whether the form loads its own CSS stylesheet.
+        logo:
+          $ref: '#/components/schemas/Logo'
+        time_zone:
+          type: string
+          description: Time zone used for form timestamps (Rails time zone name).
+        response_count:
+          type: integer
+          description: Total number of responses submitted to this form.
+        last_response_created_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: ISO 8601 timestamp of the most recent submission. Null if no responses yet.
+        tag_list:
+          type: array
+          description: List of tag labels applied to this form.
+          items:
+            type: string
+    FormResource:
+      type: object
+      description: A survey form
+      required:
+      - id
+      - type
+      - attributes
+      - relationships
+      properties:
+        id:
+          type: string
+          description: Numeric identifier of the form (string-encoded).
+        type:
+          type: string
+          enum:
+          - forms
+        attributes:
+          $ref: '#/components/schemas/FormAttributes'
+        relationships:
+          $ref: '#/components/schemas/FormRelationships'
+    Logo:
+      type: object
+      required:
+      - url
+      - thumb
+      - card
+      - tag
+      - logo_square
+      properties:
+        url:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: Full-size logo image URL.
+        thumb:
+          $ref: '#/components/schemas/LogoVariant'
+          description: Thumbnail-sized logo variant.
+        card:
+          $ref: '#/components/schemas/LogoVariant'
+          description: Card-sized logo variant.
+        tag:
+          $ref: '#/components/schemas/LogoVariant'
+          description: Tag-sized logo variant.
+        logo_square:
+          $ref: '#/components/schemas/LogoVariant'
+          description: Square-cropped logo variant.
+    SubmissionResource:
+      type: object
+      description: A submitted response to a form, representing a single respondent's answers to the survey questions.
+      required:
+      - id
+      - type
+      - attributes
+      properties:
+        id:
+          type: string
+          description: Numeric identifier of the submission (string-encoded).
+        type:
+          type: string
+          enum:
+          - submissions
+        attributes:
+          $ref: '#/components/schemas/SubmissionAttributes'
+    FormQuestion:
+      type: object
+      required:
+      - id
+      - form_id
+      - text
+      - question_type
+      - answer_field
+      - position
+      - form_section_id
+      - created_at
+      - updated_at
+      properties:
+        id:
+          type: integer
+          description: Numeric identifier of the question.
+        form_id:
+          type: integer
+          description: ID of the form this question belongs to.
+        text:
+          type: string
+          description: Question text displayed to the respondent. May contain HTML. May be empty string.
+        question_type:
+          type: string
+          enum:
+          - big_thumbs_up_down_buttons
+          - checkbox
+          - combobox
+          - custom_text_display
+          - date_select
+          - dropdown
+          - radio_buttons
+          - rich_textarea
+          - states_dropdown
+          - text_display
+          - text_email_field
+          - text_field
+          - text_phone_field
+          - textarea
+          - yes_no_buttons
+          description: The UI control type used to render and capture this question's answer.
+        answer_field:
+          type: string
+          pattern: ^answer_[0-9]{2}$
+          description: Slot identifier for storing this question's response (e.g. 'answer_01').
+        position:
+          type: integer
+          description: Display order of the question within its form section.
+        is_required:
+          type:
+          - boolean
+          - 'null'
+          description: Whether a response to this question is required for form submission. Null if not explicitly set.
+        form_section_id:
+          type: integer
+          description: ID of the form section this question belongs to.
+        character_limit:
+          type:
+          - integer
+          - 'null'
+          description: Maximum number of characters allowed in the response. Null if no limit.
+        placeholder_text:
+          type:
+          - string
+          - 'null'
+          description: Placeholder text shown inside the input. May be empty string or null.
+        help_text:
+          type:
+          - string
+          - 'null'
+          description: Additional guidance shown alongside the question. May be empty string or null.
+        created_at:
+          type: string
+          format: date-time
+          description: ISO 8601 timestamp when the question was created.
+        updated_at:
+          type: string
+          format: date-time
+          description: ISO 8601 timestamp when the question was last updated.
+    PaginationMeta:
+      type: object
+      required:
+      - current_page
+      - page_size
+      - total_pages
+      - total_count
+      properties:
+        current_page:
+          type: integer
+          description: The current page number (1-indexed).
+        page_size:
+          type: integer
+          description: Number of records requested per page.
+        total_pages:
+          type: integer
+          description: Total number of pages available.
+        total_count:
+          type: integer
+          description: Total number of records across all pages.
     FormRelationships:
       type: object
       required:
@@ -719,515 +1228,6 @@ components:
         tags:
           type: array
           description: Tags applied to this submission.
-          items:
-            type: string
-    PaginationMeta:
-      type: object
-      required:
-      - current_page
-      - page_size
-      - total_pages
-      - total_count
-      properties:
-        current_page:
-          type: integer
-          description: The current page number (1-indexed).
-        page_size:
-          type: integer
-          description: Number of records requested per page.
-        total_pages:
-          type: integer
-          description: Total number of pages available.
-        total_count:
-          type: integer
-          description: Total number of records across all pages.
-    PaginationLinks:
-      type: object
-      required:
-      - self
-      - first
-      - last
-      properties:
-        self:
-          type: string
-          format: uri
-          description: URL of the current page.
-        first:
-          type: string
-          format: uri
-          description: URL of the first page.
-        prev:
-          type:
-          - string
-          - 'null'
-          format: uri
-          description: URL of the previous page. Null on the first page.
-        next:
-          type:
-          - string
-          - 'null'
-          format: uri
-          description: URL of the next page. Null on the last page.
-        last:
-          type: string
-          format: uri
-          description: URL of the last page.
-    FormResource:
-      type: object
-      description: A survey form
-      required:
-      - id
-      - type
-      - attributes
-      - relationships
-      properties:
-        id:
-          type: string
-          description: Numeric identifier of the form (string-encoded).
-        type:
-          type: string
-          enum:
-          - forms
-        attributes:
-          $ref: '#/components/schemas/FormAttributes'
-        relationships:
-          $ref: '#/components/schemas/FormRelationships'
-    Logo:
-      type: object
-      required:
-      - url
-      - thumb
-      - card
-      - tag
-      - logo_square
-      properties:
-        url:
-          type:
-          - string
-          - 'null'
-          format: uri
-          description: Full-size logo image URL.
-        thumb:
-          $ref: '#/components/schemas/LogoVariant'
-          description: Thumbnail-sized logo variant.
-        card:
-          $ref: '#/components/schemas/LogoVariant'
-          description: Card-sized logo variant.
-        tag:
-          $ref: '#/components/schemas/LogoVariant'
-          description: Tag-sized logo variant.
-        logo_square:
-          $ref: '#/components/schemas/LogoVariant'
-          description: Square-cropped logo variant.
-    LogoVariant:
-      type: object
-      required:
-      - url
-      properties:
-        url:
-          type:
-          - string
-          - 'null'
-          format: uri
-          description: URL for this logo size variant. Null if no logo has been uploaded.
-    SubmissionResource:
-      type: object
-      description: A submitted response to a form, representing a single respondent's answers to the survey questions.
-      required:
-      - id
-      - type
-      - attributes
-      properties:
-        id:
-          type: string
-          description: Numeric identifier of the submission (string-encoded).
-        type:
-          type: string
-          enum:
-          - submissions
-        attributes:
-          $ref: '#/components/schemas/SubmissionAttributes'
-    DeprecatedPaginationLinks:
-      type: object
-      deprecated: true
-      description: An older style of pagination links, whose implementation was buggy.
-      required:
-      - first
-      - last
-      properties:
-        first:
-          type: string
-          format: uri
-          description: URL of the first page.
-        prev:
-          type:
-          - string
-          - 'null'
-          format: uri
-          description: URL of the previous page. Absent or null on the first page.
-        next:
-          type:
-          - string
-          - 'null'
-          format: uri
-          description: URL of the next page. Absent or null on the last page.
-        last:
-          type: string
-          format: uri
-          description: URL of the last page.
-    FormQuestion:
-      type: object
-      required:
-      - id
-      - form_id
-      - text
-      - question_type
-      - answer_field
-      - position
-      - form_section_id
-      - created_at
-      - updated_at
-      properties:
-        id:
-          type: integer
-          description: Numeric identifier of the question.
-        form_id:
-          type: integer
-          description: ID of the form this question belongs to.
-        text:
-          type: string
-          description: Question text displayed to the respondent. May contain HTML. May be empty string.
-        question_type:
-          type: string
-          enum:
-          - big_thumbs_up_down_buttons
-          - checkbox
-          - combobox
-          - custom_text_display
-          - date_select
-          - dropdown
-          - radio_buttons
-          - rich_textarea
-          - states_dropdown
-          - text_display
-          - text_email_field
-          - text_field
-          - text_phone_field
-          - textarea
-          - yes_no_buttons
-          description: The UI control type used to render and capture this question's answer.
-        answer_field:
-          type: string
-          pattern: ^answer_[0-9]{2}$
-          description: Slot identifier for storing this question's response (e.g. 'answer_01').
-        position:
-          type: integer
-          description: Display order of the question within its form section.
-        is_required:
-          type:
-          - boolean
-          - 'null'
-          description: Whether a response to this question is required for form submission. Null if not explicitly set.
-        form_section_id:
-          type: integer
-          description: ID of the form section this question belongs to.
-        character_limit:
-          type:
-          - integer
-          - 'null'
-          description: Maximum number of characters allowed in the response. Null if no limit.
-        placeholder_text:
-          type:
-          - string
-          - 'null'
-          description: Placeholder text shown inside the input. May be empty string or null.
-        help_text:
-          type:
-          - string
-          - 'null'
-          description: Additional guidance shown alongside the question. May be empty string or null.
-        created_at:
-          type: string
-          format: date-time
-          description: ISO 8601 timestamp when the question was created.
-        updated_at:
-          type: string
-          format: date-time
-          description: ISO 8601 timestamp when the question was last updated.
-    FormAttributes:
-      type: object
-      required:
-      - name
-      - title
-      - kind
-      - aasm_state
-      - delivery_method
-      - uuid
-      - short_uuid
-      - organization_id
-      - user_id
-      - audience
-      - header_logo_display
-      - success_text_heading
-      - success_text
-      - modal_button_text
-      - early_submission
-      - template
-      - load_css
-      - survey_form_activations
-      - response_count
-      - logo
-      - time_zone
-      - tag_list
-      - created_at
-      - updated_at
-      properties:
-        name:
-          type: string
-          description: Internal name of the form.
-        title:
-          type: string
-          description: Public-facing title displayed to respondents.
-        instructions:
-          type:
-          - string
-          - 'null'
-          description: HTML instructions displayed above the form. May be empty string or null.
-        disclaimer_text:
-          type:
-          - string
-          - 'null'
-          description: HTML disclaimer text displayed on the form. May be empty string or null.
-        kind:
-          type: string
-          enum:
-          - a11_v2
-          - custom
-          - open_ended
-          description: Form template type.
-        notes:
-          type:
-          - string
-          - 'null'
-          description: Internal notes about the form. May be empty string or null.
-        status:
-          type:
-          - string
-          - 'null'
-          description: Optional status label. Null if not set.
-        created_at:
-          type: string
-          format: date-time
-          description: ISO 8601 timestamp when the form was created.
-        updated_at:
-          type: string
-          format: date-time
-          description: ISO 8601 timestamp when the form was last updated.
-        whitelist_url:
-          type: string
-          description: Primary URL allowed to embed this form. May be empty string.
-        whitelist_url_1:
-          type:
-          - string
-          - 'null'
-          description: Additional allowed embed URL slot 1. Null or empty string if unused.
-        whitelist_url_2:
-          type:
-          - string
-          - 'null'
-          description: Additional allowed embed URL slot 2. Null or empty string if unused.
-        whitelist_url_3:
-          type:
-          - string
-          - 'null'
-          description: Additional allowed embed URL slot 3. Null or empty string if unused.
-        whitelist_url_4:
-          type:
-          - string
-          - 'null'
-          description: Additional allowed embed URL slot 4. Null or empty string if unused.
-        whitelist_url_5:
-          type:
-          - string
-          - 'null'
-          description: Additional allowed embed URL slot 5. Null or empty string if unused.
-        whitelist_url_6:
-          type:
-          - string
-          - 'null'
-          description: Additional allowed embed URL slot 6. Null or empty string if unused.
-        whitelist_url_7:
-          type:
-          - string
-          - 'null'
-          description: Additional allowed embed URL slot 7. Null or empty string if unused.
-        whitelist_url_8:
-          type:
-          - string
-          - 'null'
-          description: Additional allowed embed URL slot 8. Null or empty string if unused.
-        whitelist_url_9:
-          type:
-          - string
-          - 'null'
-          description: Additional allowed embed URL slot 9. Null or empty string if unused.
-        whitelist_test_url:
-          type: string
-          description: Test URL allowed to embed this form. May be empty string.
-        header_logo_display:
-          type: string
-          enum:
-          - banner
-          - square
-          description: Display style for the header logo.
-        success_text_heading:
-          type: string
-          description: Heading shown on the success confirmation screen.
-        success_text:
-          type: string
-          description: HTML body text shown on the success confirmation screen.
-        modal_button_text:
-          type: string
-          description: Label text for the button that opens the form modal.
-        early_submission:
-          type: boolean
-          description: Whether the form supports early/partial submission.
-        template:
-          type: boolean
-          description: Whether this form is a reusable template.
-        uuid:
-          type: string
-          format: uuid
-          description: Full UUID identifier for the form.
-        short_uuid:
-          type: string
-          description: First 8 characters of the UUID, used in short URLs.
-        organization_id:
-          type: integer
-          description: ID of the organization that owns the form.
-        audience:
-          type: string
-          enum:
-          - public
-          description: Intended audience for the form.
-        omb_approval_number:
-          type: string
-          description: OMB PRA approval number. May be empty string if not yet approved.
-        expiration_date:
-          type:
-          - string
-          - 'null'
-          format: date
-          description: ISO 8601 date on which the form or OMB approval expires.
-        medium:
-          type:
-          - string
-          - 'null'
-          description: Distribution medium for the form. May be empty string or null.
-        federal_register_url:
-          type:
-          - string
-          - 'null'
-          description: URL of the Federal Register notice for this form. May be empty string or null.
-        anticipated_delivery_count:
-          type:
-          - integer
-          - 'null'
-          description: Estimated number of responses expected. Null if not specified.
-        service_name:
-          type:
-          - string
-          - 'null'
-          description: Name of the associated service. May be empty string or null.
-        data_submission_comment:
-          type:
-          - string
-          - 'null'
-          description: Comment added at data submission time. Null if not provided.
-        survey_instrument_reference:
-          type:
-          - string
-          - 'null'
-          description: Reference to the original survey instrument. May be empty string or null.
-        agency_poc_email:
-          type:
-          - string
-          - 'null'
-          description: Email address of the agency point of contact. May be empty string or null.
-        agency_poc_name:
-          type:
-          - string
-          - 'null'
-          description: Name of the agency point of contact. May be empty string or null.
-        department:
-          type:
-          - string
-          - 'null'
-          description: Department associated with the form. May be empty string or null.
-        bureau:
-          type:
-          - string
-          - 'null'
-          description: Bureau associated with the form. May be empty string or null.
-        notification_emails:
-          type:
-          - string
-          - 'null'
-          description: Comma-separated list of email addresses to notify on submission. May be empty string or null.
-        start_date:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          description: ISO 8601 datetime when the form becomes active. Null if always active.
-        end_date:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          description: ISO 8601 datetime when the form closes. Null if no end date.
-        aasm_state:
-          type: string
-          enum:
-          - archived
-          - created
-          - published
-          description: Current workflow state of the form.
-        delivery_method:
-          type: string
-          enum:
-          - inline
-          - modal
-          - touchpoints-hosted-only
-          description: How the form is delivered to respondents.
-        element_selector:
-          type:
-          - string
-          - 'null'
-          description: CSS selector or element ID used to attach the form. May be empty string.
-        survey_form_activations:
-          type: integer
-          description: Number of times the form has been activated or displayed.
-        load_css:
-          type: boolean
-          description: Whether the form loads its own CSS stylesheet.
-        logo:
-          $ref: '#/components/schemas/Logo'
-        time_zone:
-          type: string
-          description: Time zone used for form timestamps (Rails time zone name).
-        response_count:
-          type: integer
-          description: Total number of responses submitted to this form.
-        last_response_created_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          description: ISO 8601 timestamp of the most recent submission. Null if no responses yet.
-        tag_list:
-          type: array
-          description: List of tag labels applied to this form.
           items:
             type: string
   securitySchemes:

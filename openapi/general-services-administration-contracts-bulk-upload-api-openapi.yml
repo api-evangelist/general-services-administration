@@ -492,113 +492,6 @@ paths:
                   $ref: '#/components/schemas/SubawardsAPIResponseDto'
 components:
   schemas:
-    UpdateContractRequestObjectDto:
-      type: object
-      properties:
-        contractData:
-          $ref: '#/components/schemas/UpdateContractContractData'
-    Country:
-      type: object
-      properties:
-        code:
-          type: string
-        name:
-          type: string
-    RecoveryModelQuestions:
-      type: object
-      properties:
-        code:
-          type: string
-        isSelected:
-          type: string
-          enum:
-          - 'true'
-          - 'false'
-          - ''
-    SubawardData:
-      type: object
-      properties:
-        subawardReportNumber:
-          type: string
-        submittedDate:
-          type: string
-        entityStatus:
-          type: string
-        subawardUEI:
-          type: string
-        subawardNumber:
-          type: string
-        subawardAmount:
-          type: string
-        subawardDate:
-          type: string
-        subawardDescription:
-          type: string
-        placeOfPerformance:
-          $ref: '#/components/schemas/Address'
-        recoveryModelQuestions:
-          type: array
-          items:
-            $ref: '#/components/schemas/RecoveryModelQuestions'
-        topPayEmployees:
-          type: array
-          items:
-            $ref: '#/components/schemas/TopPayEmployees'
-    CreateContractContractData:
-      type: object
-      properties:
-        contractNumber:
-          type: string
-        reportingAgencyCode:
-          type: string
-        idvReferenceNumber:
-          type: string
-        referenceAgencyCode:
-          type: string
-        programTitle:
-          type: string
-        reportStatus:
-          type: string
-        subawardDataList:
-          type: array
-          items:
-            $ref: '#/components/schemas/SubawardData'
-    TopPayEmployees:
-      type: object
-      properties:
-        full_name:
-          type: string
-        salary:
-          type: string
-    SubawardsAPIResponseDto:
-      type: object
-      properties:
-        id:
-          type: string
-        statusCode:
-          type: string
-        transactionId:
-          type: string
-        timeStamp:
-          type: string
-        subawardReportNumber:
-          type: string
-        reportStatus:
-          type: string
-        message:
-          type: object
-        errors:
-          uniqueItems: true
-          type: array
-          items:
-            type: string
-    StateOrProvince:
-      type: object
-      properties:
-        code:
-          type: string
-        name:
-          type: string
     UpdateContractContractData:
       type: object
       properties:
@@ -642,3 +535,110 @@ components:
           type: string
         zip:
           type: string
+    StateOrProvince:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+    TopPayEmployees:
+      type: object
+      properties:
+        full_name:
+          type: string
+        salary:
+          type: string
+    CreateContractContractData:
+      type: object
+      properties:
+        contractNumber:
+          type: string
+        reportingAgencyCode:
+          type: string
+        idvReferenceNumber:
+          type: string
+        referenceAgencyCode:
+          type: string
+        programTitle:
+          type: string
+        reportStatus:
+          type: string
+        subawardDataList:
+          type: array
+          items:
+            $ref: '#/components/schemas/SubawardData'
+    RecoveryModelQuestions:
+      type: object
+      properties:
+        code:
+          type: string
+        isSelected:
+          type: string
+          enum:
+          - 'true'
+          - 'false'
+          - ''
+    Country:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+    UpdateContractRequestObjectDto:
+      type: object
+      properties:
+        contractData:
+          $ref: '#/components/schemas/UpdateContractContractData'
+    SubawardData:
+      type: object
+      properties:
+        subawardReportNumber:
+          type: string
+        submittedDate:
+          type: string
+        entityStatus:
+          type: string
+        subawardUEI:
+          type: string
+        subawardNumber:
+          type: string
+        subawardAmount:
+          type: string
+        subawardDate:
+          type: string
+        subawardDescription:
+          type: string
+        placeOfPerformance:
+          $ref: '#/components/schemas/Address'
+        recoveryModelQuestions:
+          type: array
+          items:
+            $ref: '#/components/schemas/RecoveryModelQuestions'
+        topPayEmployees:
+          type: array
+          items:
+            $ref: '#/components/schemas/TopPayEmployees'
+    SubawardsAPIResponseDto:
+      type: object
+      properties:
+        id:
+          type: string
+        statusCode:
+          type: string
+        transactionId:
+          type: string
+        timeStamp:
+          type: string
+        subawardReportNumber:
+          type: string
+        reportStatus:
+          type: string
+        message:
+          type: object
+        errors:
+          uniqueItems: true
+          type: array
+          items:
+            type: string

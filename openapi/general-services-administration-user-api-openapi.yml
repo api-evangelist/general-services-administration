@@ -124,12 +124,79 @@ paths:
       operationId: deleteApiUmbrellaV1UsersById
       x-operation-id-source: derived
 components:
+  parameters:
+    datatables-columns-name:
+      name: columns[i][name]
+      in: query
+      description: The human-readable name of the column displayed at index `i`
+      required: false
+      schema:
+        type: string
+    datatables-length:
+      name: length
+      in: query
+      description: Limit the number of records returned for pagination
+      required: false
+      schema:
+        type: integer
+    datatables-columns-data:
+      name: columns[i][data]
+      in: query
+      description: The database field name of the column displayed at index `i`
+      required: false
+      schema:
+        type: string
+    datatables-order-dir:
+      name: order[i][dir]
+      in: query
+      description: Size of array
+      required: false
+      schema:
+        type: string
+        enum:
+        - asc
+        - desc
+    datatables-order-column:
+      name: order[i][column]
+      in: query
+      description: Size of array
+      required: false
+      schema:
+        type: integer
+    datatables-start:
+      name: start
+      in: query
+      description: Offset for pagination (0 based - 0 is the first record)
+      required: false
+      schema:
+        type: integer
+    datatables-search-value:
+      name: search[value]
+      in: query
+      description: Perform a text search across all records for this string
+      required: false
+      schema:
+        type: string
   schemas:
+    CreatedAt:
+      type: string
+      format: date-time
+      readOnly: true
+      description: The time the record was created (ISO 8601 format)
     UpdatedAt:
       type: string
       format: date-time
       readOnly: true
       description: The time the record was last updated (ISO 8601 format)
+    AdminUpdater:
+      type: object
+      readOnly: true
+      properties:
+        username:
+          type: string
+          format: email
+          readOnly: true
+          description: E-mail address of the admin that last updated the record
     AdminCreator:
       type: object
       readOnly: true
@@ -139,11 +206,6 @@ components:
           format: email
           readOnly: true
           description: E-mail address of the admin that created the record
-    CreatedAt:
-      type: string
-      format: date-time
-      readOnly: true
-      description: The time the record was created (ISO 8601 format)
     User:
       type: object
       properties:
@@ -197,68 +259,6 @@ components:
           $ref: '#/components/schemas/UpdatedAt'
         updater:
           $ref: '#/components/schemas/AdminUpdater'
-    AdminUpdater:
-      type: object
-      readOnly: true
-      properties:
-        username:
-          type: string
-          format: email
-          readOnly: true
-          description: E-mail address of the admin that last updated the record
-  parameters:
-    datatables-length:
-      name: length
-      in: query
-      description: Limit the number of records returned for pagination
-      required: false
-      schema:
-        type: integer
-    datatables-columns-name:
-      name: columns[i][name]
-      in: query
-      description: The human-readable name of the column displayed at index `i`
-      required: false
-      schema:
-        type: string
-    datatables-order-dir:
-      name: order[i][dir]
-      in: query
-      description: Size of array
-      required: false
-      schema:
-        type: string
-        enum:
-        - asc
-        - desc
-    datatables-start:
-      name: start
-      in: query
-      description: Offset for pagination (0 based - 0 is the first record)
-      required: false
-      schema:
-        type: integer
-    datatables-search-value:
-      name: search[value]
-      in: query
-      description: Perform a text search across all records for this string
-      required: false
-      schema:
-        type: string
-    datatables-order-column:
-      name: order[i][column]
-      in: query
-      description: Size of array
-      required: false
-      schema:
-        type: integer
-    datatables-columns-data:
-      name: columns[i][data]
-      in: query
-      description: The database field name of the column displayed at index `i`
-      required: false
-      schema:
-        type: string
   securitySchemes:
     api_key:
       type: apiKey

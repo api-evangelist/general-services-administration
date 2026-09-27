@@ -180,20 +180,12 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    Error:
+    SelfLink:
+      description: Link to self
       type: object
       properties:
-        status:
-          type: integer
-        title:
-          type: string
-        detail:
-          type: string
-    Link:
-      description: A string containing the link URL.
-      type: string
-      format: uri-reference
-      uniqueItems: true
+        self:
+          $ref: '#/components/schemas/Link'
     JSONError:
       description: A JSON:API document
       type: object
@@ -203,12 +195,20 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Error'
-    SelfLink:
-      description: Link to self
+    Link:
+      description: A string containing the link URL.
+      type: string
+      format: uri-reference
+      uniqueItems: true
+    Error:
       type: object
       properties:
-        self:
-          $ref: '#/components/schemas/Link'
+        status:
+          type: integer
+        title:
+          type: string
+        detail:
+          type: string
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

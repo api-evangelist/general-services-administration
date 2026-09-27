@@ -590,7 +590,7 @@ paths:
       deprecated: false
 components:
   schemas:
-    Projects-read_readItem_readItemSubRes:
+    Projects-read:
       type: object
       description: ''
       properties:
@@ -798,7 +798,7 @@ components:
           format: string
           example: 018
           description: The agency code of the user who created the record
-    Projects-read:
+    Projects-read_readItem_readItemSubRes:
       type: object
       description: ''
       properties:

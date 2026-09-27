@@ -576,7 +576,7 @@ paths:
       deprecated: false
 components:
   schemas:
-    MetricActual-readItem_readItemSubRes:
+    MetricActual-read:
       type: object
       description: ''
       additionalProperties: false
@@ -631,7 +631,7 @@ components:
           description: A list of associated rebaseLine IDs
           items:
             type: string
-    MetricActual-read:
+    MetricActual-readItem_readItemSubRes:
       type: object
       description: ''
       additionalProperties: false

@@ -148,6 +148,149 @@ paths:
                 type: object
 components:
   schemas:
+    ExtentCompetedForReferencedIdv:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+    LaborStandards:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+    PurchaseCardAsPaymentMethod:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+    ExtentCompeted:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+    StatutoryExceptionToFairOpportunity:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+    NationalInterestAction:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+    IdvContractingOfficerBusinessSizeDetermination:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+    FederalOrganization:
+      type: object
+      properties:
+        contractingInformation:
+          $ref: '#/components/schemas/ContractingInformation'
+        fundingInformation:
+          $ref: '#/components/schemas/FundingInformation'
+    PreferenceProgramsInformation:
+      type: object
+      properties:
+        priceEvaluationPercentDifference:
+          type: string
+        contractingOfficerBusinessSizeDetermination:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContractingOfficerBusinessSizeDetermination'
+        idvContractingOfficerBusinessSizeDetermination:
+          $ref: '#/components/schemas/IdvContractingOfficerBusinessSizeDetermination'
+        contractingOfficerBusinessSizeDeterminationSource:
+          $ref: '#/components/schemas/ContractingOfficerBusinessSizeDeterminationSource'
+        subcontractPlan:
+          $ref: '#/components/schemas/SubcontractPlan'
+        reasonNotAwardedToSmallDisadvantagedBusiness:
+          $ref: '#/components/schemas/ReasonNotAwardedToSmallDisadvantagedBusiness'
+        reasonNotAwardedToSmallBusiness:
+          $ref: '#/components/schemas/ReasonNotAwardedToSmallBusiness'
+    ExportLoggingInfo:
+      type: object
+      properties:
+        api_key:
+          type: string
+        fileName:
+          type: string
+        id:
+          type: integer
+          format: int64
+        userId:
+          type: string
+        domain:
+          type: string
+        downloadType:
+          type: integer
+          format: int32
+        format:
+          type: string
+        searchType:
+          type: string
+        searchCriteria:
+          type: string
+        createDate:
+          type: string
+          format: date-time
+        expireDate:
+          type: string
+          format: date-time
+        status:
+          type: string
+        fileLocationS3:
+          type: string
+        lastDownloadDate:
+          type: string
+          format: date-time
+        lastUpdatedDate:
+          type: string
+          format: date-time
+        token:
+          type: string
+        count:
+          type: integer
+          format: int64
+        searchURL:
+          type: string
+        sensitivityLevel:
+          type: string
+        message:
+          type: string
+        expired:
+          type: boolean
+        deleted:
+          type: boolean
+    ReferencedIDVType:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+    UndefinitizedAction:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
     ContractingInformation:
       type: object
       properties:
@@ -157,32 +300,246 @@ components:
           $ref: '#/components/schemas/ContractingSubtier'
         contractingOffice:
           $ref: '#/components/schemas/ContractingOffice'
-    AcquisitionData:
+    ReasonNotAwardedToSmallDisadvantagedBusiness:
       type: object
       properties:
-        typeOfContractPricing:
-          $ref: '#/components/schemas/TypeOfContractPricing'
-        multiyearContract:
+        code:
           type: string
-        majorProgramCode:
+        name:
           type: string
-        programAcronym:
+    ContractAdministrationsDelegated:
+      type: object
+      properties:
+        code:
           type: string
-        nationalInterestAction:
-          $ref: '#/components/schemas/NationalInterestAction'
-        performanceBasedServiceContract:
-          $ref: '#/components/schemas/PerformanceBasedServiceContract'
-        consolidatedContract:
-          $ref: '#/components/schemas/ConsolidatedContract'
-        typeOfIdc:
-          $ref: '#/components/schemas/TypeOfIdc'
-        multipleOrSingleAwardIdc:
-          $ref: '#/components/schemas/MultipleOrSingleAwardIdc'
-        reasonForInterAgencyContracting:
-          $ref: '#/components/schemas/ReasonForInterAgencyContracting'
-        contractFinancing:
-          $ref: '#/components/schemas/ContractFinancing'
-    CommercialItemTestProgram:
+        name:
+          type: string
+    ClingerCohenAct:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+    IdvNAICS:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+    ContractData:
+      type: object
+      properties:
+        part8OrPart13:
+          type: string
+        costOrPricingData:
+          $ref: '#/components/schemas/CostOrPricingData'
+        purchaseCardAsPaymentMethod:
+          $ref: '#/components/schemas/PurchaseCardAsPaymentMethod'
+        undefinitizedAction:
+          $ref: '#/components/schemas/UndefinitizedAction'
+        costAccountingStandardsClause:
+          $ref: '#/components/schemas/CostAccountingStandardsClause'
+        natureOfServices:
+          $ref: '#/components/schemas/NatureOfServices'
+        emergencyAcquisition:
+          $ref: '#/components/schemas/EmergencyAcquisition'
+        numberOfActions:
+          type: string
+        referencedIDVPart8OrPart13:
+          type: string
+        referencedIDVType:
+          $ref: '#/components/schemas/ReferencedIDVType'
+        referencedIDVMultipleOrSingle:
+          $ref: '#/components/schemas/ReferencedIDVMultipleOrSingle'
+    OrganizationFactors:
+      type: object
+      properties:
+        subchapterSCorporation:
+          type: string
+        limitedLiabilityCorporation:
+          type: string
+        foreignOwned:
+          type: string
+        theAbilityOneProgram:
+          type: string
+        profitStructure:
+          $ref: '#/components/schemas/ProfitStructure'
+        organizationType:
+          type: string
+        stateOfIncorporation:
+          type: string
+        countryOfIncorporation:
+          type: string
+    PerformanceBasedServiceContract:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+    AlternativeAdvertising:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+    Subtier:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+    NasaSpecificData:
+      type: object
+      properties:
+        offerorsProposalNumber:
+          type: string
+        prNumber:
+          type: string
+        accessionNumber:
+          type: string
+        installationUnique:
+          type: string
+        administrativeCo:
+          type: string
+        contractingOfficerCode:
+          type: string
+        buyerCode:
+          type: string
+        organizationCode:
+          type: string
+        cotrName:
+          type: string
+        alternateCOTRName:
+          type: string
+        fundedThroughDate:
+          type: string
+        contractFundCode:
+          type: string
+        managementReportingRequirements:
+          type: string
+        accountingInstallation:
+          type: string
+        fieldOfScienceOrEngineering:
+          type: string
+        contractAdministrationsDelegated:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContractAdministrationsDelegated'
+        cfdaProgramIdentificationNumber:
+          $ref: '#/components/schemas/CfdaProgramIdentificationNumber'
+        principalInvestigatOrFirstName:
+          type: string
+        principalInvestigatOrMiddleInitial:
+          type: string
+        principalInvestigatOrLastName:
+          type: string
+        alternatePrincipalInvestigatorFirstName:
+          type: string
+        alternatePrincipalInvestigatOrMiddleInitial:
+          type: string
+        alternatePrincipalInvestigatOrLastName:
+          type: string
+        closeoutPR:
+          type: string
+        advisoryAssistanceServicesContract:
+          type: string
+        supportServicesTypeContract:
+          type: string
+        newTechnologyOrPatentClause:
+          type: string
+        propertyFinancialReporting:
+          type: string
+        valueEngineeringClause:
+          type: string
+        securityCode:
+          type: string
+        isPhysicallyComplete:
+          type: string
+        physicalCompletionDate:
+          type: string
+        finalInvoicePaidDate:
+          type: string
+        solicitationIssueDate:
+          type: string
+        cancellationDate:
+          type: string
+        destroyDate:
+          type: string
+        nonFederalFundingAmount:
+          type: string
+        nasaStatutoryAuthority:
+          type: string
+    Certifications:
+      type: object
+      properties:
+        sbaCertified8aProgramParticipant:
+          type: string
+        sbaCertified8aJointVenture:
+          type: string
+        selfCertifiedHubZoneJointVenture:
+          type: string
+        sbaCertifiedSmallDisadvantagedBusiness:
+          type: string
+        sbaCertifiedHubZoneFirm:
+          type: string
+        sbaCertifiedEconomicallyDisadvantagedWomenOwnedSmallBusiness:
+          type: string
+        selfCertifiedSmallDisadvantagedBusiness:
+          type: string
+        dotCertifiedDisadvantagedBusinessEnterprise:
+          type: string
+        sbaCertifiedWomenOwnedSmallBusiness:
+          type: string
+    ReferencingDosOrBpaCallsSummary:
+      type: object
+      properties:
+        baseCount:
+          type: string
+        totalCount:
+          type: string
+        totalDollars:
+          type: string
+    NumberOfOffersSource:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+    AwardOrIDVType:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+    EvaluatedPreference:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+    County:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+    SynopsisWaiverException:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+    FundingOffice:
       type: object
       properties:
         code:
@@ -216,39 +573,14 @@ components:
           type: string
         1994LandGrantCollege:
           type: string
-    OtherThanFullAndOpenCompetition:
+    CommercialProductsAndServicesAcquisitionProcedures:
       type: object
       properties:
         code:
           type: string
         name:
           type: string
-    PiidAggregation:
-      type: object
-      properties:
-        awardFamilySummary:
-          $ref: '#/components/schemas/AwardFamilySummary'
-        referencingDosOrBpaCallsSummary:
-          $ref: '#/components/schemas/ReferencingDosOrBpaCallsSummary'
-        bpaSummary:
-          $ref: '#/components/schemas/BpaSummary'
-        bpaCallSummary:
-          $ref: '#/components/schemas/BpaCallSummary'
     ReferencedIDVMultipleOrSingle:
-      type: object
-      properties:
-        code:
-          type: string
-        name:
-          type: string
-    TypeOfIdc:
-      type: object
-      properties:
-        code:
-          type: string
-        name:
-          type: string
-    FundingOffice:
       type: object
       properties:
         code:
@@ -274,14 +606,147 @@ components:
           type: string
         township:
           type: string
-    City:
+    InteragencyContractingAuthority:
       type: object
       properties:
         code:
           type: string
         name:
           type: string
-    ContractingSubtier:
+    ContractingOffice:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+    RelationshipWithFederalGovernment:
+      type: object
+      properties:
+        contracts:
+          type: string
+        federalassistanceawards:
+          type: string
+        allawards:
+          type: string
+    SmallBusinessCompetitivenessDemonstrationProgram:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+    AcquisitionData:
+      type: object
+      properties:
+        typeOfContractPricing:
+          $ref: '#/components/schemas/TypeOfContractPricing'
+        multiyearContract:
+          type: string
+        majorProgramCode:
+          type: string
+        programAcronym:
+          type: string
+        nationalInterestAction:
+          $ref: '#/components/schemas/NationalInterestAction'
+        performanceBasedServiceContract:
+          $ref: '#/components/schemas/PerformanceBasedServiceContract'
+        consolidatedContract:
+          $ref: '#/components/schemas/ConsolidatedContract'
+        typeOfIdc:
+          $ref: '#/components/schemas/TypeOfIdc'
+        multipleOrSingleAwardIdc:
+          $ref: '#/components/schemas/MultipleOrSingleAwardIdc'
+        reasonForInterAgencyContracting:
+          $ref: '#/components/schemas/ReasonForInterAgencyContracting'
+        contractFinancing:
+          $ref: '#/components/schemas/ContractFinancing'
+    IsMinorityOwnedBusiness:
+      type: object
+      properties:
+        minorityOwnedBusiness:
+          type: string
+        asianPacificAmericanOwned:
+          type: string
+        blackAmericanOwned:
+          type: string
+        hispanicAmericanOwned:
+          type: string
+        nativeAmericanOwned:
+          type: string
+        subcontinentAsianAsianIndianAmericanOwned:
+          type: string
+        individualOrConcernOtherThanOneOfThePreceding:
+          type: string
+    Initiative:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+    AdditionalReporting:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+    TypeOfSetAsideSource:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+    ConstructionWageRateRequirements:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+    EmergencyAcquisition:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+    ReferencedIDVSubtier:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+    CommercialItemTestProgram:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+    ContractId:
+      type: object
+      properties:
+        subtier:
+          $ref: '#/components/schemas/Subtier'
+        piid:
+          type: string
+        modificationNumber:
+          type: string
+        transactionNumber:
+          type: string
+        referencedIDVSubtier:
+          $ref: '#/components/schemas/ReferencedIDVSubtier'
+        referencedIDVPiid:
+          type: string
+        referencedIDVModificationNumber:
+          type: string
+        reasonForModification:
+          $ref: '#/components/schemas/ReasonForModification'
+    TypeOfFeeForUseOfService:
       type: object
       properties:
         code:
@@ -325,79 +790,86 @@ components:
           $ref: '#/components/schemas/DomesticOrForeignEntity'
         seaTransportation:
           $ref: '#/components/schemas/SeaTransportation'
-    GfeGfp:
+    LineOfBusiness:
+      type: object
+      properties:
+        communityDevelopmentCorporation:
+          type: string
+        domesticShelter:
+          type: string
+        educationalInstitution:
+          type: string
+        foundation:
+          type: string
+        hospital:
+          type: string
+        manufacturerOfGoods:
+          type: string
+        veterinaryHospital:
+          type: string
+        hispanicServicingInstitution:
+          type: string
+    FundingDepartment:
       type: object
       properties:
         code:
           type: string
         name:
           type: string
-    EmergencyAcquisition:
+    BpaSummary:
+      type: object
+      properties:
+        baseCount:
+          type: string
+        totalCount:
+          type: string
+        totalDollars:
+          type: string
+    Country:
       type: object
       properties:
         code:
           type: string
         name:
           type: string
-    IsUsFederalGovernment:
+    TransactionData:
       type: object
       properties:
-        usFederalGovernment:
+        status:
           type: string
-        federalAgency:
+        version:
           type: string
-        federallyFundedResearchAndDevelopmentCorp:
+        createdBy:
           type: string
-    AdditionalReporting:
-      type: object
-      properties:
-        code:
+        createdDate:
           type: string
-        name:
+        lastModifiedBy:
           type: string
-    ConsolidatedContract:
-      type: object
-      properties:
-        code:
+        lastModifiedDate:
           type: string
-        name:
+        approvedBy:
           type: string
-    NumberOfOffersSource:
-      type: object
-      properties:
-        code:
+        approvedDate:
           type: string
-        name:
+        closedBy:
           type: string
-    AlternativeAdvertising:
+        closedDate:
+          type: string
+        closedStatus:
+          type: string
+    RecoveredMaterialClauses:
       type: object
       properties:
         code:
           type: string
         name:
           type: string
-    EvaluatedPreference:
+    OtherThanFullAndOpenCompetition:
       type: object
       properties:
         code:
           type: string
         name:
-          type: string
-    UseOfEpaDesignatedProducts:
-      type: object
-      properties:
-        code:
-          type: string
-        name:
-          type: string
-    ContractingOfficerBusinessSizeDetermination:
-      type: object
-      properties:
-        code:
-          type: string
-        name:
-          type: string
-        id:
           type: string
     AcquisitionMarketingData:
       type: object
@@ -406,69 +878,25 @@ components:
           $ref: '#/components/schemas/WhoCanUse'
         emailAddress:
           type: string
-    Subtier:
+    MaterialsSuppliesArticlesEquipment:
       type: object
       properties:
         code:
           type: string
         name:
           type: string
-    MultipleOrSingleAwardIdc:
+    ReasonForModification:
       type: object
       properties:
         code:
           type: string
         name:
           type: string
-    IdvContractingOfficerBusinessSizeDetermination:
+    ProductOrService:
       type: object
       properties:
-        code:
+        type:
           type: string
-        name:
-          type: string
-    ContractFinancing:
-      type: object
-      properties:
-        code:
-          type: string
-        name:
-          type: string
-    StatutoryExceptionToFairOpportunity:
-      type: object
-      properties:
-        code:
-          type: string
-        name:
-          type: string
-    AwardeeRegistrationDetails:
-      type: object
-      properties:
-        registrationDate:
-          type: string
-        renewalDate:
-          type: string
-        divisionName:
-          type: string
-        divisionNumberOrOfficeCode:
-          type: string
-    ContractOpportunitiesNotice:
-      type: object
-      properties:
-        code:
-          type: string
-        name:
-          type: string
-    CfdaProgramIdentificationNumber:
-      type: object
-      properties:
-        code:
-          type: string
-        name:
-          type: string
-    TypeOfFeeForUseOfService:
-      type: object
-      properties:
         code:
           type: string
         name:
@@ -510,51 +938,166 @@ components:
           type: string
         VerySmallBusiness:
           type: string
-    SolicitationProcedures:
+    AwardeeData:
+      type: object
+      properties:
+        far41102Exception:
+          $ref: '#/components/schemas/Far41102Exception'
+        awardeeHeader:
+          $ref: '#/components/schemas/AwardeeHeader'
+        awardeeUEIInformation:
+          $ref: '#/components/schemas/AwardeeUEIInformation'
+        awardeeLocation:
+          $ref: '#/components/schemas/AwardeeLocation'
+        awardeeAlternateSiteCode:
+          type: string
+        awardeeRegistrationDetails:
+          $ref: '#/components/schemas/AwardeeRegistrationDetails'
+        awardeeBusinessTypes:
+          $ref: '#/components/schemas/AwardeeBusinessTypes'
+        socioEconomicData:
+          $ref: '#/components/schemas/SocioEconomicData'
+        lineOfBusiness:
+          $ref: '#/components/schemas/LineOfBusiness'
+        relationshipWithFederalGovernment:
+          $ref: '#/components/schemas/RelationshipWithFederalGovernment'
+        otherGovernmentalEntities:
+          $ref: '#/components/schemas/OtherGovernmentalEntities'
+        organizationFactors:
+          $ref: '#/components/schemas/OrganizationFactors'
+        educationalEntities:
+          $ref: '#/components/schemas/EducationalEntities'
+        certifications:
+          $ref: '#/components/schemas/Certifications'
+        consortia:
+          $ref: '#/components/schemas/Consortia'
+    AwardeeRegistrationDetails:
+      type: object
+      properties:
+        registrationDate:
+          type: string
+        renewalDate:
+          type: string
+        divisionName:
+          type: string
+        divisionNumberOrOfficeCode:
+          type: string
+    ContractingOfficerBusinessSizeDeterminationSource:
       type: object
       properties:
         code:
           type: string
         name:
           type: string
-    ContractingOffice:
+    ContractingDepartment:
       type: object
       properties:
         code:
           type: string
         name:
           type: string
-    CoreData:
+    ForeignFunding:
       type: object
       properties:
-        coreVersionId:
+        code:
           type: string
-        solicitationId:
+        name:
           type: string
-        solicitationDate:
+    A76Action:
+      type: object
+      properties:
+        code:
           type: string
-        awardOrIDV:
+        name:
           type: string
-        awardOrIDVType:
-          $ref: '#/components/schemas/AwardOrIDVType'
-        initiative:
-          $ref: '#/components/schemas/Initiative'
-        federalOrganization:
-          $ref: '#/components/schemas/FederalOrganization'
-        acquisitionData:
-          $ref: '#/components/schemas/AcquisitionData'
-        legislativeMandates:
-          $ref: '#/components/schemas/LegislativeMandates'
-        principalPlaceOfPerformance:
-          $ref: '#/components/schemas/PrincipalPlaceOfPerformance'
-        productOrServiceInformation:
-          $ref: '#/components/schemas/ProductOrServiceInformation'
-        competitionInformation:
-          $ref: '#/components/schemas/CompetitionInformation'
-        acquisitionMarketingData:
-          $ref: '#/components/schemas/AcquisitionMarketingData'
-        preferenceProgramsInformation:
-          $ref: '#/components/schemas/PreferenceProgramsInformation'
+    Dollars:
+      type: object
+      properties:
+        actionObligation:
+          type: string
+        baseDollarsObligated:
+          type: string
+        baseAndExercisedOptionsValue:
+          type: string
+        baseAndAllOptionsValue:
+          type: string
+        feePaidForUseOfService:
+          type: string
+        totalEstimatedOrderValue:
+          type: string
+        nonGovernmentDollars:
+          type: string
+    AwardeeHeader:
+      type: object
+      properties:
+        awardeeName:
+          type: string
+        awardeeAlternateName:
+          type: string
+        legalBusinessName:
+          type: string
+        awardeeNameFromContract:
+          type: string
+        awardeeDoingBusinessAsName:
+          type: string
+        awardeeEnabled:
+          type: string
+    City:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+    SourceSelectionProcess:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+    WhoCanUse:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+    TotalContractDollars:
+      type: object
+      properties:
+        totalActionObligation:
+          type: string
+        totalBaseAndExercisedOptionsValue:
+          type: string
+        totalBaseAndAllOptionsValue:
+          type: string
+        totalNonGovernmentDollars:
+          type: string
+    OldContractId:
+      type: object
+      properties:
+        subtier:
+          $ref: '#/components/schemas/Subtier'
+        piid:
+          type: string
+        modificationNumber:
+          type: string
+        transactionNumber:
+          type: string
+        referencedIDVSubtier:
+          $ref: '#/components/schemas/ReferencedIDVSubtier'
+        referencedIDVPiid:
+          type: string
+        referencedIDVModificationNumber:
+          type: string
+    PrincipalNaic:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
     CompetitionInformation:
       type: object
       properties:
@@ -608,106 +1151,57 @@ components:
           $ref: '#/components/schemas/AlternativeAdvertising'
         synopsisWaiverException:
           $ref: '#/components/schemas/SynopsisWaiverException'
-    ProfitStructure:
-      type: object
-      properties:
-        forProfitOrganization:
-          type: string
-        nonProfitOrganization:
-          type: string
-        otherNotForProfitOrganization:
-          type: string
-    Consortia:
-      type: object
-      properties:
-        memberFlag:
-          type: string
-        uei:
-          type: string
-        legalBusinessName:
-          type: string
-        cageCode:
-          type: string
-        streetAddress:
-          type: string
-        streetAddress2:
-          type: string
-        city:
-          $ref: '#/components/schemas/City'
-        county:
-          $ref: '#/components/schemas/County'
-        state:
-          $ref: '#/components/schemas/State'
-        zipCode:
-          type: string
-        congressionalDistrict:
-          type: string
-        country:
-          $ref: '#/components/schemas/Country'
-    ContractingOfficerBusinessSizeDeterminationSource:
+    SubcontractPlan:
       type: object
       properties:
         code:
           type: string
         name:
           type: string
-    MaterialsSuppliesArticlesEquipment:
+    ConsolidatedContract:
       type: object
       properties:
         code:
           type: string
         name:
           type: string
-    PrincipalNaic:
+    SbirSTTR:
       type: object
       properties:
         code:
           type: string
         name:
           type: string
-    UndefinitizedAction:
+    PiidAggregation:
+      type: object
+      properties:
+        awardFamilySummary:
+          $ref: '#/components/schemas/AwardFamilySummary'
+        referencingDosOrBpaCallsSummary:
+          $ref: '#/components/schemas/ReferencingDosOrBpaCallsSummary'
+        bpaSummary:
+          $ref: '#/components/schemas/BpaSummary'
+        bpaCallSummary:
+          $ref: '#/components/schemas/BpaCallSummary'
+    ContractBundling:
       type: object
       properties:
         code:
           type: string
         name:
           type: string
-    NationalInterestAction:
+    CostOrPricingData:
       type: object
       properties:
         code:
           type: string
         name:
           type: string
-    PrincipalPlaceOfPerformance:
+        id:
+          type: string
+    TypeOfContractPricing:
       type: object
       properties:
-        city:
-          $ref: '#/components/schemas/City'
-        county:
-          $ref: '#/components/schemas/County'
-        state:
-          $ref: '#/components/schemas/State'
-        zipCode:
-          type: string
-        congressionalDistrict:
-          type: string
-        country:
-          $ref: '#/components/schemas/Country'
-    ReferencingDosOrBpaCallsSummary:
-      type: object
-      properties:
-        baseCount:
-          type: string
-        totalCount:
-          type: string
-        totalDollars:
-          type: string
-    ProductOrService:
-      type: object
-      properties:
-        type:
-          type: string
         code:
           type: string
         name:
@@ -953,194 +1447,24 @@ components:
           type: string
         typeOfContractPricingCode:
           type: string
-    SynopsisWaiverException:
+    AwardeeUEIInformation:
       type: object
       properties:
-        code:
+        uniqueEntityId:
           type: string
-        name:
+        cageCode:
           type: string
-    OrganizationFactors:
-      type: object
-      properties:
-        subchapterSCorporation:
+        awardeeImmediateParentUEI:
           type: string
-        limitedLiabilityCorporation:
+        awardeeImmediateParentName:
           type: string
-        foreignOwned:
+        awardeeDomesticParentUEI:
           type: string
-        theAbilityOneProgram:
+        awardeeDomesticParentName:
           type: string
-        profitStructure:
-          $ref: '#/components/schemas/ProfitStructure'
-        organizationType:
+        awardeeUltimateParentUniqueEntityId:
           type: string
-        stateOfIncorporation:
-          type: string
-        countryOfIncorporation:
-          type: string
-    OldContractId:
-      type: object
-      properties:
-        subtier:
-          $ref: '#/components/schemas/Subtier'
-        piid:
-          type: string
-        modificationNumber:
-          type: string
-        transactionNumber:
-          type: string
-        referencedIDVSubtier:
-          $ref: '#/components/schemas/ReferencedIDVSubtier'
-        referencedIDVPiid:
-          type: string
-        referencedIDVModificationNumber:
-          type: string
-    CommercialProductsAndServicesAcquisitionProcedures:
-      type: object
-      properties:
-        code:
-          type: string
-        name:
-          type: string
-    CountryOfOrigin:
-      type: object
-      properties:
-        code:
-          type: string
-        name:
-          type: string
-    TreasuryAccount:
-      type: object
-      properties:
-        agencyIdentifier:
-          type: string
-        mainAccountCode:
-          type: string
-        subAccountCode:
-          type: string
-        subLevelPrefixCode:
-          type: string
-        allocationTransferAgencyIdentifier:
-          type: string
-        beginningPeriodOfAvailability:
-          type: string
-        endingPeriodOfAvailability:
-          type: string
-        obligatedAmountTAS:
-          type: string
-        availabilityType:
-          $ref: '#/components/schemas/AvailabilityType'
-    ExtentCompetedForReferencedIdv:
-      type: object
-      properties:
-        code:
-          type: string
-        name:
-          type: string
-    Initiative:
-      type: object
-      properties:
-        code:
-          type: string
-        name:
-          type: string
-    A76Action:
-      type: object
-      properties:
-        code:
-          type: string
-        name:
-          type: string
-    IdvNAICS:
-      type: object
-      properties:
-        code:
-          type: string
-        name:
-          type: string
-    DodClaimantProgram:
-      type: object
-      properties:
-        code:
-          type: string
-        name:
-          type: string
-    AwardeeData:
-      type: object
-      properties:
-        far41102Exception:
-          $ref: '#/components/schemas/Far41102Exception'
-        awardeeHeader:
-          $ref: '#/components/schemas/AwardeeHeader'
-        awardeeUEIInformation:
-          $ref: '#/components/schemas/AwardeeUEIInformation'
-        awardeeLocation:
-          $ref: '#/components/schemas/AwardeeLocation'
-        awardeeAlternateSiteCode:
-          type: string
-        awardeeRegistrationDetails:
-          $ref: '#/components/schemas/AwardeeRegistrationDetails'
-        awardeeBusinessTypes:
-          $ref: '#/components/schemas/AwardeeBusinessTypes'
-        socioEconomicData:
-          $ref: '#/components/schemas/SocioEconomicData'
-        lineOfBusiness:
-          $ref: '#/components/schemas/LineOfBusiness'
-        relationshipWithFederalGovernment:
-          $ref: '#/components/schemas/RelationshipWithFederalGovernment'
-        otherGovernmentalEntities:
-          $ref: '#/components/schemas/OtherGovernmentalEntities'
-        organizationFactors:
-          $ref: '#/components/schemas/OrganizationFactors'
-        educationalEntities:
-          $ref: '#/components/schemas/EducationalEntities'
-        certifications:
-          $ref: '#/components/schemas/Certifications'
-        consortia:
-          $ref: '#/components/schemas/Consortia'
-    ForeignFunding:
-      type: object
-      properties:
-        code:
-          type: string
-        name:
-          type: string
-    NaicsSource:
-      type: object
-      properties:
-        code:
-          type: string
-        name:
-          type: string
-    RecoveredMaterialClauses:
-      type: object
-      properties:
-        code:
-          type: string
-        name:
-          type: string
-    AwardeeHeader:
-      type: object
-      properties:
-        awardeeName:
-          type: string
-        awardeeAlternateName:
-          type: string
-        legalBusinessName:
-          type: string
-        awardeeNameFromContract:
-          type: string
-        awardeeDoingBusinessAsName:
-          type: string
-        awardeeEnabled:
-          type: string
-    SmallBusinessCompetitivenessDemonstrationProgram:
-      type: object
-      properties:
-        code:
-          type: string
-        name:
+        awardeeUltimateParentName:
           type: string
     Dates:
       type: object
@@ -1157,6 +1481,154 @@ components:
           type: string
         fiscalYear:
           type: string
+    OtherGovernmentalEntities:
+      type: object
+      properties:
+        airportAuthority:
+          type: string
+        councilOfGovernments:
+          type: string
+        housingAuthoritiesPublicTribal:
+          type: string
+        interstateEntity:
+          type: string
+        planningCommission:
+          type: string
+        portAuthority:
+          type: string
+        transitAuthority:
+          type: string
+    DomesticOrForeignEntity:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+    State:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+    IdvTypeOfSetAside:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+    BusinessOrOrganization:
+      type: object
+      properties:
+        corporateEntityNotTaxExempt:
+          type: string
+        corporateEntityTaxExempt:
+          type: string
+        partnershipOrLimitedLiabilityPartnership:
+          type: string
+        soleProprietorship:
+          type: string
+        smallAgriculturalCooperative:
+          type: string
+        internationalOrganization:
+          type: string
+    ProfitStructure:
+      type: object
+      properties:
+        forProfitOrganization:
+          type: string
+        nonProfitOrganization:
+          type: string
+        otherNotForProfitOrganization:
+          type: string
+    InformationTechnologyCommercialItemCategory:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+    FundingInformation:
+      type: object
+      properties:
+        fundingDepartment:
+          $ref: '#/components/schemas/FundingDepartment'
+        fundingSubtier:
+          $ref: '#/components/schemas/FundingSubtier'
+        fundingOffice:
+          $ref: '#/components/schemas/FundingOffice'
+        foreignFunding:
+          $ref: '#/components/schemas/ForeignFunding'
+    LocalAreaSetAside:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+    ReasonNotAwardedToSmallBusiness:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+    PreAwardSynopsisRequirement:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+    TypeOfSetAside:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+    TypeOfIdc:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+    PrincipalPlaceOfPerformance:
+      type: object
+      properties:
+        city:
+          $ref: '#/components/schemas/City'
+        county:
+          $ref: '#/components/schemas/County'
+        state:
+          $ref: '#/components/schemas/State'
+        zipCode:
+          type: string
+        congressionalDistrict:
+          type: string
+        country:
+          $ref: '#/components/schemas/Country'
+    GfeGfp:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+    AwardSummary:
+      type: object
+      properties:
+        contractId:
+          $ref: '#/components/schemas/ContractId'
+        oldContractId:
+          $ref: '#/components/schemas/OldContractId'
+        coreData:
+          $ref: '#/components/schemas/CoreData'
+        awardDetails:
+          $ref: '#/components/schemas/AwardDetails'
     NatureOfServices:
       type: object
       properties:
@@ -1164,7 +1636,111 @@ components:
           type: string
         name:
           type: string
-    ReasonNotAwardedToSmallDisadvantagedBusiness:
+    Consortia:
+      type: object
+      properties:
+        memberFlag:
+          type: string
+        uei:
+          type: string
+        legalBusinessName:
+          type: string
+        cageCode:
+          type: string
+        streetAddress:
+          type: string
+        streetAddress2:
+          type: string
+        city:
+          $ref: '#/components/schemas/City'
+        county:
+          $ref: '#/components/schemas/County'
+        state:
+          $ref: '#/components/schemas/State'
+        zipCode:
+          type: string
+        congressionalDistrict:
+          type: string
+        country:
+          $ref: '#/components/schemas/Country'
+    DodClaimantProgram:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+    BpaCallSummary:
+      type: object
+      properties:
+        baseCount:
+          type: string
+        totalCount:
+          type: string
+        totalDollars:
+          type: string
+    DodAcquisitionProgram:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+    CfdaProgramIdentificationNumber:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+    IsUsFederalGovernment:
+      type: object
+      properties:
+        usFederalGovernment:
+          type: string
+        federalAgency:
+          type: string
+        federallyFundedResearchAndDevelopmentCorp:
+          type: string
+    CoreData:
+      type: object
+      properties:
+        coreVersionId:
+          type: string
+        solicitationId:
+          type: string
+        solicitationDate:
+          type: string
+        awardOrIDV:
+          type: string
+        awardOrIDVType:
+          $ref: '#/components/schemas/AwardOrIDVType'
+        initiative:
+          $ref: '#/components/schemas/Initiative'
+        federalOrganization:
+          $ref: '#/components/schemas/FederalOrganization'
+        acquisitionData:
+          $ref: '#/components/schemas/AcquisitionData'
+        legislativeMandates:
+          $ref: '#/components/schemas/LegislativeMandates'
+        principalPlaceOfPerformance:
+          $ref: '#/components/schemas/PrincipalPlaceOfPerformance'
+        productOrServiceInformation:
+          $ref: '#/components/schemas/ProductOrServiceInformation'
+        competitionInformation:
+          $ref: '#/components/schemas/CompetitionInformation'
+        acquisitionMarketingData:
+          $ref: '#/components/schemas/AcquisitionMarketingData'
+        preferenceProgramsInformation:
+          $ref: '#/components/schemas/PreferenceProgramsInformation'
+    TypeOfAgreement:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+    SolicitationProcedures:
       type: object
       properties:
         code:
@@ -1200,21 +1776,56 @@ components:
           $ref: '#/components/schemas/NasaSpecificData'
         transactionData:
           $ref: '#/components/schemas/TransactionData'
-    AwardOrIDVType:
+    ContractFinancing:
       type: object
       properties:
         code:
           type: string
         name:
           type: string
-    BpaSummary:
+    FundingSubtier:
       type: object
       properties:
-        baseCount:
+        code:
           type: string
-        totalCount:
+        name:
           type: string
-        totalDollars:
+    ContractingSubtier:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+    ContractOpportunitiesNotice:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+    SeaTransportation:
+      type: object
+      properties:
+        id:
+          type: string
+        code:
+          type: string
+        name:
+          type: string
+    CostAccountingStandardsClause:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+    NaicsSource:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
           type: string
     ContractMarketingData:
       type: object
@@ -1233,332 +1844,35 @@ components:
           type: string
         orderingProcedure:
           type: string
-    InformationTechnologyCommercialItemCategory:
+    TreasuryAccount:
+      type: object
+      properties:
+        agencyIdentifier:
+          type: string
+        mainAccountCode:
+          type: string
+        subAccountCode:
+          type: string
+        subLevelPrefixCode:
+          type: string
+        allocationTransferAgencyIdentifier:
+          type: string
+        beginningPeriodOfAvailability:
+          type: string
+        endingPeriodOfAvailability:
+          type: string
+        obligatedAmountTAS:
+          type: string
+        availabilityType:
+          $ref: '#/components/schemas/AvailabilityType'
+    PlaceOfManufacture:
       type: object
       properties:
         code:
           type: string
         name:
           type: string
-    CostAccountingStandardsClause:
-      type: object
-      properties:
-        code:
-          type: string
-        name:
-          type: string
-    TypeOfSetAsideSource:
-      type: object
-      properties:
-        code:
-          type: string
-        name:
-          type: string
-    ExtentCompeted:
-      type: object
-      properties:
-        code:
-          type: string
-        name:
-          type: string
-    ContractId:
-      type: object
-      properties:
-        subtier:
-          $ref: '#/components/schemas/Subtier'
-        piid:
-          type: string
-        modificationNumber:
-          type: string
-        transactionNumber:
-          type: string
-        referencedIDVSubtier:
-          $ref: '#/components/schemas/ReferencedIDVSubtier'
-        referencedIDVPiid:
-          type: string
-        referencedIDVModificationNumber:
-          type: string
-        reasonForModification:
-          $ref: '#/components/schemas/ReasonForModification'
-    FederalOrganization:
-      type: object
-      properties:
-        contractingInformation:
-          $ref: '#/components/schemas/ContractingInformation'
-        fundingInformation:
-          $ref: '#/components/schemas/FundingInformation'
-    Country:
-      type: object
-      properties:
-        code:
-          type: string
-        name:
-          type: string
-    ClingerCohenAct:
-      type: object
-      properties:
-        code:
-          type: string
-        name:
-          type: string
-    RelationshipWithFederalGovernment:
-      type: object
-      properties:
-        contracts:
-          type: string
-        federalassistanceawards:
-          type: string
-        allawards:
-          type: string
-    SourceSelectionProcess:
-      type: object
-      properties:
-        code:
-          type: string
-        name:
-          type: string
-    LineOfBusiness:
-      type: object
-      properties:
-        communityDevelopmentCorporation:
-          type: string
-        domesticShelter:
-          type: string
-        educationalInstitution:
-          type: string
-        foundation:
-          type: string
-        hospital:
-          type: string
-        manufacturerOfGoods:
-          type: string
-        veterinaryHospital:
-          type: string
-        hispanicServicingInstitution:
-          type: string
-    BusinessOrOrganization:
-      type: object
-      properties:
-        corporateEntityNotTaxExempt:
-          type: string
-        corporateEntityTaxExempt:
-          type: string
-        partnershipOrLimitedLiabilityPartnership:
-          type: string
-        soleProprietorship:
-          type: string
-        smallAgriculturalCooperative:
-          type: string
-        internationalOrganization:
-          type: string
-    SbirSTTR:
-      type: object
-      properties:
-        code:
-          type: string
-        name:
-          type: string
-    FundingInformation:
-      type: object
-      properties:
-        fundingDepartment:
-          $ref: '#/components/schemas/FundingDepartment'
-        fundingSubtier:
-          $ref: '#/components/schemas/FundingSubtier'
-        fundingOffice:
-          $ref: '#/components/schemas/FundingOffice'
-        foreignFunding:
-          $ref: '#/components/schemas/ForeignFunding'
-    TransactionData:
-      type: object
-      properties:
-        status:
-          type: string
-        version:
-          type: string
-        createdBy:
-          type: string
-        createdDate:
-          type: string
-        lastModifiedBy:
-          type: string
-        lastModifiedDate:
-          type: string
-        approvedBy:
-          type: string
-        approvedDate:
-          type: string
-        closedBy:
-          type: string
-        closedDate:
-          type: string
-        closedStatus:
-          type: string
-    LegislativeMandates:
-      type: object
-      properties:
-        clingerCohenAct:
-          $ref: '#/components/schemas/ClingerCohenAct'
-        materialsSuppliesArticlesEquipment:
-          $ref: '#/components/schemas/MaterialsSuppliesArticlesEquipment'
-        laborStandards:
-          $ref: '#/components/schemas/LaborStandards'
-        constructionWageRateRequirements:
-          $ref: '#/components/schemas/ConstructionWageRateRequirements'
-        interagencyContractingAuthority:
-          $ref: '#/components/schemas/InteragencyContractingAuthority'
-        otherStatutoryAuthority:
-          type: string
-        additionalReporting:
-          $ref: '#/components/schemas/AdditionalReporting'
-    DomesticOrForeignEntity:
-      type: object
-      properties:
-        code:
-          type: string
-        name:
-          type: string
-    ConstructionWageRateRequirements:
-      type: object
-      properties:
-        code:
-          type: string
-        name:
-          type: string
-    ContractAdministrationsDelegated:
-      type: object
-      properties:
-        code:
-          type: string
-        name:
-          type: string
-    IsMinorityOwnedBusiness:
-      type: object
-      properties:
-        minorityOwnedBusiness:
-          type: string
-        asianPacificAmericanOwned:
-          type: string
-        blackAmericanOwned:
-          type: string
-        hispanicAmericanOwned:
-          type: string
-        nativeAmericanOwned:
-          type: string
-        subcontinentAsianAsianIndianAmericanOwned:
-          type: string
-        individualOrConcernOtherThanOneOfThePreceding:
-          type: string
-    AwardFamilySummary:
-      type: object
-      properties:
-        count:
-          type: string
-        totalDollars:
-          type: string
-    State:
-      type: object
-      properties:
-        code:
-          type: string
-        name:
-          type: string
-    PreAwardSynopsisRequirement:
-      type: object
-      properties:
-        code:
-          type: string
-        name:
-          type: string
-    AwardeeBusinessTypes:
-      type: object
-      properties:
-        isUsFederalGovernment:
-          $ref: '#/components/schemas/IsUsFederalGovernment'
-        usStateGovernment:
-          type: string
-        foreignGovernment:
-          type: string
-        usTribalGovernment:
-          type: string
-        communityDevelopmentCorporationOwnedConcern:
-          type: string
-        isUsLocalGovernment:
-          $ref: '#/components/schemas/IsUsLocalGovernment'
-        usGovernmentEntity:
-          type: string
-        laborSurplusAreaFirm:
-          type: string
-        businessOrOrganization:
-          $ref: '#/components/schemas/BusinessOrOrganization'
     NontraditionalGovernmentEntityParticipation:
-      type: object
-      properties:
-        code:
-          type: string
-        name:
-          type: string
-    AwardSummary:
-      type: object
-      properties:
-        contractId:
-          $ref: '#/components/schemas/ContractId'
-        oldContractId:
-          $ref: '#/components/schemas/OldContractId'
-        coreData:
-          $ref: '#/components/schemas/CoreData'
-        awardDetails:
-          $ref: '#/components/schemas/AwardDetails'
-    PreferenceProgramsInformation:
-      type: object
-      properties:
-        priceEvaluationPercentDifference:
-          type: string
-        contractingOfficerBusinessSizeDetermination:
-          type: array
-          items:
-            $ref: '#/components/schemas/ContractingOfficerBusinessSizeDetermination'
-        idvContractingOfficerBusinessSizeDetermination:
-          $ref: '#/components/schemas/IdvContractingOfficerBusinessSizeDetermination'
-        contractingOfficerBusinessSizeDeterminationSource:
-          $ref: '#/components/schemas/ContractingOfficerBusinessSizeDeterminationSource'
-        subcontractPlan:
-          $ref: '#/components/schemas/SubcontractPlan'
-        reasonNotAwardedToSmallDisadvantagedBusiness:
-          $ref: '#/components/schemas/ReasonNotAwardedToSmallDisadvantagedBusiness'
-        reasonNotAwardedToSmallBusiness:
-          $ref: '#/components/schemas/ReasonNotAwardedToSmallBusiness'
-    ReferencedIDVSubtier:
-      type: object
-      properties:
-        code:
-          type: string
-        name:
-          type: string
-    CostOrPricingData:
-      type: object
-      properties:
-        code:
-          type: string
-        name:
-          type: string
-        id:
-          type: string
-    DodAcquisitionProgram:
-      type: object
-      properties:
-        code:
-          type: string
-        name:
-          type: string
-    ContractingDepartment:
-      type: object
-      properties:
-        code:
-          type: string
-        name:
-          type: string
-    PurchaseCardAsPaymentMethod:
       type: object
       properties:
         code:
@@ -1594,78 +1908,32 @@ components:
           type: string
         awardeeDataSource:
           type: string
-    Certifications:
-      type: object
-      properties:
-        sbaCertified8aProgramParticipant:
-          type: string
-        sbaCertified8aJointVenture:
-          type: string
-        selfCertifiedHubZoneJointVenture:
-          type: string
-        sbaCertifiedSmallDisadvantagedBusiness:
-          type: string
-        sbaCertifiedHubZoneFirm:
-          type: string
-        sbaCertifiedEconomicallyDisadvantagedWomenOwnedSmallBusiness:
-          type: string
-        selfCertifiedSmallDisadvantagedBusiness:
-          type: string
-        dotCertifiedDisadvantagedBusinessEnterprise:
-          type: string
-        sbaCertifiedWomenOwnedSmallBusiness:
-          type: string
-    TypeOfSetAside:
+    ContractingOfficerBusinessSizeDetermination:
       type: object
       properties:
         code:
           type: string
         name:
           type: string
-    ReasonForInterAgencyContracting:
-      type: object
-      properties:
-        code:
-          type: string
-        name:
-          type: string
-    SubcontractPlan:
-      type: object
-      properties:
-        code:
-          type: string
-        name:
-          type: string
-    TotalContractDollars:
-      type: object
-      properties:
-        totalActionObligation:
-          type: string
-        totalBaseAndExercisedOptionsValue:
-          type: string
-        totalBaseAndAllOptionsValue:
-          type: string
-        totalNonGovernmentDollars:
-          type: string
-    LocalAreaSetAside:
-      type: object
-      properties:
-        code:
-          type: string
-        name:
-          type: string
-    Far41102Exception:
-      type: object
-      properties:
-        code:
-          type: string
-        name:
-          type: string
-    SeaTransportation:
-      type: object
-      properties:
         id:
           type: string
+    CountryOfOrigin:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+    AvailabilityType:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+    MultipleOrSingleAwardIdc:
+      type: object
+      properties:
         code:
           type: string
         name:
@@ -1685,334 +1953,66 @@ components:
           type: string
         offset:
           type: string
-    Dollars:
+    LegislativeMandates:
       type: object
       properties:
-        actionObligation:
+        clingerCohenAct:
+          $ref: '#/components/schemas/ClingerCohenAct'
+        materialsSuppliesArticlesEquipment:
+          $ref: '#/components/schemas/MaterialsSuppliesArticlesEquipment'
+        laborStandards:
+          $ref: '#/components/schemas/LaborStandards'
+        constructionWageRateRequirements:
+          $ref: '#/components/schemas/ConstructionWageRateRequirements'
+        interagencyContractingAuthority:
+          $ref: '#/components/schemas/InteragencyContractingAuthority'
+        otherStatutoryAuthority:
           type: string
-        baseDollarsObligated:
-          type: string
-        baseAndExercisedOptionsValue:
-          type: string
-        baseAndAllOptionsValue:
-          type: string
-        feePaidForUseOfService:
-          type: string
-        totalEstimatedOrderValue:
-          type: string
-        nonGovernmentDollars:
-          type: string
-    PerformanceBasedServiceContract:
+        additionalReporting:
+          $ref: '#/components/schemas/AdditionalReporting'
+    AwardFamilySummary:
       type: object
       properties:
-        code:
-          type: string
-        name:
-          type: string
-    TypeOfContractPricing:
-      type: object
-      properties:
-        code:
-          type: string
-        name:
-          type: string
-    LaborStandards:
-      type: object
-      properties:
-        code:
-          type: string
-        name:
-          type: string
-    ReasonNotAwardedToSmallBusiness:
-      type: object
-      properties:
-        code:
-          type: string
-        name:
-          type: string
-    FundingSubtier:
-      type: object
-      properties:
-        code:
-          type: string
-        name:
-          type: string
-    IdvTypeOfSetAside:
-      type: object
-      properties:
-        code:
-          type: string
-        name:
-          type: string
-    ContractData:
-      type: object
-      properties:
-        part8OrPart13:
-          type: string
-        costOrPricingData:
-          $ref: '#/components/schemas/CostOrPricingData'
-        purchaseCardAsPaymentMethod:
-          $ref: '#/components/schemas/PurchaseCardAsPaymentMethod'
-        undefinitizedAction:
-          $ref: '#/components/schemas/UndefinitizedAction'
-        costAccountingStandardsClause:
-          $ref: '#/components/schemas/CostAccountingStandardsClause'
-        natureOfServices:
-          $ref: '#/components/schemas/NatureOfServices'
-        emergencyAcquisition:
-          $ref: '#/components/schemas/EmergencyAcquisition'
-        numberOfActions:
-          type: string
-        referencedIDVPart8OrPart13:
-          type: string
-        referencedIDVType:
-          $ref: '#/components/schemas/ReferencedIDVType'
-        referencedIDVMultipleOrSingle:
-          $ref: '#/components/schemas/ReferencedIDVMultipleOrSingle'
-    ReasonForModification:
-      type: object
-      properties:
-        code:
-          type: string
-        name:
-          type: string
-    WhoCanUse:
-      type: object
-      properties:
-        code:
-          type: string
-        name:
-          type: string
-    AvailabilityType:
-      type: object
-      properties:
-        code:
-          type: string
-        name:
-          type: string
-    PlaceOfManufacture:
-      type: object
-      properties:
-        code:
-          type: string
-        name:
-          type: string
-    AwardeeUEIInformation:
-      type: object
-      properties:
-        uniqueEntityId:
-          type: string
-        cageCode:
-          type: string
-        awardeeImmediateParentUEI:
-          type: string
-        awardeeImmediateParentName:
-          type: string
-        awardeeDomesticParentUEI:
-          type: string
-        awardeeDomesticParentName:
-          type: string
-        awardeeUltimateParentUniqueEntityId:
-          type: string
-        awardeeUltimateParentName:
-          type: string
-    OtherGovernmentalEntities:
-      type: object
-      properties:
-        airportAuthority:
-          type: string
-        councilOfGovernments:
-          type: string
-        housingAuthoritiesPublicTribal:
-          type: string
-        interstateEntity:
-          type: string
-        planningCommission:
-          type: string
-        portAuthority:
-          type: string
-        transitAuthority:
-          type: string
-    ExportLoggingInfo:
-      type: object
-      properties:
-        api_key:
-          type: string
-        fileName:
-          type: string
-        id:
-          type: integer
-          format: int64
-        userId:
-          type: string
-        domain:
-          type: string
-        downloadType:
-          type: integer
-          format: int32
-        format:
-          type: string
-        searchType:
-          type: string
-        searchCriteria:
-          type: string
-        createDate:
-          type: string
-          format: date-time
-        expireDate:
-          type: string
-          format: date-time
-        status:
-          type: string
-        fileLocationS3:
-          type: string
-        lastDownloadDate:
-          type: string
-          format: date-time
-        lastUpdatedDate:
-          type: string
-          format: date-time
-        token:
-          type: string
         count:
-          type: integer
-          format: int64
-        searchURL:
-          type: string
-        sensitivityLevel:
-          type: string
-        message:
-          type: string
-        expired:
-          type: boolean
-        deleted:
-          type: boolean
-    County:
-      type: object
-      properties:
-        code:
-          type: string
-        name:
-          type: string
-    NasaSpecificData:
-      type: object
-      properties:
-        offerorsProposalNumber:
-          type: string
-        prNumber:
-          type: string
-        accessionNumber:
-          type: string
-        installationUnique:
-          type: string
-        administrativeCo:
-          type: string
-        contractingOfficerCode:
-          type: string
-        buyerCode:
-          type: string
-        organizationCode:
-          type: string
-        cotrName:
-          type: string
-        alternateCOTRName:
-          type: string
-        fundedThroughDate:
-          type: string
-        contractFundCode:
-          type: string
-        managementReportingRequirements:
-          type: string
-        accountingInstallation:
-          type: string
-        fieldOfScienceOrEngineering:
-          type: string
-        contractAdministrationsDelegated:
-          type: array
-          items:
-            $ref: '#/components/schemas/ContractAdministrationsDelegated'
-        cfdaProgramIdentificationNumber:
-          $ref: '#/components/schemas/CfdaProgramIdentificationNumber'
-        principalInvestigatOrFirstName:
-          type: string
-        principalInvestigatOrMiddleInitial:
-          type: string
-        principalInvestigatOrLastName:
-          type: string
-        alternatePrincipalInvestigatorFirstName:
-          type: string
-        alternatePrincipalInvestigatOrMiddleInitial:
-          type: string
-        alternatePrincipalInvestigatOrLastName:
-          type: string
-        closeoutPR:
-          type: string
-        advisoryAssistanceServicesContract:
-          type: string
-        supportServicesTypeContract:
-          type: string
-        newTechnologyOrPatentClause:
-          type: string
-        propertyFinancialReporting:
-          type: string
-        valueEngineeringClause:
-          type: string
-        securityCode:
-          type: string
-        isPhysicallyComplete:
-          type: string
-        physicalCompletionDate:
-          type: string
-        finalInvoicePaidDate:
-          type: string
-        solicitationIssueDate:
-          type: string
-        cancellationDate:
-          type: string
-        destroyDate:
-          type: string
-        nonFederalFundingAmount:
-          type: string
-        nasaStatutoryAuthority:
-          type: string
-    InteragencyContractingAuthority:
-      type: object
-      properties:
-        code:
-          type: string
-        name:
-          type: string
-    ReferencedIDVType:
-      type: object
-      properties:
-        code:
-          type: string
-        name:
-          type: string
-    BpaCallSummary:
-      type: object
-      properties:
-        baseCount:
-          type: string
-        totalCount:
           type: string
         totalDollars:
           type: string
-    FundingDepartment:
+    Far41102Exception:
       type: object
       properties:
         code:
           type: string
         name:
           type: string
-    ContractBundling:
+    AwardeeBusinessTypes:
+      type: object
+      properties:
+        isUsFederalGovernment:
+          $ref: '#/components/schemas/IsUsFederalGovernment'
+        usStateGovernment:
+          type: string
+        foreignGovernment:
+          type: string
+        usTribalGovernment:
+          type: string
+        communityDevelopmentCorporationOwnedConcern:
+          type: string
+        isUsLocalGovernment:
+          $ref: '#/components/schemas/IsUsLocalGovernment'
+        usGovernmentEntity:
+          type: string
+        laborSurplusAreaFirm:
+          type: string
+        businessOrOrganization:
+          $ref: '#/components/schemas/BusinessOrOrganization'
+    UseOfEpaDesignatedProducts:
       type: object
       properties:
         code:
           type: string
         name:
           type: string
-    TypeOfAgreement:
+    ReasonForInterAgencyContracting:
       type: object
       properties:
         code:

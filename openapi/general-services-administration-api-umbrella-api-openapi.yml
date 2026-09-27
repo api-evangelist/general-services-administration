@@ -1,18 +1,18 @@
 openapi: 3.2.0
 info:
   version: 1.0.0
-  title: Umbrella Admin API
+  title: Admin Api Umbrella API
   description: The admin API is accessible via `/api-umbrella/v1`.
 security:
 - api_key: []
 - admin_auth_token: []
 tags:
-- name: api
+- name: Api Umbrella
 paths:
   /api-umbrella/v1/apis:
     get:
       tags:
-      - api
+      - Api Umbrella
       summary: Get a list of all API backends
       description: 'Get a listing of all API backend records the currently authenticated admin user has permissions to.
 
@@ -49,7 +49,7 @@ paths:
       x-operation-id-source: derived
     post:
       tags:
-      - api
+      - Api Umbrella
       summary: Create a new API backend
       responses:
         201:
@@ -78,7 +78,7 @@ paths:
         format: uuid
     get:
       tags:
-      - api
+      - Api Umbrella
       summary: Get the API backend
       responses:
         200:
@@ -96,7 +96,7 @@ paths:
       x-operation-id-source: derived
     put:
       tags:
-      - api
+      - Api Umbrella
       summary: Update the API backend
       responses:
         204:
@@ -116,7 +116,7 @@ paths:
       x-operation-id-source: derived
     delete:
       tags:
-      - api
+      - Api Umbrella
       summary: Delete the API backend
       responses:
         204:
@@ -125,6 +125,26 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    ApiSettingsHeader:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        key:
+          type: string
+        value:
+          type: string
+    AdminUpdater:
+      type: object
+      readOnly: true
+      properties:
+        username:
+          type: string
+          format: email
+          readOnly: true
+          description: E-mail address of the admin that last updated the record
     ApiSettingsRateLimit:
       type: object
       properties:
@@ -145,20 +165,49 @@ components:
           type: boolean
         response_headers:
           type: boolean
-    AdminUpdater:
+    ApiRewrite:
       type: object
-      readOnly: true
       properties:
-        username:
+        id:
           type: string
-          format: email
+          format: uuid
           readOnly: true
-          description: E-mail address of the admin that last updated the record
-    CreatedAt:
-      type: string
-      format: date-time
-      readOnly: true
-      description: The time the record was created (ISO 8601 format)
+        matcher_type:
+          type: string
+          enum:
+          - route
+          - regex
+        http_method:
+          type: string
+          enum:
+          - any
+          - GET
+          - POST
+          - PUT
+          - DELETE
+          - HEAD
+          - TRACE
+          - OPTIONS
+          - CONNECT
+          - PATCH
+        frontend_matcher:
+          type: string
+        backend_replacement:
+          type: string
+    ApiServer:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        host:
+          type: string
+        port:
+          type: integer
+      required:
+      - host
+      - port
     Api:
       type: object
       properties:
@@ -219,22 +268,20 @@ components:
       - servers
       - url_matches
       - balance_algorithm
+    AdminCreator:
+      type: object
+      readOnly: true
+      properties:
+        username:
+          type: string
+          format: email
+          readOnly: true
+          description: E-mail address of the admin that created the record
     UpdatedAt:
       type: string
       format: date-time
       readOnly: true
       description: The time the record was last updated (ISO 8601 format)
-    ApiSettingsHeader:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        key:
-          type: string
-        value:
-          type: string
     ApiSubSettings:
       type: object
       properties:
@@ -357,6 +404,11 @@ components:
           type: object
         error_data_yaml_strings:
           type: object
+    CreatedAt:
+      type: string
+      format: date-time
+      readOnly: true
+      description: The time the record was created (ISO 8601 format)
     ApiUrlMatch:
       type: object
       properties:
@@ -371,58 +423,6 @@ components:
       required:
       - frontend_prefix
       - backend_prefix
-    AdminCreator:
-      type: object
-      readOnly: true
-      properties:
-        username:
-          type: string
-          format: email
-          readOnly: true
-          description: E-mail address of the admin that created the record
-    ApiRewrite:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        matcher_type:
-          type: string
-          enum:
-          - route
-          - regex
-        http_method:
-          type: string
-          enum:
-          - any
-          - GET
-          - POST
-          - PUT
-          - DELETE
-          - HEAD
-          - TRACE
-          - OPTIONS
-          - CONNECT
-          - PATCH
-        frontend_matcher:
-          type: string
-        backend_replacement:
-          type: string
-    ApiServer:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        host:
-          type: string
-        port:
-          type: integer
-      required:
-      - host
-      - port
   parameters:
     datatables-order-dir:
       name: order[i][dir]
@@ -434,10 +434,17 @@ components:
         enum:
         - asc
         - desc
-    datatables-search-value:
-      name: search[value]
+    datatables-order-column:
+      name: order[i][column]
       in: query
-      description: Perform a text search across all records for this string
+      description: Size of array
+      required: false
+      schema:
+        type: integer
+    datatables-columns-name:
+      name: columns[i][name]
+      in: query
+      description: The human-readable name of the column displayed at index `i`
       required: false
       schema:
         type: string
@@ -445,13 +452,6 @@ components:
       name: length
       in: query
       description: Limit the number of records returned for pagination
-      required: false
-      schema:
-        type: integer
-    datatables-order-column:
-      name: order[i][column]
-      in: query
-      description: Size of array
       required: false
       schema:
         type: integer
@@ -469,10 +469,10 @@ components:
       required: false
       schema:
         type: integer
-    datatables-columns-name:
-      name: columns[i][name]
+    datatables-search-value:
+      name: search[value]
       in: query
-      description: The human-readable name of the column displayed at index `i`
+      description: Perform a text search across all records for this string
       required: false
       schema:
         type: string

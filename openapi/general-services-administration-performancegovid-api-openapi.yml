@@ -584,6 +584,34 @@ paths:
       deprecated: false
 components:
   schemas:
+    PerformanceGovId.jsonld-readItem_readItemSubRes:
+      type: object
+      description: ''
+      properties:
+        '@context':
+          readOnly: true
+          oneOf:
+          - type: string
+          - type: object
+            properties:
+              '@vocab':
+                type: string
+              hydra:
+                type: string
+                enum:
+                - http://www.w3.org/ns/hydra/core#
+            required:
+            - '@vocab'
+            - hydra
+            additionalProperties: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        id:
+          type: string
     PerformanceGovId.jsonld-read:
       type: object
       description: ''
@@ -640,31 +668,3 @@ components:
             Provide that code for the associated metric using the appropriate alphanumeric identifier provided by
 
             performance.gov.'
-    PerformanceGovId.jsonld-readItem_readItemSubRes:
-      type: object
-      description: ''
-      properties:
-        '@context':
-          readOnly: true
-          oneOf:
-          - type: string
-          - type: object
-            properties:
-              '@vocab':
-                type: string
-              hydra:
-                type: string
-                enum:
-                - http://www.w3.org/ns/hydra/core#
-            required:
-            - '@vocab'
-            - hydra
-            additionalProperties: true
-        '@id':
-          readOnly: true
-          type: string
-        '@type':
-          readOnly: true
-          type: string
-        id:
-          type: string

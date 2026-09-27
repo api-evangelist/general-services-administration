@@ -86,22 +86,37 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    WebsiteResource:
+    User:
       type: object
+      description: A Touchpoints user account.
       required:
-      - id
-      - type
-      - attributes
+      - email
       properties:
-        id:
+        email:
           type: string
-          description: Numeric identifier of the website (string-encoded).
-        type:
-          type: string
-          enum:
-          - websites
-        attributes:
-          $ref: '#/components/schemas/WebsiteAttributes'
+          format: email
+          description: Work email of the user.
+        first_name:
+          type:
+          - string
+          - 'null'
+          description: User's first name. Null if not yet provided.
+        last_name:
+          type:
+          - string
+          - 'null'
+          description: User's last name. Null if not yet provided.
+        position_title:
+          type:
+          - string
+          - 'null'
+          description: User's job title. Null if not yet provided.
+        profile_photo:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: URL to the user's profile photo. Null if not uploaded.
     WebsiteAttributes:
       type: object
       required:
@@ -296,37 +311,22 @@ components:
           type: string
           format: date-time
           description: ISO 8601 timestamp when the record was last updated.
-    User:
+    WebsiteResource:
       type: object
-      description: A Touchpoints user account.
       required:
-      - email
+      - id
+      - type
+      - attributes
       properties:
-        email:
+        id:
           type: string
-          format: email
-          description: Work email of the user.
-        first_name:
-          type:
-          - string
-          - 'null'
-          description: User's first name. Null if not yet provided.
-        last_name:
-          type:
-          - string
-          - 'null'
-          description: User's last name. Null if not yet provided.
-        position_title:
-          type:
-          - string
-          - 'null'
-          description: User's job title. Null if not yet provided.
-        profile_photo:
-          type:
-          - string
-          - 'null'
-          format: uri
-          description: URL to the user's profile photo. Null if not uploaded.
+          description: Numeric identifier of the website (string-encoded).
+        type:
+          type: string
+          enum:
+          - websites
+        attributes:
+          $ref: '#/components/schemas/WebsiteAttributes'
   securitySchemes:
     api_key:
       type: apiKey
