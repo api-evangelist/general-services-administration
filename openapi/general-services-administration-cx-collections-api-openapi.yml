@@ -229,37 +229,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    PaginationLinks:
-      type: object
-      required:
-      - self
-      - first
-      - last
-      properties:
-        self:
-          type: string
-          format: uri
-          description: URL of the current page.
-        first:
-          type: string
-          format: uri
-          description: URL of the first page.
-        prev:
-          type:
-          - string
-          - 'null'
-          format: uri
-          description: URL of the previous page. Null on the first page.
-        next:
-          type:
-          - string
-          - 'null'
-          format: uri
-          description: URL of the next page. Null on the last page.
-        last:
-          type: string
-          format: uri
-          description: URL of the last page.
     CxCollectionAttributes:
       type: object
       required:
@@ -339,6 +308,26 @@ components:
           type: string
           format: date-time
           description: ISO 8601 timestamp when the collection was last updated.
+    PaginationMeta:
+      type: object
+      required:
+      - current_page
+      - page_size
+      - total_pages
+      - total_count
+      properties:
+        current_page:
+          type: integer
+          description: The current page number (1-indexed).
+        page_size:
+          type: integer
+          description: Number of records requested per page.
+        total_pages:
+          type: integer
+          description: Total number of pages available.
+        total_count:
+          type: integer
+          description: Total number of records across all pages.
     CxResponseResource:
       type: object
       description: Response to a CX collection detail survey, representing a single respondent's answers to the survey questions.
@@ -356,6 +345,107 @@ components:
           - cx_responses
         attributes:
           $ref: '#/components/schemas/CxResponseAttributes'
+    CxCollectionDetailAttributes:
+      type: object
+      required:
+      - cx_collection_id
+      - service_id
+      - service_name
+      - service_provider_id
+      - service_provider_name
+      - channel
+      - service_stage_id
+      - service_stage_name
+      - volume_of_customers_provided_survey_opportunity
+      - volume_of_respondents
+      - omb_control_number
+      - survey_type
+      - survey_title
+      - trust_question_text
+      - created_at
+      - updated_at
+      properties:
+        cx_collection_id:
+          type: integer
+          description: Foreign key referencing the parent CX collection record.
+        service_id:
+          type: integer
+          description: ID of the service being measured.
+        service_name:
+          type: string
+          description: Display name of the service being measured.
+        service_provider_id:
+          type: integer
+          description: ID of the service provider associated with this detail.
+        service_provider_name:
+          type: string
+          description: Display name of the service provider associated with this detail.
+        channel:
+          type: string
+          enum:
+          - computer
+          - mobile
+          - email
+          - chatbot
+          - phone
+          - automated_phone
+          - in_person
+          - paper
+          - postal_mail
+          - fax
+          - self_service_kiosk
+          - other_non_digital
+          - website
+          - mobile_app
+          - live_chat
+          - sms_text_messages
+          - social_media
+          - other_digital
+          description: Delivery channel through which the survey was administered.
+        service_stage_id:
+          type:
+          - integer
+          - 'null'
+          description: ID of the service journey stage at which the survey was administered.
+        service_stage_name:
+          type:
+          - string
+          - 'null'
+          description: Display name of the service journey stage (e.g. 'Beg', 'Middle', 'End').
+        volume_of_customers:
+          type:
+          - integer
+          - 'null'
+          description: Total number of customers who interacted with the service during the reporting period. Null if not reported.
+        volume_of_customers_provided_survey_opportunity:
+          type: integer
+          description: Number of customers who were offered the opportunity to complete the survey.
+        volume_of_respondents:
+          type: integer
+          description: Number of customers who completed the survey.
+        omb_control_number:
+          type: string
+          description: OMB Paperwork Reduction Act control number for the survey instrument.
+        survey_type:
+          type: string
+          enum:
+          - likert_scale
+          - thumbs_up_down
+          description: Response format used by the survey instrument.
+        survey_title:
+          type: string
+          description: Title of the survey instrument.
+        trust_question_text:
+          type: string
+          description: Verbatim text of the trust question posed to respondents.
+        created_at:
+          type: string
+          format: date-time
+          description: ISO 8601 timestamp when the detail record was created.
+        updated_at:
+          type: string
+          format: date-time
+          description: ISO 8601 timestamp when the detail record was last updated.
     CxCollectionDetailResource:
       type: object
       description: Represents CX feedback collected via a single channel at a single service journey stage for a CX Collection.
@@ -373,6 +463,37 @@ components:
           - cx_collection_details
         attributes:
           $ref: '#/components/schemas/CxCollectionDetailAttributes'
+    PaginationLinks:
+      type: object
+      required:
+      - self
+      - first
+      - last
+      properties:
+        self:
+          type: string
+          format: uri
+          description: URL of the current page.
+        first:
+          type: string
+          format: uri
+          description: URL of the first page.
+        prev:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: URL of the previous page. Null on the first page.
+        next:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: URL of the next page. Null on the last page.
+        last:
+          type: string
+          format: uri
+          description: URL of the last page.
     CxResponseAttributes:
       type: object
       required:
@@ -521,127 +642,6 @@ components:
         external_id:
           type: string
           description: Identifier of this response in the originating external system.
-    PaginationMeta:
-      type: object
-      required:
-      - current_page
-      - page_size
-      - total_pages
-      - total_count
-      properties:
-        current_page:
-          type: integer
-          description: The current page number (1-indexed).
-        page_size:
-          type: integer
-          description: Number of records requested per page.
-        total_pages:
-          type: integer
-          description: Total number of pages available.
-        total_count:
-          type: integer
-          description: Total number of records across all pages.
-    CxCollectionDetailAttributes:
-      type: object
-      required:
-      - cx_collection_id
-      - service_id
-      - service_name
-      - service_provider_id
-      - service_provider_name
-      - channel
-      - service_stage_id
-      - service_stage_name
-      - volume_of_customers_provided_survey_opportunity
-      - volume_of_respondents
-      - omb_control_number
-      - survey_type
-      - survey_title
-      - trust_question_text
-      - created_at
-      - updated_at
-      properties:
-        cx_collection_id:
-          type: integer
-          description: Foreign key referencing the parent CX collection record.
-        service_id:
-          type: integer
-          description: ID of the service being measured.
-        service_name:
-          type: string
-          description: Display name of the service being measured.
-        service_provider_id:
-          type: integer
-          description: ID of the service provider associated with this detail.
-        service_provider_name:
-          type: string
-          description: Display name of the service provider associated with this detail.
-        channel:
-          type: string
-          enum:
-          - computer
-          - mobile
-          - email
-          - chatbot
-          - phone
-          - automated_phone
-          - in_person
-          - paper
-          - postal_mail
-          - fax
-          - self_service_kiosk
-          - other_non_digital
-          - website
-          - mobile_app
-          - live_chat
-          - sms_text_messages
-          - social_media
-          - other_digital
-          description: Delivery channel through which the survey was administered.
-        service_stage_id:
-          type:
-          - integer
-          - 'null'
-          description: ID of the service journey stage at which the survey was administered.
-        service_stage_name:
-          type:
-          - string
-          - 'null'
-          description: Display name of the service journey stage (e.g. 'Beg', 'Middle', 'End').
-        volume_of_customers:
-          type:
-          - integer
-          - 'null'
-          description: Total number of customers who interacted with the service during the reporting period. Null if not reported.
-        volume_of_customers_provided_survey_opportunity:
-          type: integer
-          description: Number of customers who were offered the opportunity to complete the survey.
-        volume_of_respondents:
-          type: integer
-          description: Number of customers who completed the survey.
-        omb_control_number:
-          type: string
-          description: OMB Paperwork Reduction Act control number for the survey instrument.
-        survey_type:
-          type: string
-          enum:
-          - likert_scale
-          - thumbs_up_down
-          description: Response format used by the survey instrument.
-        survey_title:
-          type: string
-          description: Title of the survey instrument.
-        trust_question_text:
-          type: string
-          description: Verbatim text of the trust question posed to respondents.
-        created_at:
-          type: string
-          format: date-time
-          description: ISO 8601 timestamp when the detail record was created.
-        updated_at:
-          type: string
-          format: date-time
-          description: ISO 8601 timestamp when the detail record was last updated.
     CxCollectionResource:
       type: object
       description: Represents a fiscal quarter's worth of CX feedback submitted for a specific service. Feedback can be collected via multiple channels/surveys and at multiple service journey stages.

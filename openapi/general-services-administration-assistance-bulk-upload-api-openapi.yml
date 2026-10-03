@@ -482,6 +482,20 @@ paths:
                   $ref: '#/components/schemas/SubawardsAPIResponseDto'
 components:
   schemas:
+    CreateGrantRequestObjectDto:
+      type: object
+      properties:
+        assistanceData:
+          type: array
+          items:
+            $ref: '#/components/schemas/CreateGrantGrantData'
+    TopPayEmployees:
+      type: object
+      properties:
+        full_name:
+          type: string
+        salary:
+          type: string
     StateOrProvince:
       type: object
       properties:
@@ -508,67 +522,6 @@ components:
           type: string
         zip:
           type: string
-    UpdateGrantGrantData:
-      type: object
-      properties:
-        fain:
-          type: string
-        agencyCode:
-          type: string
-        reportStatus:
-          type: string
-        subawardData:
-          $ref: '#/components/schemas/SubawardData'
-    TopPayEmployees:
-      type: object
-      properties:
-        full_name:
-          type: string
-        salary:
-          type: string
-    CreateGrantGrantData:
-      type: object
-      properties:
-        fain:
-          type: string
-        agencyCode:
-          type: string
-        reportStatus:
-          type: string
-        subawardDataList:
-          type: array
-          items:
-            $ref: '#/components/schemas/SubawardData'
-    UpdateGrantRequestObjectDto:
-      type: object
-      properties:
-        assistanceData:
-          $ref: '#/components/schemas/UpdateGrantGrantData'
-    RecoveryModelQuestions:
-      type: object
-      properties:
-        code:
-          type: string
-        isSelected:
-          type: string
-          enum:
-          - 'true'
-          - 'false'
-          - ''
-    Country:
-      type: object
-      properties:
-        code:
-          type: string
-        name:
-          type: string
-    CreateGrantRequestObjectDto:
-      type: object
-      properties:
-        assistanceData:
-          type: array
-          items:
-            $ref: '#/components/schemas/CreateGrantGrantData'
     SubawardData:
       type: object
       properties:
@@ -620,3 +573,50 @@ components:
           type: array
           items:
             type: string
+    UpdateGrantRequestObjectDto:
+      type: object
+      properties:
+        assistanceData:
+          $ref: '#/components/schemas/UpdateGrantGrantData'
+    UpdateGrantGrantData:
+      type: object
+      properties:
+        fain:
+          type: string
+        agencyCode:
+          type: string
+        reportStatus:
+          type: string
+        subawardData:
+          $ref: '#/components/schemas/SubawardData'
+    Country:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+    RecoveryModelQuestions:
+      type: object
+      properties:
+        code:
+          type: string
+        isSelected:
+          type: string
+          enum:
+          - 'true'
+          - 'false'
+          - ''
+    CreateGrantGrantData:
+      type: object
+      properties:
+        fain:
+          type: string
+        agencyCode:
+          type: string
+        reportStatus:
+          type: string
+        subawardDataList:
+          type: array
+          items:
+            $ref: '#/components/schemas/SubawardData'

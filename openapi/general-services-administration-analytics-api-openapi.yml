@@ -162,6 +162,20 @@ components:
           type: string
           format: date-time
           description: Timestamp of when the analytics summary data was generated and cached.
+    AnalyticsSummaryOrganization:
+      allOf:
+      - type: object
+        properties:
+          name:
+            type: string
+            description: The name of the organization.
+          api_backend_count:
+            type: integer
+            description: The number of API backends this organization has.
+          api_backend_url_match_count:
+            type: integer
+            description: The number of separate API URL prefixes this organization has.
+      - $ref: '#/components/schemas/AnalyticsSummaryMetrics'
     AnalyticsSummaryMetrics:
       type: object
       properties:
@@ -306,20 +320,6 @@ components:
                         description: The average response time of API hits during this day.
                     minItems: 2
                     maxItems: 2
-    AnalyticsSummaryOrganization:
-      allOf:
-      - type: object
-        properties:
-          name:
-            type: string
-            description: The name of the organization.
-          api_backend_count:
-            type: integer
-            description: The number of API backends this organization has.
-          api_backend_url_match_count:
-            type: integer
-            description: The number of separate API URL prefixes this organization has.
-      - $ref: '#/components/schemas/AnalyticsSummaryMetrics'
   securitySchemes:
     api_key:
       type: apiKey

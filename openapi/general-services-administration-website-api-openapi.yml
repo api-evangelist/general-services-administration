@@ -228,6 +228,9 @@ components:
       - previous
       - next
       - last
+    Object:
+      type: object
+      properties: {}
     WebsiteApiResultDto:
       type: object
       properties:
@@ -640,9 +643,6 @@ components:
       - source_list_dap
       - source_list_pulse
       - source_list_other
-    Object:
-      type: object
-      properties: {}
     PaginatedWebsiteResponseDto:
       type: object
       properties:

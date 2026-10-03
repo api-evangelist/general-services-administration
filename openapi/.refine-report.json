@@ -105,7 +105,7 @@
     "general-services-administration-forms-api-openapi.yml"
   ],
   "archived": [
-    "deleted 2 superseded output(s) from the previous generation"
+    "deleted 1 superseded output(s) from the previous generation"
   ],
   "errors": [],
   "warnings": [],
@@ -205,8 +205,8 @@
     "tag 'analytics' spans 2 source specs (general-services-administration-apidatagov-admin-openapi.yaml, general-services-administration-apidatagov-metrics-openapi.yaml): per-path servers applied",
     "tag 'Services' spans 2 source specs (general-services-administration-it-collect-openapi.json, general-services-administration-touchpoints-openapi.yaml): per-path servers applied",
     "tag 'search' spans 2 source specs (general-services-administration-searchgov-clicks-openapi.yaml, general-services-administration-searchgov-results-openapi.yaml): per-path servers applied",
-    "superseded outputs removed: general-services-administration-api-api-openapi.yml, general-services-administration-funding-sources-api-openapi.yml",
-    "apis.yml register: written (+2 apis, 89 total)"
+    "superseded outputs removed: general-services-administration-funding-sources-api-openapi.yml",
+    "apis.yml register: written (+1 apis, 89 total)"
   ],
   "skipped": [
     "_original/general-services-administration-assistance-subaward-reporting-openapi.yaml: archived document superseded by a larger archived document",
@@ -217,8 +217,8 @@
     "general-services-administration-agencies-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "general-services-administration-analysis-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "general-services-administration-analytics-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "general-services-administration-api-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "general-services-administration-api-scope-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "general-services-administration-api-umbrella-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "general-services-administration-assistance-bulk-upload-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "general-services-administration-assistance-listings-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "general-services-administration-attachments-api-openapi.yml: previously refined output, superseded by openapi/_original/",

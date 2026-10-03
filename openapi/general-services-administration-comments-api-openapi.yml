@@ -175,6 +175,67 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    SubmitterType:
+      type: string
+      description: the submitter type
+      enum:
+      - Anonymous
+      - Individual
+      - Organization
+    FileFormat:
+      type: object
+      properties:
+        fileUrl:
+          type: string
+          description: URL of the file on S3
+        format:
+          type: string
+          description: The format of the file such as `pdf`
+        size:
+          type: integer
+          description: The file size
+    OrganizationComment:
+      allOf:
+      - $ref: '#/components/schemas/BaseCommentPayload'
+      - type: object
+        required:
+        - submitterType
+        - organization
+        - organizationType
+        properties:
+          organization:
+            type: string
+            maxLength: 120
+            description: The organization that the submitter represents.
+          organizationType:
+            type: string
+            description: The agency specific organization type that the submitter represents.
+          submitterType:
+            $ref: '#/components/schemas/SubmitterType'
+    Relationship:
+      description: A single relationship object
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/RelationshipToAttachment'
+        links:
+          $ref: '#/components/schemas/RelationshipLinks'
+      additionalProperties: false
+    CommentFindAllItem:
+      description: A JSON:API document which represents a single document in the list
+      properties:
+        id:
+          description: The JSON:API resource ID `documentId`
+          type: string
+        type:
+          description: The JSON:API resource type `comments`
+          type: string
+        attributes:
+          $ref: '#/components/schemas/Comment'
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/SelfLink'
     Comment:
       type: object
       properties:
@@ -204,69 +265,6 @@ components:
         withdrawn:
           type: boolean
           description: Conveys if the document is withdrawn
-    Attachment:
-      type: object
-      properties:
-        agencyNote:
-          type: string
-          description: The note by agency
-        authors:
-          type: array
-          items:
-            type: string
-          description: The individual, organization, or group of collaborators that contributed to the creation of the attachment.
-        docAbstract:
-          type: string
-          description: The detailed description of the attachment.
-        docOrder:
-          type: integer
-          description: The order of the attachment
-        fileFormats:
-          type: array
-          description: list of file formats
-          items:
-            $ref: '#/components/schemas/FileFormat'
-        modifyDate:
-          type: string
-          format: date-time
-          description: The date when the attachment was last modified.
-        publication:
-          type: string
-          description: The publication date
-        restrictReason:
-          type: string
-          description: If the attachment is restricted, this field will state the reason.
-        restrictReasonType:
-          type: string
-          description: If the attachment is restricted, this field will state the type of restriction.
-        title:
-          type: string
-          description: The formal title of the attachment
-    RelationshipToAttachment:
-      description: An array of attachment objects as relationship resources.
-      type: array
-      items:
-        type: object
-        properties:
-          type:
-            type: string
-          id:
-            type: string
-    CommentFindAllItem:
-      description: A JSON:API document which represents a single document in the list
-      properties:
-        id:
-          description: The JSON:API resource ID `documentId`
-          type: string
-        type:
-          description: The JSON:API resource type `comments`
-          type: string
-        attributes:
-          $ref: '#/components/schemas/Comment'
-        links:
-          type: array
-          items:
-            $ref: '#/components/schemas/SelfLink'
     JSONResourcePostRequestObject:
       description: A JSON:API document which represents a single document being posted
       type: object
@@ -280,172 +278,6 @@ components:
           - $ref: '#/components/schemas/IndividualComment'
           - $ref: '#/components/schemas/OrganizationComment'
           - $ref: '#/components/schemas/AnonymousComment'
-    Relationship:
-      description: A single relationship object
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/RelationshipToAttachment'
-        links:
-          $ref: '#/components/schemas/RelationshipLinks'
-      additionalProperties: false
-    Error:
-      type: object
-      properties:
-        status:
-          type: integer
-        title:
-          type: string
-        detail:
-          type: string
-    Link:
-      description: A string containing the link URL.
-      type: string
-      format: uri-reference
-      uniqueItems: true
-    AttachmentFindAllItem:
-      description: A JSON:API document which represents a single document in the list
-      properties:
-        id:
-          description: The JSON:API resource ID `attachmentId`
-          type: string
-        type:
-          description: The JSON:API resource type `attachments`
-          type: string
-        attributes:
-          $ref: '#/components/schemas/Attachment'
-        links:
-          type: array
-          items:
-            $ref: '#/components/schemas/SelfLink'
-    BaseCommentPayload:
-      type: object
-      required:
-      - comment
-      - commentOnDocumentId
-      - submissionType
-      properties:
-        category:
-          type: string
-          description: An agency-specific category allowing agencies to group comments according to their type.
-        comment:
-          type: string
-          maxLength: 5000
-          description: The comment text
-        commentOnDocumentId:
-          type: string
-          description: documentId of the parent document
-        email:
-          type: string
-          maxLength: 100
-          description: The email address to receive email receipt for the commenrt
-        files:
-          type: array
-          items:
-            type: string
-            description: The names of the files submitted with the submission
-        numItemsReceived:
-          type: integer
-          description: The number of items included in the submission
-        sendEmailReceipt:
-          type: boolean
-          description: Conveys if the user would like to receive an email receipt for the comment
-        submissionKey:
-          type: string
-          description: The unique identifier associated with the submission
-        submissionType:
-          type: string
-          description: The submitter type - Its always going to be `API` for comments submitted via API
-    CommentPostResponse:
-      allOf:
-      - oneOf:
-        - $ref: '#/components/schemas/IndividualComment'
-        - $ref: '#/components/schemas/OrganizationComment'
-        - $ref: '#/components/schemas/AnonymousComment'
-      - type: object
-        properties:
-          numItemsReceived:
-            type: integer
-            description: The number of items included in the submission
-          receiveDate:
-            type: string
-            description: The date comment was received.
-    FileFormat:
-      type: object
-      properties:
-        fileUrl:
-          type: string
-          description: URL of the file on S3
-        format:
-          type: string
-          description: The format of the file such as `pdf`
-        size:
-          type: integer
-          description: The file size
-    SelfLink:
-      description: Link to self
-      type: object
-      properties:
-        self:
-          $ref: '#/components/schemas/Link'
-    JSONError:
-      description: A JSON:API document
-      type: object
-      properties:
-        errors:
-          description: List of JSON:API Error
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
-    CommentFindOneResponse:
-      description: A JSON:API document which represents a single document
-      type: object
-      properties:
-        id:
-          description: The JSON:API resource ID (documentId of the comment). DocumentId field is always returned in JSON response. This is an agency configurable field. Each agency has option to configure the format of the field.
-          type: string
-        type:
-          description: The JSON:API resource type `comments`
-          type: string
-        attributes:
-          $ref: '#/components/schemas/CommentDetail'
-        relationships:
-          type: array
-          items:
-            $ref: '#/components/schemas/Relationship'
-        links:
-          type: array
-          items:
-            $ref: '#/components/schemas/SelfLink'
-        included:
-          description: The list of documents where each document is a JSON:API document
-          type: array
-          uniqueItems: true
-          items:
-            $ref: '#/components/schemas/AttachmentFindAllItem'
-    JSONResourcePostResponseObject:
-      description: A JSON:API document which represents the response from post
-      type: object
-      properties:
-        id:
-          description: The comment tracking number
-          type: string
-        type:
-          description: The JSON:API resource type `comments`
-          type: string
-        attributes:
-          $ref: '#/components/schemas/CommentPostResponse'
-    CommentFindAllResponse:
-      description: A JSON:API document with a list of resources
-      properties:
-        data:
-          description: The list of comments where each comment is a JSON:API document
-          type: array
-          uniqueItems: true
-          items:
-            $ref: '#/components/schemas/CommentFindAllItem'
-        meta:
-          $ref: '#/components/schemas/FindAllResponseMetadata'
     BasicDetailModel:
       type: object
       properties:
@@ -613,15 +445,6 @@ components:
         zip:
           type: string
           description: The zip associated with the submitter's address. This is an agency configurable field. An agency can configure this field to make it not publicly accessible.
-    RelationshipLinks:
-      description: Relationship links to other related resources (`attachments`)
-      type: object
-      properties:
-        self:
-          $ref: '#/components/schemas/Link'
-        related:
-          $ref: '#/components/schemas/Link'
-      additionalProperties: false
     DocumentType:
       type: string
       description: type of document. This field is always returned in JSON response
@@ -631,34 +454,136 @@ components:
       - Proposed Rule
       - Supporting & Related Material
       - Other
-    FindAllResponseMetadata:
-      description: A JSON:API document
+    CommentDetail:
+      allOf:
+      - $ref: '#/components/schemas/BasicDetailModel'
+      - type: object
+        required:
+        - documentId
+        properties:
+          commentOnDocumentId:
+            type: string
+            description: documentId of the parent document. This field is always returned in JSON response.
+          duplicateComments:
+            type: integer
+            description: Number of duplicate comments
+    Attachment:
+      type: object
       properties:
-        hasNextPage:
-          type: boolean
-        hasPreviousPage:
-          type: boolean
-        numberOfElements:
+        agencyNote:
+          type: string
+          description: The note by agency
+        authors:
+          type: array
+          items:
+            type: string
+          description: The individual, organization, or group of collaborators that contributed to the creation of the attachment.
+        docAbstract:
+          type: string
+          description: The detailed description of the attachment.
+        docOrder:
           type: integer
-        pageNumber:
-          type: integer
-        pageSize:
-          type: integer
-        totalElements:
-          type: integer
-        totalPages:
-          type: integer
-        firstPage:
-          type: boolean
-        lastPage:
-          type: boolean
-    SubmitterType:
+          description: The order of the attachment
+        fileFormats:
+          type: array
+          description: list of file formats
+          items:
+            $ref: '#/components/schemas/FileFormat'
+        modifyDate:
+          type: string
+          format: date-time
+          description: The date when the attachment was last modified.
+        publication:
+          type: string
+          description: The publication date
+        restrictReason:
+          type: string
+          description: If the attachment is restricted, this field will state the reason.
+        restrictReasonType:
+          type: string
+          description: If the attachment is restricted, this field will state the type of restriction.
+        title:
+          type: string
+          description: The formal title of the attachment
+    SelfLink:
+      description: Link to self
+      type: object
+      properties:
+        self:
+          $ref: '#/components/schemas/Link'
+    CommentPostResponse:
+      allOf:
+      - oneOf:
+        - $ref: '#/components/schemas/IndividualComment'
+        - $ref: '#/components/schemas/OrganizationComment'
+        - $ref: '#/components/schemas/AnonymousComment'
+      - type: object
+        properties:
+          numItemsReceived:
+            type: integer
+            description: The number of items included in the submission
+          receiveDate:
+            type: string
+            description: The date comment was received.
+    Link:
+      description: A string containing the link URL.
       type: string
-      description: the submitter type
-      enum:
-      - Anonymous
-      - Individual
-      - Organization
+      format: uri-reference
+      uniqueItems: true
+    RelationshipToAttachment:
+      description: An array of attachment objects as relationship resources.
+      type: array
+      items:
+        type: object
+        properties:
+          type:
+            type: string
+          id:
+            type: string
+    AttachmentFindAllItem:
+      description: A JSON:API document which represents a single document in the list
+      properties:
+        id:
+          description: The JSON:API resource ID `attachmentId`
+          type: string
+        type:
+          description: The JSON:API resource type `attachments`
+          type: string
+        attributes:
+          $ref: '#/components/schemas/Attachment'
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/SelfLink'
+    CommentFindAllResponse:
+      description: A JSON:API document with a list of resources
+      properties:
+        data:
+          description: The list of comments where each comment is a JSON:API document
+          type: array
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/CommentFindAllItem'
+        meta:
+          $ref: '#/components/schemas/FindAllResponseMetadata'
+    Error:
+      type: object
+      properties:
+        status:
+          type: integer
+        title:
+          type: string
+        detail:
+          type: string
+    AnonymousComment:
+      allOf:
+      - $ref: '#/components/schemas/BaseCommentPayload'
+      - type: object
+        required:
+        - submitterType
+        properties:
+          submitterType:
+            $ref: '#/components/schemas/SubmitterType'
     IndividualComment:
       allOf:
       - $ref: '#/components/schemas/BaseCommentPayload'
@@ -698,46 +623,121 @@ components:
             type: string
             maxLength: 10
             description: The zip associated with the submitter's address.
-    AnonymousComment:
-      allOf:
-      - $ref: '#/components/schemas/BaseCommentPayload'
-      - type: object
-        required:
-        - submitterType
-        properties:
-          submitterType:
-            $ref: '#/components/schemas/SubmitterType'
-    CommentDetail:
-      allOf:
-      - $ref: '#/components/schemas/BasicDetailModel'
-      - type: object
-        required:
-        - documentId
-        properties:
-          commentOnDocumentId:
+    BaseCommentPayload:
+      type: object
+      required:
+      - comment
+      - commentOnDocumentId
+      - submissionType
+      properties:
+        category:
+          type: string
+          description: An agency-specific category allowing agencies to group comments according to their type.
+        comment:
+          type: string
+          maxLength: 5000
+          description: The comment text
+        commentOnDocumentId:
+          type: string
+          description: documentId of the parent document
+        email:
+          type: string
+          maxLength: 100
+          description: The email address to receive email receipt for the commenrt
+        files:
+          type: array
+          items:
             type: string
-            description: documentId of the parent document. This field is always returned in JSON response.
-          duplicateComments:
-            type: integer
-            description: Number of duplicate comments
-    OrganizationComment:
-      allOf:
-      - $ref: '#/components/schemas/BaseCommentPayload'
-      - type: object
-        required:
-        - submitterType
-        - organization
-        - organizationType
-        properties:
-          organization:
-            type: string
-            maxLength: 120
-            description: The organization that the submitter represents.
-          organizationType:
-            type: string
-            description: The agency specific organization type that the submitter represents.
-          submitterType:
-            $ref: '#/components/schemas/SubmitterType'
+            description: The names of the files submitted with the submission
+        numItemsReceived:
+          type: integer
+          description: The number of items included in the submission
+        sendEmailReceipt:
+          type: boolean
+          description: Conveys if the user would like to receive an email receipt for the comment
+        submissionKey:
+          type: string
+          description: The unique identifier associated with the submission
+        submissionType:
+          type: string
+          description: The submitter type - Its always going to be `API` for comments submitted via API
+    JSONError:
+      description: A JSON:API document
+      type: object
+      properties:
+        errors:
+          description: List of JSON:API Error
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+    FindAllResponseMetadata:
+      description: A JSON:API document
+      properties:
+        hasNextPage:
+          type: boolean
+        hasPreviousPage:
+          type: boolean
+        numberOfElements:
+          type: integer
+        pageNumber:
+          type: integer
+        pageSize:
+          type: integer
+        totalElements:
+          type: integer
+        totalPages:
+          type: integer
+        firstPage:
+          type: boolean
+        lastPage:
+          type: boolean
+    RelationshipLinks:
+      description: Relationship links to other related resources (`attachments`)
+      type: object
+      properties:
+        self:
+          $ref: '#/components/schemas/Link'
+        related:
+          $ref: '#/components/schemas/Link'
+      additionalProperties: false
+    CommentFindOneResponse:
+      description: A JSON:API document which represents a single document
+      type: object
+      properties:
+        id:
+          description: The JSON:API resource ID (documentId of the comment). DocumentId field is always returned in JSON response. This is an agency configurable field. Each agency has option to configure the format of the field.
+          type: string
+        type:
+          description: The JSON:API resource type `comments`
+          type: string
+        attributes:
+          $ref: '#/components/schemas/CommentDetail'
+        relationships:
+          type: array
+          items:
+            $ref: '#/components/schemas/Relationship'
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/SelfLink'
+        included:
+          description: The list of documents where each document is a JSON:API document
+          type: array
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/AttachmentFindAllItem'
+    JSONResourcePostResponseObject:
+      description: A JSON:API document which represents the response from post
+      type: object
+      properties:
+        id:
+          description: The comment tracking number
+          type: string
+        type:
+          description: The JSON:API resource type `comments`
+          type: string
+        attributes:
+          $ref: '#/components/schemas/CommentPostResponse'
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

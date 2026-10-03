@@ -194,6 +194,9 @@ paths:
     - url: https://api.gsa.gov/technology/searchgov/v2
 components:
   schemas:
+    Error:
+      type: string
+      description: The issue with your request.
     text_best_bets:
       type: array
       properties:
@@ -209,6 +212,9 @@ components:
         description:
           type: string
           description: Description of the best bet
+    query:
+      type: string
+      description: We return the query to you for use in the results page display
     web:
       type: array
       description: An array of data about the web results
@@ -267,12 +273,6 @@ components:
               type: string
               format: date
               description: Lower bound of date range in  m/d/YYYY format.
-    query:
-      type: string
-      description: We return the query to you for use in the results page display
-    Error:
-      type: string
-      description: The issue with your request.
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

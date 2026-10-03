@@ -124,21 +124,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    SelfLink:
-      description: Link to self
-      type: object
-      properties:
-        self:
-          $ref: '#/components/schemas/Link'
-    JSONError:
-      description: A JSON:API document
-      type: object
-      properties:
-        errors:
-          description: List of JSON:API Error
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
     DocketFindAllResponse:
       description: A JSON:API document with a list of resources
       properties:
@@ -150,6 +135,22 @@ components:
             $ref: '#/components/schemas/DocketFindAllItem'
         meta:
           $ref: '#/components/schemas/FindAllResponseMetadata'
+    DocketFindOneResponse:
+      description: A JSON:API document which represents a single document
+      type: object
+      properties:
+        id:
+          description: The JSON:API resource ID (docketId of the docket)
+          type: string
+        type:
+          description: The JSON:API resource type `dockets`
+          type: string
+        attributes:
+          $ref: '#/components/schemas/DocketDetail'
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/SelfLink'
     DocketDetail:
       type: object
       properties:
@@ -242,6 +243,44 @@ components:
         title:
           type: string
           description: A name or descriptive heading given to an agency's docket.
+    Docket:
+      type: object
+      properties:
+        agencyId:
+          type: string
+          description: The acronym used to abbreviate the name of the agency associated with the docket.
+        docketType:
+          $ref: '#/components/schemas/DocketType'
+        highlightedContent:
+          type:
+          - string
+          - 'null'
+          description: Content highlighted by search engine for the searchTerm. Only returned for searches with searchTerm.
+        lastModifiedDate:
+          type: string
+          format: date-time
+          description: The date docket was last modified in the system.<br/><br/>The date is formatted as ISO 8601 with an offset such as `2019-01-20T13:15:45Z`.
+        objectId:
+          type: string
+          description: The internal ID of the docket in our system.
+        title:
+          type: string
+          description: The formal title of the docket.
+    JSONError:
+      description: A JSON:API document
+      type: object
+      properties:
+        errors:
+          description: List of JSON:API Error
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+    SelfLink:
+      description: Link to self
+      type: object
+      properties:
+        self:
+          $ref: '#/components/schemas/Link'
     FindAllResponseMetadata:
       description: A JSON:API document
       properties:
@@ -272,22 +311,6 @@ components:
           type: string
         detail:
           type: string
-    DocketFindOneResponse:
-      description: A JSON:API document which represents a single document
-      type: object
-      properties:
-        id:
-          description: The JSON:API resource ID (docketId of the docket)
-          type: string
-        type:
-          description: The JSON:API resource type `dockets`
-          type: string
-        attributes:
-          $ref: '#/components/schemas/DocketDetail'
-        links:
-          type: array
-          items:
-            $ref: '#/components/schemas/SelfLink'
     Link:
       description: A string containing the link URL.
       type: string
@@ -308,29 +331,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SelfLink'
-    Docket:
-      type: object
-      properties:
-        agencyId:
-          type: string
-          description: The acronym used to abbreviate the name of the agency associated with the docket.
-        docketType:
-          $ref: '#/components/schemas/DocketType'
-        highlightedContent:
-          type:
-          - string
-          - 'null'
-          description: Content highlighted by search engine for the searchTerm. Only returned for searches with searchTerm.
-        lastModifiedDate:
-          type: string
-          format: date-time
-          description: The date docket was last modified in the system.<br/><br/>The date is formatted as ISO 8601 with an offset such as `2019-01-20T13:15:45Z`.
-        objectId:
-          type: string
-          description: The internal ID of the docket in our system.
-        title:
-          type: string
-          description: The formal title of the docket.
     DocketType:
       type: string
       description: the type of docket

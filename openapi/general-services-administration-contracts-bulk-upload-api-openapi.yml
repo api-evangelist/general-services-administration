@@ -492,63 +492,6 @@ paths:
                   $ref: '#/components/schemas/SubawardsAPIResponseDto'
 components:
   schemas:
-    UpdateContractContractData:
-      type: object
-      properties:
-        contractNumber:
-          type: string
-        reportingAgencyCode:
-          type: string
-        idvReferenceNumber:
-          type: string
-        referenceAgencyCode:
-          type: string
-        programTitle:
-          type: string
-        reportStatus:
-          type: string
-        subawardData:
-          $ref: '#/components/schemas/SubawardData'
-    CreateContractRequestObjectDto:
-      type: object
-      properties:
-        contractData:
-          type: array
-          items:
-            $ref: '#/components/schemas/CreateContractContractData'
-    Address:
-      type: object
-      properties:
-        street_address:
-          type: string
-        street_address2:
-          type: string
-        city:
-          type: string
-        country:
-          $ref: '#/components/schemas/Country'
-        stateOrProvince:
-          $ref: '#/components/schemas/StateOrProvince'
-        zipPlus4:
-          type: string
-        congressional_district:
-          type: string
-        zip:
-          type: string
-    StateOrProvince:
-      type: object
-      properties:
-        code:
-          type: string
-        name:
-          type: string
-    TopPayEmployees:
-      type: object
-      properties:
-        full_name:
-          type: string
-        salary:
-          type: string
     CreateContractContractData:
       type: object
       properties:
@@ -568,29 +511,56 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SubawardData'
-    RecoveryModelQuestions:
+    TopPayEmployees:
       type: object
       properties:
-        code:
+        full_name:
           type: string
-        isSelected:
+        salary:
           type: string
-          enum:
-          - 'true'
-          - 'false'
-          - ''
-    Country:
+    StateOrProvince:
       type: object
       properties:
         code:
           type: string
         name:
           type: string
-    UpdateContractRequestObjectDto:
+    UpdateContractContractData:
       type: object
       properties:
-        contractData:
-          $ref: '#/components/schemas/UpdateContractContractData'
+        contractNumber:
+          type: string
+        reportingAgencyCode:
+          type: string
+        idvReferenceNumber:
+          type: string
+        referenceAgencyCode:
+          type: string
+        programTitle:
+          type: string
+        reportStatus:
+          type: string
+        subawardData:
+          $ref: '#/components/schemas/SubawardData'
+    Address:
+      type: object
+      properties:
+        street_address:
+          type: string
+        street_address2:
+          type: string
+        city:
+          type: string
+        country:
+          $ref: '#/components/schemas/Country'
+        stateOrProvince:
+          $ref: '#/components/schemas/StateOrProvince'
+        zipPlus4:
+          type: string
+        congressional_district:
+          type: string
+        zip:
+          type: string
     SubawardData:
       type: object
       properties:
@@ -642,3 +612,33 @@ components:
           type: array
           items:
             type: string
+    UpdateContractRequestObjectDto:
+      type: object
+      properties:
+        contractData:
+          $ref: '#/components/schemas/UpdateContractContractData'
+    CreateContractRequestObjectDto:
+      type: object
+      properties:
+        contractData:
+          type: array
+          items:
+            $ref: '#/components/schemas/CreateContractContractData'
+    Country:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+    RecoveryModelQuestions:
+      type: object
+      properties:
+        code:
+          type: string
+        isSelected:
+          type: string
+          enum:
+          - 'true'
+          - 'false'
+          - ''

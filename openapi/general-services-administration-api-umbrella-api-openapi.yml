@@ -125,46 +125,20 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    ApiSettingsHeader:
+    ApiServer:
       type: object
       properties:
         id:
           type: string
           format: uuid
           readOnly: true
-        key:
+        host:
           type: string
-        value:
-          type: string
-    AdminUpdater:
-      type: object
-      readOnly: true
-      properties:
-        username:
-          type: string
-          format: email
-          readOnly: true
-          description: E-mail address of the admin that last updated the record
-    ApiSettingsRateLimit:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        duration:
+        port:
           type: integer
-        accuracy:
-          type: integer
-        limit_by:
-          type: string
-          enum:
-          - ip
-          - apiKey
-        distributed:
-          type: boolean
-        response_headers:
-          type: boolean
+      required:
+      - host
+      - port
     ApiRewrite:
       type: object
       properties:
@@ -194,80 +168,26 @@ components:
           type: string
         backend_replacement:
           type: string
-    ApiServer:
+    ApiSettingsRateLimit:
       type: object
       properties:
         id:
           type: string
           format: uuid
           readOnly: true
-        host:
-          type: string
-        port:
+        duration:
           type: integer
-      required:
-      - host
-      - port
-    Api:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        name:
-          type: string
-        sort_order:
+        accuracy:
           type: integer
-        backend_protocol:
+        limit_by:
           type: string
           enum:
-          - http
-          - https
-        frontend_host:
-          type: string
-        backend_host:
-          type: string
-        servers:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiServer'
-        url_matches:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiUrlMatch'
-        balance_algorithm:
-          type: string
-          enum:
-          - least_conn
-          - round_robin
-          - ip_hash
-        settings:
-          $ref: '#/components/schemas/ApiSettings'
-        sub_settings:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiSubSettings'
-        rewrites:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiRewrite'
-        created_at:
-          $ref: '#/components/schemas/CreatedAt'
-        creator:
-          $ref: '#/components/schemas/AdminCreator'
-        updated_at:
-          $ref: '#/components/schemas/UpdatedAt'
-        updater:
-          $ref: '#/components/schemas/AdminUpdater'
-      required:
-      - name
-      - backend_protocol
-      - frontend_host
-      - backend_host
-      - servers
-      - url_matches
-      - balance_algorithm
+          - ip
+          - apiKey
+        distributed:
+          type: boolean
+        response_headers:
+          type: boolean
     AdminCreator:
       type: object
       readOnly: true
@@ -277,35 +197,26 @@ components:
           format: email
           readOnly: true
           description: E-mail address of the admin that created the record
-    UpdatedAt:
-      type: string
-      format: date-time
+    AdminUpdater:
+      type: object
       readOnly: true
-      description: The time the record was last updated (ISO 8601 format)
-    ApiSubSettings:
+      properties:
+        username:
+          type: string
+          format: email
+          readOnly: true
+          description: E-mail address of the admin that last updated the record
+    ApiSettingsHeader:
       type: object
       properties:
         id:
           type: string
           format: uuid
           readOnly: true
-        http_method:
+        key:
           type: string
-          enum:
-          - any
-          - GET
-          - POST
-          - PUT
-          - DELETE
-          - HEAD
-          - TRACE
-          - OPTIONS
-          - CONNECT
-          - PATCH
-        regex:
+        value:
           type: string
-        settings:
-          $ref: '#/components/schemas/ApiSettings'
     ApiSettings:
       type: object
       properties:
@@ -404,11 +315,90 @@ components:
           type: object
         error_data_yaml_strings:
           type: object
-    CreatedAt:
-      type: string
-      format: date-time
-      readOnly: true
-      description: The time the record was created (ISO 8601 format)
+    ApiSubSettings:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        http_method:
+          type: string
+          enum:
+          - any
+          - GET
+          - POST
+          - PUT
+          - DELETE
+          - HEAD
+          - TRACE
+          - OPTIONS
+          - CONNECT
+          - PATCH
+        regex:
+          type: string
+        settings:
+          $ref: '#/components/schemas/ApiSettings'
+    Api:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+        sort_order:
+          type: integer
+        backend_protocol:
+          type: string
+          enum:
+          - http
+          - https
+        frontend_host:
+          type: string
+        backend_host:
+          type: string
+        servers:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiServer'
+        url_matches:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiUrlMatch'
+        balance_algorithm:
+          type: string
+          enum:
+          - least_conn
+          - round_robin
+          - ip_hash
+        settings:
+          $ref: '#/components/schemas/ApiSettings'
+        sub_settings:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiSubSettings'
+        rewrites:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiRewrite'
+        created_at:
+          $ref: '#/components/schemas/CreatedAt'
+        creator:
+          $ref: '#/components/schemas/AdminCreator'
+        updated_at:
+          $ref: '#/components/schemas/UpdatedAt'
+        updater:
+          $ref: '#/components/schemas/AdminUpdater'
+      required:
+      - name
+      - backend_protocol
+      - frontend_host
+      - backend_host
+      - servers
+      - url_matches
+      - balance_algorithm
     ApiUrlMatch:
       type: object
       properties:
@@ -423,7 +413,45 @@ components:
       required:
       - frontend_prefix
       - backend_prefix
+    UpdatedAt:
+      type: string
+      format: date-time
+      readOnly: true
+      description: The time the record was last updated (ISO 8601 format)
+    CreatedAt:
+      type: string
+      format: date-time
+      readOnly: true
+      description: The time the record was created (ISO 8601 format)
   parameters:
+    datatables-columns-data:
+      name: columns[i][data]
+      in: query
+      description: The database field name of the column displayed at index `i`
+      required: false
+      schema:
+        type: string
+    datatables-length:
+      name: length
+      in: query
+      description: Limit the number of records returned for pagination
+      required: false
+      schema:
+        type: integer
+    datatables-start:
+      name: start
+      in: query
+      description: Offset for pagination (0 based - 0 is the first record)
+      required: false
+      schema:
+        type: integer
+    datatables-search-value:
+      name: search[value]
+      in: query
+      description: Perform a text search across all records for this string
+      required: false
+      schema:
+        type: string
     datatables-order-dir:
       name: order[i][dir]
       in: query
@@ -445,34 +473,6 @@ components:
       name: columns[i][name]
       in: query
       description: The human-readable name of the column displayed at index `i`
-      required: false
-      schema:
-        type: string
-    datatables-length:
-      name: length
-      in: query
-      description: Limit the number of records returned for pagination
-      required: false
-      schema:
-        type: integer
-    datatables-columns-data:
-      name: columns[i][data]
-      in: query
-      description: The database field name of the column displayed at index `i`
-      required: false
-      schema:
-        type: string
-    datatables-start:
-      name: start
-      in: query
-      description: Offset for pagination (0 based - 0 is the first record)
-      required: false
-      schema:
-        type: integer
-    datatables-search-value:
-      name: search[value]
-      in: query
-      description: Perform a text search across all records for this string
       required: false
       schema:
         type: string

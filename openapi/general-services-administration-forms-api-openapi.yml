@@ -411,37 +411,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    PaginationLinks:
-      type: object
-      required:
-      - self
-      - first
-      - last
-      properties:
-        self:
-          type: string
-          format: uri
-          description: URL of the current page.
-        first:
-          type: string
-          format: uri
-          description: URL of the first page.
-        prev:
-          type:
-          - string
-          - 'null'
-          format: uri
-          description: URL of the previous page. Null on the first page.
-        next:
-          type:
-          - string
-          - 'null'
-          format: uri
-          description: URL of the next page. Null on the last page.
-        last:
-          type: string
-          format: uri
-          description: URL of the last page.
     DeprecatedPaginationLinks:
       type: object
       deprecated: true
@@ -470,6 +439,327 @@ components:
           type: string
           format: uri
           description: URL of the last page.
+    PaginationMeta:
+      type: object
+      required:
+      - current_page
+      - page_size
+      - total_pages
+      - total_count
+      properties:
+        current_page:
+          type: integer
+          description: The current page number (1-indexed).
+        page_size:
+          type: integer
+          description: Number of records requested per page.
+        total_pages:
+          type: integer
+          description: Total number of pages available.
+        total_count:
+          type: integer
+          description: Total number of records across all pages.
+    Logo:
+      type: object
+      required:
+      - url
+      - thumb
+      - card
+      - tag
+      - logo_square
+      properties:
+        url:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: Full-size logo image URL.
+        thumb:
+          $ref: '#/components/schemas/LogoVariant'
+          description: Thumbnail-sized logo variant.
+        card:
+          $ref: '#/components/schemas/LogoVariant'
+          description: Card-sized logo variant.
+        tag:
+          $ref: '#/components/schemas/LogoVariant'
+          description: Tag-sized logo variant.
+        logo_square:
+          $ref: '#/components/schemas/LogoVariant'
+          description: Square-cropped logo variant.
+    SubmissionAttributes:
+      type: object
+      required:
+      - page
+      - flagged
+      - archived
+      - deleted
+      - aasm_state
+      - language
+      - uuid
+      - tags
+      - created_at
+      - updated_at
+      - answer_01
+      - answer_02
+      - answer_03
+      - answer_04
+      - answer_05
+      - answer_06
+      - answer_07
+      - answer_08
+      - answer_09
+      - answer_10
+      - answer_11
+      - answer_12
+      - answer_13
+      - answer_14
+      - answer_15
+      - answer_16
+      - answer_17
+      - answer_18
+      - answer_19
+      - answer_20
+      - answer_21
+      - answer_22
+      - answer_23
+      - answer_24
+      - answer_25
+      - answer_26
+      - answer_27
+      - answer_28
+      - answer_29
+      - answer_30
+      properties:
+        user_id:
+          type:
+          - integer
+          - 'null'
+          description: ID of the authenticated user who submitted, if any. Null for anonymous submissions.
+        created_at:
+          type: string
+          format: date-time
+          description: ISO 8601 timestamp when the submission was received.
+        updated_at:
+          type: string
+          format: date-time
+          description: ISO 8601 timestamp when the submission was last updated.
+        referer:
+          type: string
+          description: HTTP Referer header value at time of submission. May be empty string.
+        hostname:
+          type:
+          - string
+          - 'null'
+          description: Hostname of the page that hosted the form at submission time. Null for older submissions.
+        page:
+          type: string
+          description: Path of the page that hosted the form at submission time.
+        query_string:
+          type:
+          - string
+          - 'null'
+          description: URL query string present at submission time. Null for older submissions.
+        user_agent:
+          type: string
+          description: HTTP User-Agent string of the respondent's browser.
+        answer_01:
+          type:
+          - string
+          - 'null'
+          description: Response to question slot 01.
+        answer_02:
+          type:
+          - string
+          - 'null'
+          description: Response to question slot 02.
+        answer_03:
+          type:
+          - string
+          - 'null'
+          description: Response to question slot 03.
+        answer_04:
+          type:
+          - string
+          - 'null'
+          description: Response to question slot 04.
+        answer_05:
+          type:
+          - string
+          - 'null'
+          description: Response to question slot 05.
+        answer_06:
+          type:
+          - string
+          - 'null'
+          description: Response to question slot 06.
+        answer_07:
+          type:
+          - string
+          - 'null'
+          description: Response to question slot 07.
+        answer_08:
+          type:
+          - string
+          - 'null'
+          description: Response to question slot 08.
+        answer_09:
+          type:
+          - string
+          - 'null'
+          description: Response to question slot 09.
+        answer_10:
+          type:
+          - string
+          - 'null'
+          description: Response to question slot 10.
+        answer_11:
+          type:
+          - string
+          - 'null'
+          description: Response to question slot 11.
+        answer_12:
+          type:
+          - string
+          - 'null'
+          description: Response to question slot 12.
+        answer_13:
+          type:
+          - string
+          - 'null'
+          description: Response to question slot 13.
+        answer_14:
+          type:
+          - string
+          - 'null'
+          description: Response to question slot 14.
+        answer_15:
+          type:
+          - string
+          - 'null'
+          description: Response to question slot 15.
+        answer_16:
+          type:
+          - string
+          - 'null'
+          description: Response to question slot 16.
+        answer_17:
+          type:
+          - string
+          - 'null'
+          description: Response to question slot 17.
+        answer_18:
+          type:
+          - string
+          - 'null'
+          description: Response to question slot 18.
+        answer_19:
+          type:
+          - string
+          - 'null'
+          description: Response to question slot 19.
+        answer_20:
+          type:
+          - string
+          - 'null'
+          description: Response to question slot 20.
+        answer_21:
+          type:
+          - string
+          - 'null'
+          description: Response to question slot 21.
+        answer_22:
+          type:
+          - string
+          - 'null'
+          description: Response to question slot 22.
+        answer_23:
+          type:
+          - string
+          - 'null'
+          description: Response to question slot 23.
+        answer_24:
+          type:
+          - string
+          - 'null'
+          description: Response to question slot 24.
+        answer_25:
+          type:
+          - string
+          - 'null'
+          description: Response to question slot 25.
+        answer_26:
+          type:
+          - string
+          - 'null'
+          description: Response to question slot 26.
+        answer_27:
+          type:
+          - string
+          - 'null'
+          description: Response to question slot 27.
+        answer_28:
+          type:
+          - string
+          - 'null'
+          description: Response to question slot 28.
+        answer_29:
+          type:
+          - string
+          - 'null'
+          description: Response to question slot 29.
+        answer_30:
+          type:
+          - string
+          - 'null'
+          description: Response to question slot 30.
+        ip_address:
+          type: string
+          description: IPv4 or IPv6 address of the respondent at submission time.
+        location_code:
+          type: string
+          description: Geographic location code associated with the submission. May be empty string.
+        flagged:
+          type: boolean
+          description: Whether this submission has been flagged for review.
+        spam:
+          type: boolean
+          description: Whether this submission has been marked as spam (manually or by automated spam detection).
+        spam_determination:
+          type:
+          - object
+          - 'null'
+          description: 'Provenance of the spam determination. For manual marks: { source: "manual" }. For automated marks: { source: "automated", checks: { <check_name>: <status> } }. Null when the submission is not marked as spam.'
+        archived:
+          type: boolean
+          description: Whether this submission has been archived.
+        deleted:
+          type: boolean
+          description: Whether this submission has been soft-deleted.
+        deleted_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: ISO 8601 timestamp when the submission was soft-deleted. Null if not deleted.
+        aasm_state:
+          type: string
+          enum:
+          - acknowledged
+          - received
+          - responded
+          description: Current workflow state of the submission.
+        language:
+          type: string
+          description: BCP 47 language tag of the respondent's browser locale.
+        uuid:
+          type: string
+          format: uuid
+          description: Unique identifier for this submission.
+        tags:
+          type: array
+          description: Tags applied to this submission.
+          items:
+            type: string
     LogoVariant:
       type: object
       required:
@@ -757,6 +1047,23 @@ components:
           description: List of tag labels applied to this form.
           items:
             type: string
+    SubmissionResource:
+      type: object
+      description: A submitted response to a form, representing a single respondent's answers to the survey questions.
+      required:
+      - id
+      - type
+      - attributes
+      properties:
+        id:
+          type: string
+          description: Numeric identifier of the submission (string-encoded).
+        type:
+          type: string
+          enum:
+          - submissions
+        attributes:
+          $ref: '#/components/schemas/SubmissionAttributes'
     FormResource:
       type: object
       description: A survey form
@@ -777,50 +1084,37 @@ components:
           $ref: '#/components/schemas/FormAttributes'
         relationships:
           $ref: '#/components/schemas/FormRelationships'
-    Logo:
+    PaginationLinks:
       type: object
       required:
-      - url
-      - thumb
-      - card
-      - tag
-      - logo_square
+      - self
+      - first
+      - last
       properties:
-        url:
+        self:
+          type: string
+          format: uri
+          description: URL of the current page.
+        first:
+          type: string
+          format: uri
+          description: URL of the first page.
+        prev:
           type:
           - string
           - 'null'
           format: uri
-          description: Full-size logo image URL.
-        thumb:
-          $ref: '#/components/schemas/LogoVariant'
-          description: Thumbnail-sized logo variant.
-        card:
-          $ref: '#/components/schemas/LogoVariant'
-          description: Card-sized logo variant.
-        tag:
-          $ref: '#/components/schemas/LogoVariant'
-          description: Tag-sized logo variant.
-        logo_square:
-          $ref: '#/components/schemas/LogoVariant'
-          description: Square-cropped logo variant.
-    SubmissionResource:
-      type: object
-      description: A submitted response to a form, representing a single respondent's answers to the survey questions.
-      required:
-      - id
-      - type
-      - attributes
-      properties:
-        id:
+          description: URL of the previous page. Null on the first page.
+        next:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: URL of the next page. Null on the last page.
+        last:
           type: string
-          description: Numeric identifier of the submission (string-encoded).
-        type:
-          type: string
-          enum:
-          - submissions
-        attributes:
-          $ref: '#/components/schemas/SubmissionAttributes'
+          format: uri
+          description: URL of the last page.
     FormQuestion:
       type: object
       required:
@@ -900,26 +1194,6 @@ components:
           type: string
           format: date-time
           description: ISO 8601 timestamp when the question was last updated.
-    PaginationMeta:
-      type: object
-      required:
-      - current_page
-      - page_size
-      - total_pages
-      - total_count
-      properties:
-        current_page:
-          type: integer
-          description: The current page number (1-indexed).
-        page_size:
-          type: integer
-          description: Number of records requested per page.
-        total_pages:
-          type: integer
-          description: Total number of pages available.
-        total_count:
-          type: integer
-          description: Total number of records across all pages.
     FormRelationships:
       type: object
       required:
@@ -956,280 +1230,6 @@ components:
                   type: string
                   enum:
                   - services
-    SubmissionAttributes:
-      type: object
-      required:
-      - page
-      - flagged
-      - archived
-      - deleted
-      - aasm_state
-      - language
-      - uuid
-      - tags
-      - created_at
-      - updated_at
-      - answer_01
-      - answer_02
-      - answer_03
-      - answer_04
-      - answer_05
-      - answer_06
-      - answer_07
-      - answer_08
-      - answer_09
-      - answer_10
-      - answer_11
-      - answer_12
-      - answer_13
-      - answer_14
-      - answer_15
-      - answer_16
-      - answer_17
-      - answer_18
-      - answer_19
-      - answer_20
-      - answer_21
-      - answer_22
-      - answer_23
-      - answer_24
-      - answer_25
-      - answer_26
-      - answer_27
-      - answer_28
-      - answer_29
-      - answer_30
-      properties:
-        user_id:
-          type:
-          - integer
-          - 'null'
-          description: ID of the authenticated user who submitted, if any. Null for anonymous submissions.
-        created_at:
-          type: string
-          format: date-time
-          description: ISO 8601 timestamp when the submission was received.
-        updated_at:
-          type: string
-          format: date-time
-          description: ISO 8601 timestamp when the submission was last updated.
-        referer:
-          type: string
-          description: HTTP Referer header value at time of submission. May be empty string.
-        hostname:
-          type:
-          - string
-          - 'null'
-          description: Hostname of the page that hosted the form at submission time. Null for older submissions.
-        page:
-          type: string
-          description: Path of the page that hosted the form at submission time.
-        query_string:
-          type:
-          - string
-          - 'null'
-          description: URL query string present at submission time. Null for older submissions.
-        user_agent:
-          type: string
-          description: HTTP User-Agent string of the respondent's browser.
-        answer_01:
-          type:
-          - string
-          - 'null'
-          description: Response to question slot 01.
-        answer_02:
-          type:
-          - string
-          - 'null'
-          description: Response to question slot 02.
-        answer_03:
-          type:
-          - string
-          - 'null'
-          description: Response to question slot 03.
-        answer_04:
-          type:
-          - string
-          - 'null'
-          description: Response to question slot 04.
-        answer_05:
-          type:
-          - string
-          - 'null'
-          description: Response to question slot 05.
-        answer_06:
-          type:
-          - string
-          - 'null'
-          description: Response to question slot 06.
-        answer_07:
-          type:
-          - string
-          - 'null'
-          description: Response to question slot 07.
-        answer_08:
-          type:
-          - string
-          - 'null'
-          description: Response to question slot 08.
-        answer_09:
-          type:
-          - string
-          - 'null'
-          description: Response to question slot 09.
-        answer_10:
-          type:
-          - string
-          - 'null'
-          description: Response to question slot 10.
-        answer_11:
-          type:
-          - string
-          - 'null'
-          description: Response to question slot 11.
-        answer_12:
-          type:
-          - string
-          - 'null'
-          description: Response to question slot 12.
-        answer_13:
-          type:
-          - string
-          - 'null'
-          description: Response to question slot 13.
-        answer_14:
-          type:
-          - string
-          - 'null'
-          description: Response to question slot 14.
-        answer_15:
-          type:
-          - string
-          - 'null'
-          description: Response to question slot 15.
-        answer_16:
-          type:
-          - string
-          - 'null'
-          description: Response to question slot 16.
-        answer_17:
-          type:
-          - string
-          - 'null'
-          description: Response to question slot 17.
-        answer_18:
-          type:
-          - string
-          - 'null'
-          description: Response to question slot 18.
-        answer_19:
-          type:
-          - string
-          - 'null'
-          description: Response to question slot 19.
-        answer_20:
-          type:
-          - string
-          - 'null'
-          description: Response to question slot 20.
-        answer_21:
-          type:
-          - string
-          - 'null'
-          description: Response to question slot 21.
-        answer_22:
-          type:
-          - string
-          - 'null'
-          description: Response to question slot 22.
-        answer_23:
-          type:
-          - string
-          - 'null'
-          description: Response to question slot 23.
-        answer_24:
-          type:
-          - string
-          - 'null'
-          description: Response to question slot 24.
-        answer_25:
-          type:
-          - string
-          - 'null'
-          description: Response to question slot 25.
-        answer_26:
-          type:
-          - string
-          - 'null'
-          description: Response to question slot 26.
-        answer_27:
-          type:
-          - string
-          - 'null'
-          description: Response to question slot 27.
-        answer_28:
-          type:
-          - string
-          - 'null'
-          description: Response to question slot 28.
-        answer_29:
-          type:
-          - string
-          - 'null'
-          description: Response to question slot 29.
-        answer_30:
-          type:
-          - string
-          - 'null'
-          description: Response to question slot 30.
-        ip_address:
-          type: string
-          description: IPv4 or IPv6 address of the respondent at submission time.
-        location_code:
-          type: string
-          description: Geographic location code associated with the submission. May be empty string.
-        flagged:
-          type: boolean
-          description: Whether this submission has been flagged for review.
-        spam:
-          type: boolean
-          description: Whether this submission has been marked as spam (manually or by automated spam detection).
-        spam_determination:
-          type:
-          - object
-          - 'null'
-          description: 'Provenance of the spam determination. For manual marks: { source: "manual" }. For automated marks: { source: "automated", checks: { <check_name>: <status> } }. Null when the submission is not marked as spam.'
-        archived:
-          type: boolean
-          description: Whether this submission has been archived.
-        deleted:
-          type: boolean
-          description: Whether this submission has been soft-deleted.
-        deleted_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          description: ISO 8601 timestamp when the submission was soft-deleted. Null if not deleted.
-        aasm_state:
-          type: string
-          enum:
-          - acknowledged
-          - received
-          - responded
-          description: Current workflow state of the submission.
-        language:
-          type: string
-          description: BCP 47 language tag of the respondent's browser locale.
-        uuid:
-          type: string
-          format: uuid
-          description: Unique identifier for this submission.
-        tags:
-          type: array
-          description: Tags applied to this submission.
-          items:
-            type: string
   securitySchemes:
     api_key:
       type: apiKey
