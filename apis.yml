@@ -4577,6 +4577,9 @@ apis:
   - type: Documentation
     url: https://open.gsa.gov/api/spr-api/
 common:
+- type: CapabilityMap
+  url: capabilities/general-services-administration-capability-edges.yml
+  name: General Services Administration Business Capability Map
 - type: Overlay
   url: overlays/general-services-administration-acquisition-gateway-listings-overlay.yaml
 - type: Overlay
