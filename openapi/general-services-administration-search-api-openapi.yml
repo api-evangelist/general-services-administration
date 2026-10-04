@@ -194,9 +194,6 @@ paths:
     - url: https://api.gsa.gov/technology/searchgov/v2
 components:
   schemas:
-    Error:
-      type: string
-      description: The issue with your request.
     text_best_bets:
       type: array
       properties:
@@ -212,6 +209,9 @@ components:
         description:
           type: string
           description: Description of the best bet
+    Error:
+      type: string
+      description: The issue with your request.
     query:
       type: string
       description: We return the query to you for use in the results page display

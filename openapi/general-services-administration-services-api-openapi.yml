@@ -857,6 +857,172 @@ paths:
       description: The production Touchpoints API
 components:
   schemas:
+    Ledger-readItem_readItemSubRes_supService:
+      type: object
+      description: ''
+      properties:
+        agencyId:
+          description: A unique identifier for the document provided by the submitting user.
+          type: string
+        costItem:
+          type:
+          - string
+          - 'null'
+          example: IT Dashboard Infrastructure Expense
+          description: 'Optional descriptive name detailing the type of funding information provided within  given
+
+            ledger item'
+        year:
+          type: number
+          format: year
+          example: 2022
+          description: A Fiscal year associated with the funding in a given ledger item
+        amount:
+          type: number
+          format: decimal
+          example: 100
+          description: Funding amount for a ledger item
+        type:
+          type:
+          - string
+          - 'null'
+          enum:
+          - O&M
+          - DME
+          example: O&M
+          description: 'Select either O&M or DME.<br/>O&M: Operations & Maintenance Costs refers to the expenses
+
+            required to operate and maintain an IT asset that is operating in a production environment.<br/>DME: Development,
+
+            Modernization, and Enhancement refers to projects and activities leading to new IT assets/systems, as well as
+
+            projects and activities that change or modify existing IT assets to substantively improve capability or
+
+            performance, implement legislative or regulatory requirements, or meet an Agency leadership request. DME activity
+
+            may occur at any time during a program’s life cycle.'
+        costPool:
+          type:
+          - string
+          - 'null'
+          enum:
+          - Internal Labor
+          - External Labor
+          - Outside Services
+          - Hardware
+          - Software
+          - Facilities & Power
+          - Telecom
+          - Other
+          - Internal Services
+          - ''
+          example: Outside Services
+          description: 'For ledger items selecting TBM reporting, Agencies can align funding against a Cost Pool per the
+
+            definitions for TBM v3.0 provided online by the TBM Council'
+        ITTower:
+          type:
+          - string
+          - 'null'
+          enum:
+          - End User
+          - Application
+          - Delivery
+          - Security & Compliance
+          - IT Management
+          - Data Center
+          - Network
+          - Compute
+          - Storage
+          - Platform
+          - Output
+          - ''
+          example: Data Center
+          description: 'For ledger items selecting TBM reporting, Agencies can align funding against a IT Tower per the
+
+            definitions for TBM v3.0 provided online by the TBM Council'
+        fundingSource:
+          type: string
+          example: 001-00-9004
+          description: 'For ledger items selecting Funding Sources Reporting, indicate the Funding Source associated
+
+            with a given ledger item.'
+        source:
+          type:
+          - string
+          - 'null'
+          enum:
+          - Internal Funding
+          - Contributions
+          example: Internal Funding
+          description: 'For ledger items selecting Funding Sources Reporting, indicate whether the funding is associated
+
+            with ''Agency Funding'' or ''Contributions'''
+        ledgerElementStyle:
+          type: string
+          enum:
+          - Funding Sources Only
+          - TBM Only
+          - All
+          - Budget Authority
+          example: TBM Only
+          description: 'Indicate the type of funding data a given ledger request will provide to IT Collect. This field''s
+
+            selection will trigger a series of validation checks to ensure that Agencies are providing and omitting the
+
+            relevant data points for either Funding Sources or TBM reporting. Funding Sources reporting will mandate the
+
+            inclusion of the Funding Source, Source, and Type fields. TBM reporting will mandate the inclusion of either
+
+            the Cost Pool or IT Tower field. Budget Authority requests must include the same set of fields as Funding
+
+            Source request, however, Budget Authority submissions do not count toward the aggregate funding total of an
+
+            investment.'
+        alternateBureau:
+          type:
+          - string
+          - 'null'
+          format: number
+          example: '10'
+          minLength: '2'
+          maxLength: '2'
+          description: 'Alternate Bureau (string) - 2 digit code
+
+            Enter the Bureau who controls spending for this ledger entry'
+        rebaseLines:
+          type: array
+          readOnly: true
+          description: A list of associated rebaseLine IDs
+          items:
+            type: string
+        isMasked:
+          type: bool
+          example: true
+          readOnly: true
+          description: A readonly boolean indicating whether the document is masked from the public.
+          default: true
+        isRetired:
+          type: bool
+          example: false
+          description: Boolean indicating if the document has been retired
+        created:
+          type: string
+          format: timestamp
+          example: '2020-01-01 15:00:00'
+          readOnly: true
+          description: Created date/time
+        lastModified:
+          type: string
+          format: timestamp
+          example: '2020-01-01 15:00:00'
+          readOnly: true
+          description: Last modified date/time
+        agencyCode:
+          type: string
+          format: string
+          example: 018
+          description: The agency code of the user who created the record
     Projects-readItem_readItemSubRes_supService:
       type: object
       description: ''
@@ -1039,463 +1205,6 @@ components:
           format: string
           example: 018
           description: The agency code of the user who created the record
-    Services-read_supService:
-      type: object
-      description: ''
-      properties:
-        created:
-          type: string
-          format: timestamp
-          example: '2020-01-01 15:00:00'
-          readOnly: true
-          description: Created date/time
-        lastModified:
-          type: string
-          format: timestamp
-          example: '2020-01-01 15:00:00'
-          readOnly: true
-          description: Last modified date/time
-        agencyCode:
-          type: string
-          format: string
-          example: 018
-          description: The agency code of the user who created the record
-        agencyId:
-          type: string
-          format: alphanumeric
-          minLength: 1
-          maxLength: 32
-          description: A unique identifier for the document provided by the submitting user.
-        currentUII:
-          type: string
-          format: string
-          example: 018-000000123
-          description: 'The Current UII includes an Agency code and a nine-digit unique identifier.
-
-            Variable information formerly included in the UII of previous years is not part
-
-            of the UII primary key.'
-        agency:
-          type: string
-          format: numeric
-          enum:
-          - '005'
-          - '006'
-          - '007'
-          - 009
-          - '010'
-          - '011'
-          - '012'
-          - '014'
-          - '015'
-          - '016'
-          - 018
-          - 019
-          - '020'
-          - '021'
-          - '023'
-          - '024'
-          - '025'
-          - '026'
-          - '027'
-          - 028
-          - 029
-          - '100'
-          - '184'
-          - '202'
-          - '393'
-          - '422'
-          - '429'
-          example: 018
-          description: The three digit agency code.
-        title:
-          type: string
-          format: string
-          example: IT Collect Development
-          description: 'This is a text field to provide the Investment title. To the extent that they are not
-
-            part of the name used by the Agency, other identifiers such as bureaus or other
-
-            numeric codes should not be included as part of an Investment title.'
-        description:
-          type: string
-          format: string
-          example: Sample description of the IT Dashboard modernization process.
-          description: 'Description for each Investment. This description should briefly explain the
-
-            purpose of the Investment and what program(s) it supports, including the value
-
-            to the public.'
-        changeInStatus:
-          type: string
-          format: numeric
-          enum:
-          - '01'
-          - '02'
-          - '03'
-          - '04'
-          - '05'
-          - '06'
-          - '07'
-          - 08
-          - 09
-          - '10'
-          - '11'
-          example: '11'
-          description: 'This is used when an Investment has a change in status (e.g., downgraded to non-major IT Investment,
-
-            eliminated, retired, consolidated, split) for the current budget submission relative to the previous budget
-
-            cycle. The change of status should be indicated with one of the following reasons:
-
-
-            - 01: Upgraded from non-major to major IT Investment
-
-            - 02: Downgraded from major to non-major IT Investment
-
-            - 03: Split into multiple Investments
-
-            - 04: Consolidation of Investments
-
-            - 05: Reorganization
-
-            - 06: Eliminated by funding
-
-            - 07: Eliminated by split
-
-            - 08: Eliminated by consolidation
-
-            - 09: Eliminated by reorganization
-
-            - 10: New
-
-            - 11: No Change in Status'
-        changeInStatusDescription:
-          type:
-          - string
-          - 'null'
-          format: string
-          example: New Service
-          description: 'This is used when an indicator has been chosen for "Change in Investment Status Identifier" in
-
-            order to provide a description of the rationale for the change, which may include impacted UIIs, specific
-
-            references to legislative requirements, or governance board decisions and effective dates.'
-        previousUIIs:
-          type:
-          - array
-          - 'null'
-          example:
-          - 018-000001234
-          description: 'Previous UIIs
-
-            Enter an identifier depicting Agency Code and unique investment number
-
-            used to report the Investment in the previous BY 2022 Agency IT Portfolio
-
-            Summary submission to OMB Array of UIIs must correspond with either active
-
-            or formerly active UIIs in IT Collect. All Investments where Change in
-
-            Status does not equal “new” must provide Previous UII data.'
-          items:
-            type: string
-        sharedServiceCode:
-          type: digit
-          format: string
-          enum:
-          - '00'
-          - '24'
-          - '48'
-          example: '00'
-          description: 'Shared Services Code, 2 digit - 00, 24, or 48
-
-
-            - 00: Code for all Investments other than those coded “24” or “48.”
-
-            - 24: E-Gov initiatives or an individual Agency''s participation in one of the EGov/LoB initiatives listed in
-
-            Appendix B.
-
-            - 48: Any Multi-Agency (Inter- or Intra-Agency) IT collaboration or an individual Agency’s participation
-
-            in one of these initiatives, such as use of a centralized FOIA portal.'
-        sharedServiceId:
-          type:
-          - digit
-          - 'null'
-          format: string
-          example: '0024'
-          minLength: 1
-          maxLength: 4
-          description: 'Shared Services Identifier - 4 digits
-
-            These four digits are applicable for all Investments with a Shared Services Category of 24 or 48. A code will be
-
-            specifically assigned for all E-Gov/LoB shared services in Appendix B, while Agencies should assign their own
-
-            four digit unique codes for Multi-Agency initiatives using the “48” shared services category.
-
-
-            This code represents the same 4-digit identifier previously provided in the last nine digits of the UII for
-
-            Investments starting with xxx-99999XXXX.'
-        missionSupportCategories:
-          type:
-          - array
-          - 'null'
-          enum:
-          - '01'
-          - '02'
-          - '03'
-          - '04'
-          - '05'
-          - '06'
-          - '07'
-          - 08
-          - 09
-          - ''
-          example:
-          - '01'
-          externalDocs:
-            url: https://ussm.gsa.gov/fibf/
-          description: 'Mission Support Category - 2 digit code - 01, 02, 03, 04, 05, 06, 07, 08, or 09
-
-            These two digits indicate the category of common Mission Support Services
-
-            Investments by Federal Integrated Business Framework (FIBF) Service Area(s).
-
-            All non-Mission Support Services Investments should use Category 01. Mission
-
-            Support Services Investments may select more than one code where applicable:
-
-
-            - 01: Not Applicable
-
-            - 02: Financial Management
-
-            - 03: Human Resources
-
-            - 04: Procurement
-
-            - 05: Travel / Transportation
-
-            - 06: Grants Management
-
-            - 07: Electronic Records Management
-
-            - 08: Cybersecurity Services
-
-            - 09: Other'
-          items:
-            type: string
-        bureauCode:
-          type: string
-          format: number
-          example: '00'
-          minLength: '2'
-          maxLength: '2'
-          description: 'Bureau Code (string) - 2 digit code
-
-            The two digits indicate the bureau code of the Investment (see Appendix C of OMB Circular No. A-11).
-
-            If this is a department-level or an Agency-wide  activity, use “00” as your bureau code.'
-        partOfAITPS:
-          type: string
-          format: numeric
-          enum:
-          - '01'
-          - '02'
-          - '03'
-          example: '01'
-          description: 'Part of AITPS (string) - 2 digit code - 01, 02, or 03
-
-            These two digits indicate one of the three parts of the Agency IT Portfolio
-
-            Summary, to which the Investment belongs:
-
-
-            - 01: Part 1. IT Investments for Mission Delivery
-
-            - 02: Part 2. IT Investments for Mission Support Services
-
-            - 03: Part 3. IT Investments for IT Infrastructure, IT Security, and IT Management'
-        standardIdCategory:
-          type: string
-          format: numeric
-          enum:
-          - '01'
-          - '02'
-          - '03'
-          - '04'
-          - '05'
-          - '06'
-          - '07'
-          - 08
-          - 09
-          - '10'
-          example: '01'
-          description: 'Standard IT Infrastructure and Management Category
-
-            2 digit code - 01, 02, 03, 04, 05, 06, 07 ,08, 09, or 10
-
-            These two digits indicate the sub-category of Investments identified as Part 3:
-
-            IT Investments for IT Infrastructure, IT Security, and IT Management. For the
-
-            FY 2021 reporting cycle, the four previous optional Standard Investments
-
-            Output, Application, Delivery, and Platform will now be required.
-
-
-            All Part 3 Investments should select one of the following codes other than “01: Not
-
-            Applicable,” while all Part 1 and 2 Investments should select “01: Not Applicable.”
-
-
-            - 01: Not Applicable
-
-            - 02: IT Security and Compliance
-
-            - 03: IT Management
-
-            - 04: Network
-
-            - 05: Data Center and Cloud
-
-            - 06: End User
-
-            - 07: Output
-
-            - 08: Application
-
-            - 09: Delivery
-
-            - 10: Platform'
-        missionSupportArea:
-          type:
-          - string
-          - 'null'
-          format: numeric
-          example: '00'
-          minLength: 2
-          maxLength: 2
-          description: 'Mission Delivery and Management Support Area  - 2 digit code
-
-            These two digits indicate the mission delivery and management support areas.
-
-            Agencies should assign a unique code for each mission delivery and
-
-            management support area reported.'
-        investmentType:
-          type: string
-          format: numeric
-          enum:
-          - '01'
-          - '02'
-          - '03'
-          - '04'
-          - '05'
-          example: '01'
-          description: 'Type of Investment - 2 digit code - 01, 02, 03, 04, or 05
-
-            These two digits indicate the type of Investment being reported as follows:
-
-
-            - 01: Major IT Investments
-
-            - 02: Non-major IT Investments
-
-            - 03: IT Migration Investment: The portion of a larger asset and for which there is an existing Business Case
-
-            for the overall asset. The description of the IT Investment should indicate the UII of the major asset Investment
-
-            of the managing partner.
-
-            - 04: Funding Transfer Investments: These are primarily used to indicate the partner contribution to a Lead
-
-            Agency Investment through inter- or intraAgency transfers. The description of the IT Investment should indicate
-
-            the UII of the Lead Agency’s Investment.
-
-            - 05: Standard IT Infrastructure Investments in Part 3: IT Infrastructure, IT  Security, IT Management
-
-            Investments (IT Security and Compliance, IT Management, Network, Data Center and Cloud, End User, Output,
-
-            Application, Delivery, and Platform).'
-        returnOnInvestment:
-          type:
-          - string
-          - 'null'
-          format: string
-          example: Sample description of a return on an investment.
-          description: '- Return on investment'
-        nssId:
-          type: string
-          format: numeric
-          enum:
-          - '01'
-          - '02'
-          example: '01'
-          description: 'National Security Systems Identifier - 2 digit code - 01 or 02
-
-            These two digits indicate whether the Investment is a National Security System the Federal Information Security
-
-            Management Act of 2002 (FISMA), 44 U.S.C. 3542(b)(2) as follows:
-
-
-            - 01: Non-National Security System Investment
-
-            - 02: National Security System Investment (these investments will not be publicly viewable on the IT Dashboard)'
-        publicUrls:
-          type:
-          - array
-          - 'null'
-          example:
-          - https://example.gov
-          description: 'Public URL(s) List any website or digital service that is supported primarily by this Investment.
-
-            Supply an array of strings (URLS).'
-          items:
-            type: string
-        isMasked:
-          type: bool
-          example: true
-          readOnly: true
-          description: A readonly boolean indicating whether the document is masked from the public.
-          default: true
-        isRetired:
-          type: bool
-          example: false
-          description: Boolean indicating if the document has been retired
-        timePeriodId:
-          type: string
-          format: string
-          example: ''
-        lastModifiedTimePeriod:
-          type: string
-          format: string
-          example: ''
-        lastModifiedBudgetYear:
-          type: integer
-          format: string
-          example: ''
-        createdTimePeriod:
-          type: string
-          format: string
-          example: ''
-        retiredTimePeriod:
-          type:
-          - string
-          - 'null'
-          format: string
-          example: ''
-        rebaseLines:
-          type: array
-          readOnly: true
-          description: A list of associated rebaseLine IDs
-          items:
-            type: string
     Metric-readItem_readItemSubRes_supService:
       type: object
       description: ''
@@ -1577,35 +1286,10 @@ components:
           type: bool
           example: false
           description: Set this value to true when this performance metrics is no longer useful for investment management.
-    CioRating-readItem_readItemSubRes_supService:
+    MetricActual-readItem_readItemSubRes_supService:
       type: object
       description: ''
       properties:
-        agencyId:
-          description: A unique identifier for the document provided by the submitting user.
-          type: string
-        rating:
-          type: number
-          format: integer
-          example: 5
-          minimum: 1
-          maximum: 5
-          description: 'CIOs best judgment of the current level of risk for the Investment in terms of its ability
-
-            to accomplish its goals (per 40 U.S.C. § 11315 (c)(2)).
-
-
-            1 represents the lowest possible score and 5 represent the highest possible score.'
-        comment:
-          type: string
-          format: string
-          example: CIO Evaluation Report on 10/1/2020 produced a score of 5.
-          description: Explanation and/or additional details regarding this reported value
-        date:
-          type: date
-          format: string
-          example: '2020-10-01'
-          description: Provide the date of CIO Evaluation
         created:
           type: string
           format: timestamp
@@ -1623,222 +1307,39 @@ components:
           format: string
           example: 018
           description: The agency code of the user who created the record
-    Ledger-readItem_readItemSubRes_supService:
-      type: object
-      description: ''
-      properties:
         agencyId:
-          description: A unique identifier for the document provided by the submitting user.
           type: string
-        costItem:
-          type:
-          - string
-          - 'null'
-          example: IT Dashboard Infrastructure Expense
-          description: 'Optional descriptive name detailing the type of funding information provided within  given
-
-            ledger item'
-        year:
-          type: number
-          format: year
-          example: 2022
-          description: A Fiscal year associated with the funding in a given ledger item
-        amount:
+          format: alphanumeric
+          minLength: 1
+          maxLength: 64
+        result:
           type: number
           format: decimal
+          description: Enter the actual result measured
           example: 100
-          description: Funding amount for a ledger item
-        type:
-          type:
-          - string
-          - 'null'
-          enum:
-          - O&M
-          - DME
-          example: O&M
-          description: 'Select either O&M or DME.<br/>O&M: Operations & Maintenance Costs refers to the expenses
-
-            required to operate and maintain an IT asset that is operating in a production environment.<br/>DME: Development,
-
-            Modernization, and Enhancement refers to projects and activities leading to new IT assets/systems, as well as
-
-            projects and activities that change or modify existing IT assets to substantively improve capability or
-
-            performance, implement legislative or regulatory requirements, or meet an Agency leadership request. DME activity
-
-            may occur at any time during a program’s life cycle.'
-        costPool:
-          type:
-          - string
-          - 'null'
-          enum:
-          - Internal Labor
-          - External Labor
-          - Outside Services
-          - Hardware
-          - Software
-          - Facilities & Power
-          - Telecom
-          - Other
-          - Internal Services
-          - ''
-          example: Outside Services
-          description: 'For ledger items selecting TBM reporting, Agencies can align funding against a Cost Pool per the
-
-            definitions for TBM v3.0 provided online by the TBM Council'
-        ITTower:
-          type:
-          - string
-          - 'null'
-          enum:
-          - End User
-          - Application
-          - Delivery
-          - Security & Compliance
-          - IT Management
-          - Data Center
-          - Network
-          - Compute
-          - Storage
-          - Platform
-          - Output
-          - ''
-          example: Data Center
-          description: 'For ledger items selecting TBM reporting, Agencies can align funding against a IT Tower per the
-
-            definitions for TBM v3.0 provided online by the TBM Council'
-        fundingSource:
+        date:
           type: string
-          example: 001-00-9004
-          description: 'For ledger items selecting Funding Sources Reporting, indicate the Funding Source associated
-
-            with a given ledger item.'
-        source:
-          type:
-          - string
-          - 'null'
-          enum:
-          - Internal Funding
-          - Contributions
-          example: Internal Funding
-          description: 'For ledger items selecting Funding Sources Reporting, indicate whether the funding is associated
-
-            with ''Agency Funding'' or ''Contributions'''
-        ledgerElementStyle:
+          format: date
+          description: Date of Actual Result Enter the end date of the most recent reporting period
+          example: '2020-09-30'
+        comment:
           type: string
-          enum:
-          - Funding Sources Only
-          - TBM Only
-          - All
-          - Budget Authority
-          example: TBM Only
-          description: 'Indicate the type of funding data a given ledger request will provide to IT Collect. This field''s
-
-            selection will trigger a series of validation checks to ensure that Agencies are providing and omitting the
-
-            relevant data points for either Funding Sources or TBM reporting. Funding Sources reporting will mandate the
-
-            inclusion of the Funding Source, Source, and Type fields. TBM reporting will mandate the inclusion of either
-
-            the Cost Pool or IT Tower field. Budget Authority requests must include the same set of fields as Funding
-
-            Source request, however, Budget Authority submissions do not count toward the aggregate funding total of an
-
-            investment.'
-        alternateBureau:
-          type:
-          - string
-          - 'null'
-          format: number
-          example: '10'
-          minLength: '2'
-          maxLength: '2'
-          description: 'Alternate Bureau (string) - 2 digit code
-
-            Enter the Bureau who controls spending for this ledger entry'
+          format: string
+          example: September 2020 result
+          description: Provide a comment for results that have not met their target
+        metTarget:
+          type: string
+          formate: string
+          example: MET
+          readOnly: true
+          description: A readonly boolean indicating whether the document is masked from the public.
+          default: N/A
         rebaseLines:
           type: array
           readOnly: true
           description: A list of associated rebaseLine IDs
           items:
             type: string
-        isMasked:
-          type: bool
-          example: true
-          readOnly: true
-          description: A readonly boolean indicating whether the document is masked from the public.
-          default: true
-        isRetired:
-          type: bool
-          example: false
-          description: Boolean indicating if the document has been retired
-        created:
-          type: string
-          format: timestamp
-          example: '2020-01-01 15:00:00'
-          readOnly: true
-          description: Created date/time
-        lastModified:
-          type: string
-          format: timestamp
-          example: '2020-01-01 15:00:00'
-          readOnly: true
-          description: Last modified date/time
-        agencyCode:
-          type: string
-          format: string
-          example: 018
-          description: The agency code of the user who created the record
-    OperationalAnalysis-readItem_readItemSubRes_supService:
-      type: object
-      description: ''
-      properties:
-        agencyId:
-          type: string
-          format: alphanumeric
-          minLength: 1
-          maxLength: 64
-          description: A unique identifier for the document provided by the submitting user.
-        date:
-          type: string
-          format: date
-          example: '2020-08-15'
-          description: The date [YYYY-MM-DD] that the operational analysis is submitted
-        analysisResults:
-          type: string
-          format: string
-          example: Sample description of the analysis results
-          description: The results of the operational analysis
-        analysisConclusion:
-          type: string
-          enum:
-          - continue as-is
-          - initiate remediation action
-          - initiate innovation action
-          - initiate modernization/replacement action
-          - initiate disposal action
-          example: continue as-is
-          description: The conclusion of the operational analysis
-        created:
-          type: string
-          format: timestamp
-          example: '2020-01-01 15:00:00'
-          readOnly: true
-          description: Created date/time
-        lastModified:
-          type: string
-          format: timestamp
-          example: '2020-01-01 15:00:00'
-          readOnly: true
-          description: Last modified date/time
-        agencyCode:
-          type: string
-          format: string
-          example: 018
-          description: The agency code of the user who created the record
-      required:
-      - date
-      - analysisResults
     Contract-readItem_readItemSubRes_supService:
       type: object
       description: ''
@@ -2366,7 +1867,53 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/OperationalAnalysis-readItem_readItemSubRes_supService'
-    MetricActual-readItem_readItemSubRes_supService:
+    CioRating-readItem_readItemSubRes_supService:
+      type: object
+      description: ''
+      properties:
+        agencyId:
+          description: A unique identifier for the document provided by the submitting user.
+          type: string
+        rating:
+          type: number
+          format: integer
+          example: 5
+          minimum: 1
+          maximum: 5
+          description: 'CIOs best judgment of the current level of risk for the Investment in terms of its ability
+
+            to accomplish its goals (per 40 U.S.C. § 11315 (c)(2)).
+
+
+            1 represents the lowest possible score and 5 represent the highest possible score.'
+        comment:
+          type: string
+          format: string
+          example: CIO Evaluation Report on 10/1/2020 produced a score of 5.
+          description: Explanation and/or additional details regarding this reported value
+        date:
+          type: date
+          format: string
+          example: '2020-10-01'
+          description: Provide the date of CIO Evaluation
+        created:
+          type: string
+          format: timestamp
+          example: '2020-01-01 15:00:00'
+          readOnly: true
+          description: Created date/time
+        lastModified:
+          type: string
+          format: timestamp
+          example: '2020-01-01 15:00:00'
+          readOnly: true
+          description: Last modified date/time
+        agencyCode:
+          type: string
+          format: string
+          example: 018
+          description: The agency code of the user who created the record
+    Services-read_supService:
       type: object
       description: ''
       properties:
@@ -2391,35 +1938,505 @@ components:
           type: string
           format: alphanumeric
           minLength: 1
-          maxLength: 64
-        result:
-          type: number
-          format: decimal
-          description: Enter the actual result measured
-          example: 100
-        date:
-          type: string
-          format: date
-          description: Date of Actual Result Enter the end date of the most recent reporting period
-          example: '2020-09-30'
-        comment:
+          maxLength: 32
+          description: A unique identifier for the document provided by the submitting user.
+        currentUII:
           type: string
           format: string
-          example: September 2020 result
-          description: Provide a comment for results that have not met their target
-        metTarget:
+          example: 018-000000123
+          description: 'The Current UII includes an Agency code and a nine-digit unique identifier.
+
+            Variable information formerly included in the UII of previous years is not part
+
+            of the UII primary key.'
+        agency:
           type: string
-          formate: string
-          example: MET
+          format: numeric
+          enum:
+          - '005'
+          - '006'
+          - '007'
+          - 009
+          - '010'
+          - '011'
+          - '012'
+          - '014'
+          - '015'
+          - '016'
+          - 018
+          - 019
+          - '020'
+          - '021'
+          - '023'
+          - '024'
+          - '025'
+          - '026'
+          - '027'
+          - 028
+          - 029
+          - '100'
+          - '184'
+          - '202'
+          - '393'
+          - '422'
+          - '429'
+          example: 018
+          description: The three digit agency code.
+        title:
+          type: string
+          format: string
+          example: IT Collect Development
+          description: 'This is a text field to provide the Investment title. To the extent that they are not
+
+            part of the name used by the Agency, other identifiers such as bureaus or other
+
+            numeric codes should not be included as part of an Investment title.'
+        description:
+          type: string
+          format: string
+          example: Sample description of the IT Dashboard modernization process.
+          description: 'Description for each Investment. This description should briefly explain the
+
+            purpose of the Investment and what program(s) it supports, including the value
+
+            to the public.'
+        changeInStatus:
+          type: string
+          format: numeric
+          enum:
+          - '01'
+          - '02'
+          - '03'
+          - '04'
+          - '05'
+          - '06'
+          - '07'
+          - 08
+          - 09
+          - '10'
+          - '11'
+          example: '11'
+          description: 'This is used when an Investment has a change in status (e.g., downgraded to non-major IT Investment,
+
+            eliminated, retired, consolidated, split) for the current budget submission relative to the previous budget
+
+            cycle. The change of status should be indicated with one of the following reasons:
+
+
+            - 01: Upgraded from non-major to major IT Investment
+
+            - 02: Downgraded from major to non-major IT Investment
+
+            - 03: Split into multiple Investments
+
+            - 04: Consolidation of Investments
+
+            - 05: Reorganization
+
+            - 06: Eliminated by funding
+
+            - 07: Eliminated by split
+
+            - 08: Eliminated by consolidation
+
+            - 09: Eliminated by reorganization
+
+            - 10: New
+
+            - 11: No Change in Status'
+        changeInStatusDescription:
+          type:
+          - string
+          - 'null'
+          format: string
+          example: New Service
+          description: 'This is used when an indicator has been chosen for "Change in Investment Status Identifier" in
+
+            order to provide a description of the rationale for the change, which may include impacted UIIs, specific
+
+            references to legislative requirements, or governance board decisions and effective dates.'
+        previousUIIs:
+          type:
+          - array
+          - 'null'
+          example:
+          - 018-000001234
+          description: 'Previous UIIs
+
+            Enter an identifier depicting Agency Code and unique investment number
+
+            used to report the Investment in the previous BY 2022 Agency IT Portfolio
+
+            Summary submission to OMB Array of UIIs must correspond with either active
+
+            or formerly active UIIs in IT Collect. All Investments where Change in
+
+            Status does not equal “new” must provide Previous UII data.'
+          items:
+            type: string
+        sharedServiceCode:
+          type: digit
+          format: string
+          enum:
+          - '00'
+          - '24'
+          - '48'
+          example: '00'
+          description: 'Shared Services Code, 2 digit - 00, 24, or 48
+
+
+            - 00: Code for all Investments other than those coded “24” or “48.”
+
+            - 24: E-Gov initiatives or an individual Agency''s participation in one of the EGov/LoB initiatives listed in
+
+            Appendix B.
+
+            - 48: Any Multi-Agency (Inter- or Intra-Agency) IT collaboration or an individual Agency’s participation
+
+            in one of these initiatives, such as use of a centralized FOIA portal.'
+        sharedServiceId:
+          type:
+          - digit
+          - 'null'
+          format: string
+          example: '0024'
+          minLength: 1
+          maxLength: 4
+          description: 'Shared Services Identifier - 4 digits
+
+            These four digits are applicable for all Investments with a Shared Services Category of 24 or 48. A code will be
+
+            specifically assigned for all E-Gov/LoB shared services in Appendix B, while Agencies should assign their own
+
+            four digit unique codes for Multi-Agency initiatives using the “48” shared services category.
+
+
+            This code represents the same 4-digit identifier previously provided in the last nine digits of the UII for
+
+            Investments starting with xxx-99999XXXX.'
+        missionSupportCategories:
+          type:
+          - array
+          - 'null'
+          enum:
+          - '01'
+          - '02'
+          - '03'
+          - '04'
+          - '05'
+          - '06'
+          - '07'
+          - 08
+          - 09
+          - ''
+          example:
+          - '01'
+          externalDocs:
+            url: https://ussm.gsa.gov/fibf/
+          description: 'Mission Support Category - 2 digit code - 01, 02, 03, 04, 05, 06, 07, 08, or 09
+
+            These two digits indicate the category of common Mission Support Services
+
+            Investments by Federal Integrated Business Framework (FIBF) Service Area(s).
+
+            All non-Mission Support Services Investments should use Category 01. Mission
+
+            Support Services Investments may select more than one code where applicable:
+
+
+            - 01: Not Applicable
+
+            - 02: Financial Management
+
+            - 03: Human Resources
+
+            - 04: Procurement
+
+            - 05: Travel / Transportation
+
+            - 06: Grants Management
+
+            - 07: Electronic Records Management
+
+            - 08: Cybersecurity Services
+
+            - 09: Other'
+          items:
+            type: string
+        bureauCode:
+          type: string
+          format: number
+          example: '00'
+          minLength: '2'
+          maxLength: '2'
+          description: 'Bureau Code (string) - 2 digit code
+
+            The two digits indicate the bureau code of the Investment (see Appendix C of OMB Circular No. A-11).
+
+            If this is a department-level or an Agency-wide  activity, use “00” as your bureau code.'
+        partOfAITPS:
+          type: string
+          format: numeric
+          enum:
+          - '01'
+          - '02'
+          - '03'
+          example: '01'
+          description: 'Part of AITPS (string) - 2 digit code - 01, 02, or 03
+
+            These two digits indicate one of the three parts of the Agency IT Portfolio
+
+            Summary, to which the Investment belongs:
+
+
+            - 01: Part 1. IT Investments for Mission Delivery
+
+            - 02: Part 2. IT Investments for Mission Support Services
+
+            - 03: Part 3. IT Investments for IT Infrastructure, IT Security, and IT Management'
+        standardIdCategory:
+          type: string
+          format: numeric
+          enum:
+          - '01'
+          - '02'
+          - '03'
+          - '04'
+          - '05'
+          - '06'
+          - '07'
+          - 08
+          - 09
+          - '10'
+          example: '01'
+          description: 'Standard IT Infrastructure and Management Category
+
+            2 digit code - 01, 02, 03, 04, 05, 06, 07 ,08, 09, or 10
+
+            These two digits indicate the sub-category of Investments identified as Part 3:
+
+            IT Investments for IT Infrastructure, IT Security, and IT Management. For the
+
+            FY 2021 reporting cycle, the four previous optional Standard Investments
+
+            Output, Application, Delivery, and Platform will now be required.
+
+
+            All Part 3 Investments should select one of the following codes other than “01: Not
+
+            Applicable,” while all Part 1 and 2 Investments should select “01: Not Applicable.”
+
+
+            - 01: Not Applicable
+
+            - 02: IT Security and Compliance
+
+            - 03: IT Management
+
+            - 04: Network
+
+            - 05: Data Center and Cloud
+
+            - 06: End User
+
+            - 07: Output
+
+            - 08: Application
+
+            - 09: Delivery
+
+            - 10: Platform'
+        missionSupportArea:
+          type:
+          - string
+          - 'null'
+          format: numeric
+          example: '00'
+          minLength: 2
+          maxLength: 2
+          description: 'Mission Delivery and Management Support Area  - 2 digit code
+
+            These two digits indicate the mission delivery and management support areas.
+
+            Agencies should assign a unique code for each mission delivery and
+
+            management support area reported.'
+        investmentType:
+          type: string
+          format: numeric
+          enum:
+          - '01'
+          - '02'
+          - '03'
+          - '04'
+          - '05'
+          example: '01'
+          description: 'Type of Investment - 2 digit code - 01, 02, 03, 04, or 05
+
+            These two digits indicate the type of Investment being reported as follows:
+
+
+            - 01: Major IT Investments
+
+            - 02: Non-major IT Investments
+
+            - 03: IT Migration Investment: The portion of a larger asset and for which there is an existing Business Case
+
+            for the overall asset. The description of the IT Investment should indicate the UII of the major asset Investment
+
+            of the managing partner.
+
+            - 04: Funding Transfer Investments: These are primarily used to indicate the partner contribution to a Lead
+
+            Agency Investment through inter- or intraAgency transfers. The description of the IT Investment should indicate
+
+            the UII of the Lead Agency’s Investment.
+
+            - 05: Standard IT Infrastructure Investments in Part 3: IT Infrastructure, IT  Security, IT Management
+
+            Investments (IT Security and Compliance, IT Management, Network, Data Center and Cloud, End User, Output,
+
+            Application, Delivery, and Platform).'
+        returnOnInvestment:
+          type:
+          - string
+          - 'null'
+          format: string
+          example: Sample description of a return on an investment.
+          description: '- Return on investment'
+        nssId:
+          type: string
+          format: numeric
+          enum:
+          - '01'
+          - '02'
+          example: '01'
+          description: 'National Security Systems Identifier - 2 digit code - 01 or 02
+
+            These two digits indicate whether the Investment is a National Security System the Federal Information Security
+
+            Management Act of 2002 (FISMA), 44 U.S.C. 3542(b)(2) as follows:
+
+
+            - 01: Non-National Security System Investment
+
+            - 02: National Security System Investment (these investments will not be publicly viewable on the IT Dashboard)'
+        publicUrls:
+          type:
+          - array
+          - 'null'
+          example:
+          - https://example.gov
+          description: 'Public URL(s) List any website or digital service that is supported primarily by this Investment.
+
+            Supply an array of strings (URLS).'
+          items:
+            type: string
+        isMasked:
+          type: bool
+          example: true
           readOnly: true
           description: A readonly boolean indicating whether the document is masked from the public.
-          default: N/A
+          default: true
+        isRetired:
+          type: bool
+          example: false
+          description: Boolean indicating if the document has been retired
+        timePeriodId:
+          type: string
+          format: string
+          example: ''
+        lastModifiedTimePeriod:
+          type: string
+          format: string
+          example: ''
+        lastModifiedBudgetYear:
+          type: integer
+          format: string
+          example: ''
+        createdTimePeriod:
+          type: string
+          format: string
+          example: ''
+        retiredTimePeriod:
+          type:
+          - string
+          - 'null'
+          format: string
+          example: ''
         rebaseLines:
           type: array
           readOnly: true
           description: A list of associated rebaseLine IDs
           items:
             type: string
+    OperationalAnalysis-readItem_readItemSubRes_supService:
+      type: object
+      description: ''
+      properties:
+        agencyId:
+          type: string
+          format: alphanumeric
+          minLength: 1
+          maxLength: 64
+          description: A unique identifier for the document provided by the submitting user.
+        date:
+          type: string
+          format: date
+          example: '2020-08-15'
+          description: The date [YYYY-MM-DD] that the operational analysis is submitted
+        analysisResults:
+          type: string
+          format: string
+          example: Sample description of the analysis results
+          description: The results of the operational analysis
+        analysisConclusion:
+          type: string
+          enum:
+          - continue as-is
+          - initiate remediation action
+          - initiate innovation action
+          - initiate modernization/replacement action
+          - initiate disposal action
+          example: continue as-is
+          description: The conclusion of the operational analysis
+        created:
+          type: string
+          format: timestamp
+          example: '2020-01-01 15:00:00'
+          readOnly: true
+          description: Created date/time
+        lastModified:
+          type: string
+          format: timestamp
+          example: '2020-01-01 15:00:00'
+          readOnly: true
+          description: Last modified date/time
+        agencyCode:
+          type: string
+          format: string
+          example: 018
+          description: The agency code of the user who created the record
+      required:
+      - date
+      - analysisResults
+    ServiceProviderResource:
+      type: object
+      description: Represents a service provider organization, which may have one or more services associated with it.
+      required:
+      - id
+      - type
+      - attributes
+      properties:
+        id:
+          type: string
+          description: Numeric identifier of the service provider (string-encoded).
+        type:
+          type: string
+          enum:
+          - service_providers
+        attributes:
+          $ref: '#/components/schemas/ServiceProviderAttributes'
     ServiceAttributes:
       type: object
       required:
@@ -2551,32 +2568,6 @@ components:
           enum:
           - created
           - verified
-    ServiceChannel:
-      type: object
-      required:
-      - id
-      - name
-      - created_at
-      - updated_at
-      - taggings_count
-      properties:
-        id:
-          type: integer
-          description: Numeric identifier of the channel tag.
-        name:
-          type: string
-          description: Machine-readable channel name (e.g. 'email', 'phone', 'computer', 'other_digital').
-        created_at:
-          type: string
-          format: date-time
-          description: ISO 8601 timestamp when the channel tag was created.
-        updated_at:
-          type: string
-          format: date-time
-          description: ISO 8601 timestamp when the channel tag was last updated.
-        taggings_count:
-          type: integer
-          description: Number of times this channel tag has been applied across all services.
     User:
       type: object
       description: A Touchpoints user account.
@@ -2608,6 +2599,32 @@ components:
           - 'null'
           format: uri
           description: URL to the user's profile photo. Null if not uploaded.
+    ServiceChannel:
+      type: object
+      required:
+      - id
+      - name
+      - created_at
+      - updated_at
+      - taggings_count
+      properties:
+        id:
+          type: integer
+          description: Numeric identifier of the channel tag.
+        name:
+          type: string
+          description: Machine-readable channel name (e.g. 'email', 'phone', 'computer', 'other_digital').
+        created_at:
+          type: string
+          format: date-time
+          description: ISO 8601 timestamp when the channel tag was created.
+        updated_at:
+          type: string
+          format: date-time
+          description: ISO 8601 timestamp when the channel tag was last updated.
+        taggings_count:
+          type: integer
+          description: Number of times this channel tag has been applied across all services.
     Tag:
       type: object
       required:
@@ -2727,23 +2744,6 @@ components:
           - services
         attributes:
           $ref: '#/components/schemas/ServiceAttributes'
-    ServiceProviderResource:
-      type: object
-      description: Represents a service provider organization, which may have one or more services associated with it.
-      required:
-      - id
-      - type
-      - attributes
-      properties:
-        id:
-          type: string
-          description: Numeric identifier of the service provider (string-encoded).
-        type:
-          type: string
-          enum:
-          - service_providers
-        attributes:
-          $ref: '#/components/schemas/ServiceProviderAttributes'
   securitySchemes:
     api_key:
       type: apiKey

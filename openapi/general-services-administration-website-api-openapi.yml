@@ -175,6 +175,25 @@ paths:
       x-summary-source: derived
 components:
   schemas:
+    PaginatedWebsiteResponseDto:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/WebsiteApiResultDto'
+        meta:
+          description: '`meta` contains information various counts related to items and pages.'
+          allOf:
+          - $ref: '#/components/schemas/Meta'
+        links:
+          description: '`links` provides cursors for pagination (next and previous) and links to the first and last page of results.'
+          allOf:
+          - $ref: '#/components/schemas/Links'
+      required:
+      - items
+      - meta
+      - links
     Meta:
       type: object
       properties:
@@ -204,30 +223,6 @@ components:
       - itemsPerPage
       - totalPages
       - currentPage
-    Links:
-      type: object
-      properties:
-        first:
-          type: string
-          description: '`first` is a link to the first page of results.'
-          example: /websites/?page=1&limit=1
-        previous:
-          type: string
-          description: '`previous` is a link to the previous page of results. On the first page of results this will be an empty string `""`.'
-          example: /websites/?page=1&limit=1
-        next:
-          type: string
-          description: '`next` is a link to the next page of results. On the last page of results this will be an empty string `""`.'
-          example: /websites/?page=3&limit=1
-        last:
-          type: string
-          description: '`last` is a link to the last page of results.'
-          example: /websites/?page=1000&limit=1
-      required:
-      - first
-      - previous
-      - next
-      - last
     Object:
       type: object
       properties: {}
@@ -643,22 +638,27 @@ components:
       - source_list_dap
       - source_list_pulse
       - source_list_other
-    PaginatedWebsiteResponseDto:
+    Links:
       type: object
       properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/WebsiteApiResultDto'
-        meta:
-          description: '`meta` contains information various counts related to items and pages.'
-          allOf:
-          - $ref: '#/components/schemas/Meta'
-        links:
-          description: '`links` provides cursors for pagination (next and previous) and links to the first and last page of results.'
-          allOf:
-          - $ref: '#/components/schemas/Links'
+        first:
+          type: string
+          description: '`first` is a link to the first page of results.'
+          example: /websites/?page=1&limit=1
+        previous:
+          type: string
+          description: '`previous` is a link to the previous page of results. On the first page of results this will be an empty string `""`.'
+          example: /websites/?page=1&limit=1
+        next:
+          type: string
+          description: '`next` is a link to the next page of results. On the last page of results this will be an empty string `""`.'
+          example: /websites/?page=3&limit=1
+        last:
+          type: string
+          description: '`last` is a link to the last page of results.'
+          example: /websites/?page=1000&limit=1
       required:
-      - items
-      - meta
-      - links
+      - first
+      - previous
+      - next
+      - last

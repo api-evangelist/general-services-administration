@@ -229,6 +229,43 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    CxCollectionResource:
+      type: object
+      description: Represents a fiscal quarter's worth of CX feedback submitted for a specific service. Feedback can be collected via multiple channels/surveys and at multiple service journey stages.
+      required:
+      - id
+      - type
+      - attributes
+      properties:
+        id:
+          type: string
+          description: Numeric identifier of the CX collection (string-encoded).
+        type:
+          type: string
+          enum:
+          - cx_collections
+        attributes:
+          $ref: '#/components/schemas/CxCollectionAttributes'
+    PaginationMeta:
+      type: object
+      required:
+      - current_page
+      - page_size
+      - total_pages
+      - total_count
+      properties:
+        current_page:
+          type: integer
+          description: The current page number (1-indexed).
+        page_size:
+          type: integer
+          description: Number of records requested per page.
+        total_pages:
+          type: integer
+          description: Total number of pages available.
+        total_count:
+          type: integer
+          description: Total number of records across all pages.
     CxCollectionAttributes:
       type: object
       required:
@@ -308,43 +345,6 @@ components:
           type: string
           format: date-time
           description: ISO 8601 timestamp when the collection was last updated.
-    PaginationMeta:
-      type: object
-      required:
-      - current_page
-      - page_size
-      - total_pages
-      - total_count
-      properties:
-        current_page:
-          type: integer
-          description: The current page number (1-indexed).
-        page_size:
-          type: integer
-          description: Number of records requested per page.
-        total_pages:
-          type: integer
-          description: Total number of pages available.
-        total_count:
-          type: integer
-          description: Total number of records across all pages.
-    CxResponseResource:
-      type: object
-      description: Response to a CX collection detail survey, representing a single respondent's answers to the survey questions.
-      required:
-      - id
-      - type
-      - attributes
-      properties:
-        id:
-          type: string
-          description: Numeric identifier of the CX response (string-encoded).
-        type:
-          type: string
-          enum:
-          - cx_responses
-        attributes:
-          $ref: '#/components/schemas/CxResponseAttributes'
     CxCollectionDetailAttributes:
       type: object
       required:
@@ -446,54 +446,6 @@ components:
           type: string
           format: date-time
           description: ISO 8601 timestamp when the detail record was last updated.
-    CxCollectionDetailResource:
-      type: object
-      description: Represents CX feedback collected via a single channel at a single service journey stage for a CX Collection.
-      required:
-      - id
-      - type
-      - attributes
-      properties:
-        id:
-          type: string
-          description: Numeric identifier of the CX collection detail (string-encoded).
-        type:
-          type: string
-          enum:
-          - cx_collection_details
-        attributes:
-          $ref: '#/components/schemas/CxCollectionDetailAttributes'
-    PaginationLinks:
-      type: object
-      required:
-      - self
-      - first
-      - last
-      properties:
-        self:
-          type: string
-          format: uri
-          description: URL of the current page.
-        first:
-          type: string
-          format: uri
-          description: URL of the first page.
-        prev:
-          type:
-          - string
-          - 'null'
-          format: uri
-          description: URL of the previous page. Null on the first page.
-        next:
-          type:
-          - string
-          - 'null'
-          format: uri
-          description: URL of the next page. Null on the last page.
-        last:
-          type: string
-          format: uri
-          description: URL of the last page.
     CxResponseAttributes:
       type: object
       required:
@@ -642,9 +594,40 @@ components:
         external_id:
           type: string
           description: Identifier of this response in the originating external system.
-    CxCollectionResource:
+    PaginationLinks:
       type: object
-      description: Represents a fiscal quarter's worth of CX feedback submitted for a specific service. Feedback can be collected via multiple channels/surveys and at multiple service journey stages.
+      required:
+      - self
+      - first
+      - last
+      properties:
+        self:
+          type: string
+          format: uri
+          description: URL of the current page.
+        first:
+          type: string
+          format: uri
+          description: URL of the first page.
+        prev:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: URL of the previous page. Null on the first page.
+        next:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: URL of the next page. Null on the last page.
+        last:
+          type: string
+          format: uri
+          description: URL of the last page.
+    CxResponseResource:
+      type: object
+      description: Response to a CX collection detail survey, representing a single respondent's answers to the survey questions.
       required:
       - id
       - type
@@ -652,13 +635,30 @@ components:
       properties:
         id:
           type: string
-          description: Numeric identifier of the CX collection (string-encoded).
+          description: Numeric identifier of the CX response (string-encoded).
         type:
           type: string
           enum:
-          - cx_collections
+          - cx_responses
         attributes:
-          $ref: '#/components/schemas/CxCollectionAttributes'
+          $ref: '#/components/schemas/CxResponseAttributes'
+    CxCollectionDetailResource:
+      type: object
+      description: Represents CX feedback collected via a single channel at a single service journey stage for a CX Collection.
+      required:
+      - id
+      - type
+      - attributes
+      properties:
+        id:
+          type: string
+          description: Numeric identifier of the CX collection detail (string-encoded).
+        type:
+          type: string
+          enum:
+          - cx_collection_details
+        attributes:
+          $ref: '#/components/schemas/CxCollectionDetailAttributes'
   securitySchemes:
     api_key:
       type: apiKey

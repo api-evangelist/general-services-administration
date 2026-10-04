@@ -124,29 +124,17 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    DocketFindAllResponse:
-      description: A JSON:API document with a list of resources
-      properties:
-        data:
-          description: The list of dockets where each docket is a JSON:API document
-          type: array
-          uniqueItems: true
-          items:
-            $ref: '#/components/schemas/DocketFindAllItem'
-        meta:
-          $ref: '#/components/schemas/FindAllResponseMetadata'
-    DocketFindOneResponse:
-      description: A JSON:API document which represents a single document
-      type: object
+    DocketFindAllItem:
+      description: A JSON:API document which represents a single document in the list
       properties:
         id:
-          description: The JSON:API resource ID (docketId of the docket)
+          description: The JSON:API resource ID `docketId`
           type: string
         type:
           description: The JSON:API resource type `dockets`
           type: string
         attributes:
-          $ref: '#/components/schemas/DocketDetail'
+          $ref: '#/components/schemas/Docket'
         links:
           type: array
           items:
@@ -243,6 +231,26 @@ components:
         title:
           type: string
           description: A name or descriptive heading given to an agency's docket.
+    Error:
+      type: object
+      properties:
+        status:
+          type: integer
+        title:
+          type: string
+        detail:
+          type: string
+    Link:
+      description: A string containing the link URL.
+      type: string
+      format: uri-reference
+      uniqueItems: true
+    SelfLink:
+      description: Link to self
+      type: object
+      properties:
+        self:
+          $ref: '#/components/schemas/Link'
     Docket:
       type: object
       properties:
@@ -275,12 +283,12 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Error'
-    SelfLink:
-      description: Link to self
-      type: object
-      properties:
-        self:
-          $ref: '#/components/schemas/Link'
+    DocketType:
+      type: string
+      description: the type of docket
+      enum:
+      - Rulemaking
+      - Nonrulemaking
     FindAllResponseMetadata:
       description: A JSON:API document
       properties:
@@ -302,41 +310,33 @@ components:
           type: boolean
         lastPage:
           type: boolean
-    Error:
+    DocketFindAllResponse:
+      description: A JSON:API document with a list of resources
+      properties:
+        data:
+          description: The list of dockets where each docket is a JSON:API document
+          type: array
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/DocketFindAllItem'
+        meta:
+          $ref: '#/components/schemas/FindAllResponseMetadata'
+    DocketFindOneResponse:
+      description: A JSON:API document which represents a single document
       type: object
       properties:
-        status:
-          type: integer
-        title:
-          type: string
-        detail:
-          type: string
-    Link:
-      description: A string containing the link URL.
-      type: string
-      format: uri-reference
-      uniqueItems: true
-    DocketFindAllItem:
-      description: A JSON:API document which represents a single document in the list
-      properties:
         id:
-          description: The JSON:API resource ID `docketId`
+          description: The JSON:API resource ID (docketId of the docket)
           type: string
         type:
           description: The JSON:API resource type `dockets`
           type: string
         attributes:
-          $ref: '#/components/schemas/Docket'
+          $ref: '#/components/schemas/DocketDetail'
         links:
           type: array
           items:
             $ref: '#/components/schemas/SelfLink'
-    DocketType:
-      type: string
-      description: the type of docket
-      enum:
-      - Rulemaking
-      - Nonrulemaking
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

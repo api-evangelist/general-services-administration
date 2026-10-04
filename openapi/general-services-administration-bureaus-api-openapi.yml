@@ -536,14 +536,11 @@ paths:
       deprecated: false
 components:
   schemas:
-    Bureaus:
+    Bureaus-read:
       type: object
       description: ''
       additionalProperties: false
       properties:
-        id:
-          readOnly: true
-          type: string
         bureauCode:
           type: string
           format: number
@@ -593,11 +590,14 @@ components:
           format: string
           example: IT Collect Development
           description: This is a text field to provide the Bureau Name
-    Bureaus-read:
+    Bureaus:
       type: object
       description: ''
       additionalProperties: false
       properties:
+        id:
+          readOnly: true
+          type: string
         bureauCode:
           type: string
           format: number

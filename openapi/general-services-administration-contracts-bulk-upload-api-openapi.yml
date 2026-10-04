@@ -492,56 +492,6 @@ paths:
                   $ref: '#/components/schemas/SubawardsAPIResponseDto'
 components:
   schemas:
-    CreateContractContractData:
-      type: object
-      properties:
-        contractNumber:
-          type: string
-        reportingAgencyCode:
-          type: string
-        idvReferenceNumber:
-          type: string
-        referenceAgencyCode:
-          type: string
-        programTitle:
-          type: string
-        reportStatus:
-          type: string
-        subawardDataList:
-          type: array
-          items:
-            $ref: '#/components/schemas/SubawardData'
-    TopPayEmployees:
-      type: object
-      properties:
-        full_name:
-          type: string
-        salary:
-          type: string
-    StateOrProvince:
-      type: object
-      properties:
-        code:
-          type: string
-        name:
-          type: string
-    UpdateContractContractData:
-      type: object
-      properties:
-        contractNumber:
-          type: string
-        reportingAgencyCode:
-          type: string
-        idvReferenceNumber:
-          type: string
-        referenceAgencyCode:
-          type: string
-        programTitle:
-          type: string
-        reportStatus:
-          type: string
-        subawardData:
-          $ref: '#/components/schemas/SubawardData'
     Address:
       type: object
       properties:
@@ -590,6 +540,25 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/TopPayEmployees'
+    UpdateContractRequestObjectDto:
+      type: object
+      properties:
+        contractData:
+          $ref: '#/components/schemas/UpdateContractContractData'
+    StateOrProvince:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+    TopPayEmployees:
+      type: object
+      properties:
+        full_name:
+          type: string
+        salary:
+          type: string
     SubawardsAPIResponseDto:
       type: object
       properties:
@@ -612,11 +581,25 @@ components:
           type: array
           items:
             type: string
-    UpdateContractRequestObjectDto:
+    CreateContractContractData:
       type: object
       properties:
-        contractData:
-          $ref: '#/components/schemas/UpdateContractContractData'
+        contractNumber:
+          type: string
+        reportingAgencyCode:
+          type: string
+        idvReferenceNumber:
+          type: string
+        referenceAgencyCode:
+          type: string
+        programTitle:
+          type: string
+        reportStatus:
+          type: string
+        subawardDataList:
+          type: array
+          items:
+            $ref: '#/components/schemas/SubawardData'
     CreateContractRequestObjectDto:
       type: object
       properties:
@@ -624,13 +607,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/CreateContractContractData'
-    Country:
-      type: object
-      properties:
-        code:
-          type: string
-        name:
-          type: string
     RecoveryModelQuestions:
       type: object
       properties:
@@ -642,3 +618,27 @@ components:
           - 'true'
           - 'false'
           - ''
+    Country:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+    UpdateContractContractData:
+      type: object
+      properties:
+        contractNumber:
+          type: string
+        reportingAgencyCode:
+          type: string
+        idvReferenceNumber:
+          type: string
+        referenceAgencyCode:
+          type: string
+        programTitle:
+          type: string
+        reportStatus:
+          type: string
+        subawardData:
+          $ref: '#/components/schemas/SubawardData'

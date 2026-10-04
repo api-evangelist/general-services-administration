@@ -611,6 +611,170 @@ paths:
       deprecated: false
 components:
   schemas:
+    Metric-read_readItemSubRes:
+      type: object
+      description: ''
+      additionalProperties: false
+      properties:
+        created:
+          type: string
+          format: timestamp
+          example: '2020-01-01 15:00:00'
+          readOnly: true
+          description: Created date/time
+        lastModified:
+          type: string
+          format: timestamp
+          example: '2020-01-01 15:00:00'
+          readOnly: true
+          description: Last modified date/time
+        agencyCode:
+          type: string
+          format: string
+          example: 018
+          description: The agency code of the user who created the record
+        agencyId:
+          type: string
+          format: alphanumeric
+          minLength: 1
+          maxLength: 32
+          description: Enter a required Unique ID provided by Agency for the metric
+        serviceAgencyId:
+          type: string
+          example: Service22304
+          description: Enter the Service ID of the investment that this performance metric applies to here
+        agency:
+          type: string
+          format: numeric
+          enum:
+          - '005'
+          - '006'
+          - '007'
+          - 009
+          - '010'
+          - '011'
+          - '012'
+          - '014'
+          - '015'
+          - '016'
+          - 018
+          - 019
+          - '020'
+          - '021'
+          - '023'
+          - '024'
+          - '025'
+          - '026'
+          - '027'
+          - 028
+          - 029
+          - '100'
+          - '184'
+          - '202'
+          - '393'
+          - '422'
+          - '429'
+          example: 018
+          description: The three digit agency code.
+        description:
+          type: string
+          example: Percent of Time System is Available for End Users
+          description: 'Enter a description to help the user understand what is being measured. In this field, describe the units
+
+            used, any calculation algorithm used, and the definition or limits of the population or “universe” measured'
+        performanceMeasurementCategory:
+          type: string
+          enum:
+          - Customer Satisfaction
+          - Strategic and Business Results
+          - Financial Performance
+          - Innovation
+          example: Customer Satisfaction
+          description: Identify the measurement category of this metric
+        agencyPriorityGoalCode:
+          type:
+          - string
+          - 'null'
+          example: 012APG200161
+          description: Provide the Agency Strategic Objective or Priority Goal code for this metric.
+        reportingFrequency:
+          type: string
+          enum:
+          - Monthly
+          - Quarterly
+          - Semi-Annual
+          - Annual
+          example: Monthly
+          description: 'Indicate how often actual measurements will be reported (monthly, quarterly, semi-annually, or annually).
+
+            Annual reporting frequencies are reserved for annual operating cost measures, performance measures associated
+
+            with the Agency’s annual performance plan, or other measures that can only be appropriately measured on an
+
+            annual basis.'
+        measurementCondition:
+          type: string
+          enum:
+          - Over target
+          - Under target
+          example: Over target
+          description: 'Indicate whether a desired result would be “Over target,” indicating that the trend should maintain
+
+            or increase, or “Under target,” indicating that the trend should maintain or decrease.'
+        previousYearTarget:
+          type:
+          - number
+          - 'null'
+          format: decimal
+          example: 99.5
+          description: Enter the metric target value from FY 2022, relative to the reporting frequency.
+        currentYearTarget:
+          type:
+          - number
+          - 'null'
+          format: decimal
+          example: 99.5
+          description: Enter the metric target value from FY 2023, relative to the reporting frequency.
+        baselineCapability:
+          type:
+          - number
+          - 'null'
+          format: decimal
+          example: 99
+          description: 'What was the quantitative value of your Agency’s capability per this metric prior to this
+
+            Investment’s life cycle. If your Agency has not measured this capability before, you may leave this field
+
+            blank; otherwise, provide the numeric value of the historic capability measurement.'
+        unitOfMeasure:
+          type: string
+          format: string
+          example: Percent
+          description: 'Enter a brief indication of what quantity is measured (e.g., number, percentage, dollar value)
+
+            for each metric'
+        isMasked:
+          type: bool
+          example: true
+          readOnly: true
+          description: A readonly boolean indicating whether the document is masked from the public.
+        actual:
+          description: '* @var ArrayCollection Embedded MetricActual Objects'
+          type: array
+          items:
+            $ref: '#/components/schemas/MetricActual-read_readItemSubRes'
+        rebaseLines:
+          type: array
+          example:
+          - 018git -000001234
+          readOnly: true
+          description: A list of associated rebaseLine IDs
+          items:
+            type: string
+        isRetired:
+          type: bool
+          example: false
+          description: Set this value to true when this performance metrics is no longer useful for investment management.
     MetricActual-read_readItemSubRes:
       type: object
       description: ''
@@ -813,170 +977,6 @@ components:
           example: true
           readOnly: true
           description: A readonly boolean indicating whether the document is masked from the public.
-        rebaseLines:
-          type: array
-          example:
-          - 018git -000001234
-          readOnly: true
-          description: A list of associated rebaseLine IDs
-          items:
-            type: string
-        isRetired:
-          type: bool
-          example: false
-          description: Set this value to true when this performance metrics is no longer useful for investment management.
-    Metric-read_readItemSubRes:
-      type: object
-      description: ''
-      additionalProperties: false
-      properties:
-        created:
-          type: string
-          format: timestamp
-          example: '2020-01-01 15:00:00'
-          readOnly: true
-          description: Created date/time
-        lastModified:
-          type: string
-          format: timestamp
-          example: '2020-01-01 15:00:00'
-          readOnly: true
-          description: Last modified date/time
-        agencyCode:
-          type: string
-          format: string
-          example: 018
-          description: The agency code of the user who created the record
-        agencyId:
-          type: string
-          format: alphanumeric
-          minLength: 1
-          maxLength: 32
-          description: Enter a required Unique ID provided by Agency for the metric
-        serviceAgencyId:
-          type: string
-          example: Service22304
-          description: Enter the Service ID of the investment that this performance metric applies to here
-        agency:
-          type: string
-          format: numeric
-          enum:
-          - '005'
-          - '006'
-          - '007'
-          - 009
-          - '010'
-          - '011'
-          - '012'
-          - '014'
-          - '015'
-          - '016'
-          - 018
-          - 019
-          - '020'
-          - '021'
-          - '023'
-          - '024'
-          - '025'
-          - '026'
-          - '027'
-          - 028
-          - 029
-          - '100'
-          - '184'
-          - '202'
-          - '393'
-          - '422'
-          - '429'
-          example: 018
-          description: The three digit agency code.
-        description:
-          type: string
-          example: Percent of Time System is Available for End Users
-          description: 'Enter a description to help the user understand what is being measured. In this field, describe the units
-
-            used, any calculation algorithm used, and the definition or limits of the population or “universe” measured'
-        performanceMeasurementCategory:
-          type: string
-          enum:
-          - Customer Satisfaction
-          - Strategic and Business Results
-          - Financial Performance
-          - Innovation
-          example: Customer Satisfaction
-          description: Identify the measurement category of this metric
-        agencyPriorityGoalCode:
-          type:
-          - string
-          - 'null'
-          example: 012APG200161
-          description: Provide the Agency Strategic Objective or Priority Goal code for this metric.
-        reportingFrequency:
-          type: string
-          enum:
-          - Monthly
-          - Quarterly
-          - Semi-Annual
-          - Annual
-          example: Monthly
-          description: 'Indicate how often actual measurements will be reported (monthly, quarterly, semi-annually, or annually).
-
-            Annual reporting frequencies are reserved for annual operating cost measures, performance measures associated
-
-            with the Agency’s annual performance plan, or other measures that can only be appropriately measured on an
-
-            annual basis.'
-        measurementCondition:
-          type: string
-          enum:
-          - Over target
-          - Under target
-          example: Over target
-          description: 'Indicate whether a desired result would be “Over target,” indicating that the trend should maintain
-
-            or increase, or “Under target,” indicating that the trend should maintain or decrease.'
-        previousYearTarget:
-          type:
-          - number
-          - 'null'
-          format: decimal
-          example: 99.5
-          description: Enter the metric target value from FY 2022, relative to the reporting frequency.
-        currentYearTarget:
-          type:
-          - number
-          - 'null'
-          format: decimal
-          example: 99.5
-          description: Enter the metric target value from FY 2023, relative to the reporting frequency.
-        baselineCapability:
-          type:
-          - number
-          - 'null'
-          format: decimal
-          example: 99
-          description: 'What was the quantitative value of your Agency’s capability per this metric prior to this
-
-            Investment’s life cycle. If your Agency has not measured this capability before, you may leave this field
-
-            blank; otherwise, provide the numeric value of the historic capability measurement.'
-        unitOfMeasure:
-          type: string
-          format: string
-          example: Percent
-          description: 'Enter a brief indication of what quantity is measured (e.g., number, percentage, dollar value)
-
-            for each metric'
-        isMasked:
-          type: bool
-          example: true
-          readOnly: true
-          description: A readonly boolean indicating whether the document is masked from the public.
-        actual:
-          description: '* @var ArrayCollection Embedded MetricActual Objects'
-          type: array
-          items:
-            $ref: '#/components/schemas/MetricActual-read_readItemSubRes'
         rebaseLines:
           type: array
           example:

@@ -79,62 +79,6 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
-    TaskOrder:
-      type: object
-      properties:
-        piid:
-          type: string
-          description: Task order PIID.
-        businessCategories:
-          type: object
-          description: Business category details for the task order.
-    EntityData:
-      type: object
-      properties:
-        uniqueEntityID:
-          type: string
-          description: Unique Entity Identifier (UEI) assigned to the entity in SAM.gov.
-        legalBusinessName:
-          type: string
-          description: Official legal name of the entity as registered in SAM.gov.
-        ultimateParentUniqueEntityID:
-          type: string
-          description: UEI of the ultimate parent entity associated with the reporting entity, if applicable.
-        entityURL:
-          type: string
-          description: Public website URL of the entity, if available.
-        physicalAddress:
-          $ref: '#/components/schemas/PhysicalAddress'
-    ReportData:
-      type: object
-      properties:
-        reportType:
-          type: string
-          description: Type of subcontracting report submitted (for example, Individual Subcontract Report (ISR), Summary Subcontract Report (SSR), or Commercial Plan Report).
-        submitter:
-          type: string
-          description: Role of the entity submitting the report. Valid values may include Prime Contractor, Subcontractor, or Both.
-        uniqueEntityID:
-          type: string
-          description: Unique Entity Identifier (UEI) assigned to the reporting entity in SAM.gov.
-        legalBusinessName:
-          type: string
-          description: Official legal name of the entity as registered in SAM.gov.
-        reportFiscalYear:
-          type: string
-          description: Fiscal year for which the subcontracting report is being submitted.
-        reportingPeriod:
-          type: string
-          description: Reporting period covered by the report.
-        submittedDate:
-          type: string
-          description: Date the report was officially submitted.
-        reportedToDepartmentCode:
-          type: string
-          description: Code representing the federal department or agency receiving the report.
-        reportedToDepartmentName:
-          type: string
-          description: Name of the federal department or agency receiving the report.
     BusinessCategories:
       type: object
       properties:
@@ -151,66 +95,6 @@ components:
         totals:
           type: object
           description: Aggregated totals for goals and actuals.
-    OrganizationRef:
-      type: object
-      properties:
-        code:
-          type: string
-        name:
-          type: string
-    ErrorResponse:
-      type: object
-      properties:
-        timestamp:
-          type: string
-        status:
-          type: integer
-        error:
-          type: string
-        message:
-          type: string
-        path:
-          type: string
-    SearchResponse:
-      type: object
-      properties:
-        totalNumberOfReports:
-          type: integer
-          description: Total number of reports matching the search criteria.
-        subContractingPlanReports:
-          type: array
-          items:
-            $ref: '#/components/schemas/SubcontractingPlanReport'
-        links:
-          $ref: '#/components/schemas/Links'
-    DodComprehensiveAttachment:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Name or title of the attachment associated with the DoD Comprehensive Subcontracting Plan.
-        url:
-          type: string
-          description: URL link where the attachment can be accessed or downloaded.
-    DepartmentAllocationPercentage:
-      type: object
-      properties:
-        organizationCode:
-          type: string
-          description: Code representing the federal department or organization to which the allocation applies.
-        organizationName:
-          type: string
-          description: Name of the federal department or organization associated with the allocation.
-        percentage:
-          type: string
-          description: Percentage of the total subcontracting dollars allocated to the specified department or organization.
-    AccountingMethod:
-      type: object
-      properties:
-        method:
-          type: string
-        explanation:
-          type: string
     SubcontractingPlanReport:
       type: object
       properties:
@@ -242,11 +126,136 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/DodComprehensiveAttachment'
+    AccountingMethod:
+      type: object
+      properties:
+        method:
+          type: string
+        explanation:
+          type: string
+    ContractData:
+      type: object
+      properties:
+        piid:
+          type: string
+          description: Procurement Instrument Identifier (PIID) assigned to the contract or award.
+        awardOrIdv:
+          type: string
+          description: Indicates whether the record represents a contract award or an Indefinite Delivery Vehicle (IDV).
+        referencedIdvPiid:
+          type: string
+          description: PIID of the referenced IDV associated with the award, if applicable.
+        subcontractNumber:
+          type: string
+          description: Identifier assigned to the subcontract.
+        totalDollars:
+          type: string
+          description: Total dollar amount obligated or reported under the subcontract.
+        contractingOrganization:
+          $ref: '#/components/schemas/ContractingOrganization'
+        subcontractingPlanCode:
+          type: string
+          description: Code representing the type of subcontracting plan.
+        subcontractingPlanDesc:
+          type: string
+          description: Description of the subcontracting plan type associated with the contract.
+    DepartmentAllocationPercentage:
+      type: object
+      properties:
+        organizationCode:
+          type: string
+          description: Code representing the federal department or organization to which the allocation applies.
+        organizationName:
+          type: string
+          description: Name of the federal department or organization associated with the allocation.
+        percentage:
+          type: string
+          description: Percentage of the total subcontracting dollars allocated to the specified department or organization.
     GoalsAndActualsData:
       type: object
       properties:
         businessCategories:
           $ref: '#/components/schemas/BusinessCategories'
+    PhysicalAddress:
+      type: object
+      properties:
+        addressLine1:
+          type: string
+          description: Address line 1.
+        addressLine2:
+          type: string
+          description: Address line 2.
+        city:
+          type: string
+          description: City.
+        stateOrProvinceCode:
+          type: string
+          description: State or province code.
+        zipCode:
+          type: string
+          description: ZIP or postal code.
+        countryCode:
+          type: string
+          description: Country code.
+    CertificationData:
+      type: object
+      properties:
+        includeIndirectCosts:
+          type: string
+          description: Indicates whether indirect costs are included in the reported subcontracting amounts.
+        accountingMethod:
+          $ref: '#/components/schemas/AccountingMethod'
+        isCertified:
+          type: string
+          description: Indicates whether the report has been officially certified by the submitter.
+        nameOfTheCertifier:
+          type: string
+          description: Full name of the individual who certified the report.
+        titleOfTheCertifier:
+          type: string
+          description: Official title or position of the individual who certified the report.
+        genericEmailAddressOrUrl:
+          type: string
+          description: Contact email address or URL associated with the certifier or organization for follow-up or verification purposes.
+    ReportData:
+      type: object
+      properties:
+        reportType:
+          type: string
+          description: Type of subcontracting report submitted (for example, Individual Subcontract Report (ISR), Summary Subcontract Report (SSR), or Commercial Plan Report).
+        submitter:
+          type: string
+          description: Role of the entity submitting the report. Valid values may include Prime Contractor, Subcontractor, or Both.
+        uniqueEntityID:
+          type: string
+          description: Unique Entity Identifier (UEI) assigned to the reporting entity in SAM.gov.
+        legalBusinessName:
+          type: string
+          description: Official legal name of the entity as registered in SAM.gov.
+        reportFiscalYear:
+          type: string
+          description: Fiscal year for which the subcontracting report is being submitted.
+        reportingPeriod:
+          type: string
+          description: Reporting period covered by the report.
+        submittedDate:
+          type: string
+          description: Date the report was officially submitted.
+        reportedToDepartmentCode:
+          type: string
+          description: Code representing the federal department or agency receiving the report.
+        reportedToDepartmentName:
+          type: string
+          description: Name of the federal department or agency receiving the report.
+    ContractingOrganization:
+      type: object
+      properties:
+        department:
+          $ref: '#/components/schemas/OrganizationRef'
+        subTier:
+          $ref: '#/components/schemas/OrganizationRef'
+        office:
+          $ref: '#/components/schemas/OrganizationRef'
     SearchRequest:
       type: object
       properties:
@@ -300,47 +309,23 @@ components:
           default: 10
           maximum: 100
           example: 10
-    ContractData:
+    EntityData:
       type: object
       properties:
-        piid:
+        uniqueEntityID:
           type: string
-          description: Procurement Instrument Identifier (PIID) assigned to the contract or award.
-        awardOrIdv:
+          description: Unique Entity Identifier (UEI) assigned to the entity in SAM.gov.
+        legalBusinessName:
           type: string
-          description: Indicates whether the record represents a contract award or an Indefinite Delivery Vehicle (IDV).
-        referencedIdvPiid:
+          description: Official legal name of the entity as registered in SAM.gov.
+        ultimateParentUniqueEntityID:
           type: string
-          description: PIID of the referenced IDV associated with the award, if applicable.
-        subcontractNumber:
+          description: UEI of the ultimate parent entity associated with the reporting entity, if applicable.
+        entityURL:
           type: string
-          description: Identifier assigned to the subcontract.
-        totalDollars:
-          type: string
-          description: Total dollar amount obligated or reported under the subcontract.
-        contractingOrganization:
-          $ref: '#/components/schemas/ContractingOrganization'
-        subcontractingPlanCode:
-          type: string
-          description: Code representing the type of subcontracting plan.
-        subcontractingPlanDesc:
-          type: string
-          description: Description of the subcontracting plan type associated with the contract.
-    ContractingOrganization:
-      type: object
-      properties:
-        department:
-          $ref: '#/components/schemas/OrganizationRef'
-        subTier:
-          $ref: '#/components/schemas/OrganizationRef'
-        office:
-          $ref: '#/components/schemas/OrganizationRef'
-    RemarksData:
-      type: object
-      properties:
-        remarks:
-          type: string
-          description: Additional comments or explanatory information provided by the submitter related to the subcontracting report.
+          description: Public website URL of the entity, if available.
+        physicalAddress:
+          $ref: '#/components/schemas/PhysicalAddress'
     Links:
       type: object
       properties:
@@ -350,6 +335,12 @@ components:
         nextLink:
           type: string
           description: URL to retrieve the next page of results in a paginated response, if additional data is available.
+    RemarksData:
+      type: object
+      properties:
+        remarks:
+          type: string
+          description: Additional comments or explanatory information provided by the submitter related to the subcontracting report.
     TaskOrdersData:
       type: object
       properties:
@@ -360,47 +351,56 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/TaskOrder'
-    PhysicalAddress:
+    DodComprehensiveAttachment:
       type: object
       properties:
-        addressLine1:
+        name:
           type: string
-          description: Address line 1.
-        addressLine2:
+          description: Name or title of the attachment associated with the DoD Comprehensive Subcontracting Plan.
+        url:
           type: string
-          description: Address line 2.
-        city:
-          type: string
-          description: City.
-        stateOrProvinceCode:
-          type: string
-          description: State or province code.
-        zipCode:
-          type: string
-          description: ZIP or postal code.
-        countryCode:
-          type: string
-          description: Country code.
-    CertificationData:
+          description: URL link where the attachment can be accessed or downloaded.
+    TaskOrder:
       type: object
       properties:
-        includeIndirectCosts:
+        piid:
           type: string
-          description: Indicates whether indirect costs are included in the reported subcontracting amounts.
-        accountingMethod:
-          $ref: '#/components/schemas/AccountingMethod'
-        isCertified:
+          description: Task order PIID.
+        businessCategories:
+          type: object
+          description: Business category details for the task order.
+    ErrorResponse:
+      type: object
+      properties:
+        timestamp:
           type: string
-          description: Indicates whether the report has been officially certified by the submitter.
-        nameOfTheCertifier:
+        status:
+          type: integer
+        error:
           type: string
-          description: Full name of the individual who certified the report.
-        titleOfTheCertifier:
+        message:
           type: string
-          description: Official title or position of the individual who certified the report.
-        genericEmailAddressOrUrl:
+        path:
           type: string
-          description: Contact email address or URL associated with the certifier or organization for follow-up or verification purposes.
+    SearchResponse:
+      type: object
+      properties:
+        totalNumberOfReports:
+          type: integer
+          description: Total number of reports matching the search criteria.
+        subContractingPlanReports:
+          type: array
+          items:
+            $ref: '#/components/schemas/SubcontractingPlanReport'
+        links:
+          $ref: '#/components/schemas/Links'
+    OrganizationRef:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
   securitySchemes:
     basicAuth:
       type: http
