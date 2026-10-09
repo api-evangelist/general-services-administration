@@ -49,3 +49,16 @@ notes:
     SAM.gov FOUO and CUI-Sensitive entity data requires a role and a system
     account, and the TMSS 2.0 Rate Query API requires a signed MOU with GSA FAS.
     Those are eligibility gates, not plans.
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - metered
+  units: []
+  plans:
+  - name: Public API key
+    access: free
+    model: metered
+    model_how: derived
+    units: []
+    periods: []
