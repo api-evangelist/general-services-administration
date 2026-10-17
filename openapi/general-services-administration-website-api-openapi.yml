@@ -175,57 +175,6 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    PaginatedWebsiteResponseDto:
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/WebsiteApiResultDto'
-        meta:
-          description: '`meta` contains information various counts related to items and pages.'
-          allOf:
-          - $ref: '#/components/schemas/Meta'
-        links:
-          description: '`links` provides cursors for pagination (next and previous) and links to the first and last page of results.'
-          allOf:
-          - $ref: '#/components/schemas/Links'
-      required:
-      - items
-      - meta
-      - links
-    Meta:
-      type: object
-      properties:
-        totalItems:
-          type: number
-          description: '`totalItems` is the total number of items that match the query.'
-          example: 1000
-        itemCount:
-          type: number
-          description: '`itemCount` is number of items in the `PaginationResponseDto.items` array.'
-          example: 1
-        itemsPerPage:
-          type: number
-          description: '`itemsPerPage` is the number of items per page. This should be the same as the `limit` query parameter.'
-          example: 1
-        totalPages:
-          type: number
-          description: '`totalPages` is the total number of pages. Should be equal to `floor(totalItems / itemsPerPage)`'
-          example: 1000
-        currentPage:
-          type: number
-          description: '`currentPage` is the page the cursor is currently on.'
-          example: 2
-      required:
-      - totalItems
-      - itemCount
-      - itemsPerPage
-      - totalPages
-      - currentPage
-    Object:
-      type: object
-      properties: {}
     WebsiteApiResultDto:
       type: object
       properties:
@@ -662,3 +611,54 @@ components:
       - previous
       - next
       - last
+    Object:
+      type: object
+      properties: {}
+    PaginatedWebsiteResponseDto:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/WebsiteApiResultDto'
+        meta:
+          description: '`meta` contains information various counts related to items and pages.'
+          allOf:
+          - $ref: '#/components/schemas/Meta'
+        links:
+          description: '`links` provides cursors for pagination (next and previous) and links to the first and last page of results.'
+          allOf:
+          - $ref: '#/components/schemas/Links'
+      required:
+      - items
+      - meta
+      - links
+    Meta:
+      type: object
+      properties:
+        totalItems:
+          type: number
+          description: '`totalItems` is the total number of items that match the query.'
+          example: 1000
+        itemCount:
+          type: number
+          description: '`itemCount` is number of items in the `PaginationResponseDto.items` array.'
+          example: 1
+        itemsPerPage:
+          type: number
+          description: '`itemsPerPage` is the number of items per page. This should be the same as the `limit` query parameter.'
+          example: 1
+        totalPages:
+          type: number
+          description: '`totalPages` is the total number of pages. Should be equal to `floor(totalItems / itemsPerPage)`'
+          example: 1000
+        currentPage:
+          type: number
+          description: '`currentPage` is the page the cursor is currently on.'
+          example: 2
+      required:
+      - totalItems
+      - itemCount
+      - itemsPerPage
+      - totalPages
+      - currentPage

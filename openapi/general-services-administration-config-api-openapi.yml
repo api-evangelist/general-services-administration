@@ -83,33 +83,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    ApiSettingsHeader:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        key:
-          type: string
-        value:
-          type: string
-    UpdatedAt:
-      type: string
-      format: date-time
-      readOnly: true
-      description: The time the record was last updated (ISO 8601 format)
-    ConfigPublish:
-      type: object
-      additionalProperties:
-        title: ConfigPublishRecord
-        type: object
-        properties:
-          publish:
-            type: string
-            enum:
-            - '0'
-            - '1'
     ConfigDiff:
       type: object
       properties:
@@ -132,6 +105,173 @@ components:
         pending:
           type: object
         pending_yaml:
+          type: string
+    ApiServer:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        host:
+          type: string
+        port:
+          type: integer
+      required:
+      - host
+      - port
+    WebsiteBackend:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        frontend_host:
+          type: string
+        backend_protocol:
+          type: string
+          enum:
+          - http
+          - https
+        server_host:
+          type: string
+        server_port:
+          type: integer
+        created_at:
+          $ref: '#/components/schemas/CreatedAt'
+        creator:
+          $ref: '#/components/schemas/AdminCreator'
+        updated_at:
+          $ref: '#/components/schemas/UpdatedAt'
+        updater:
+          $ref: '#/components/schemas/AdminUpdater'
+    ConfigDiffGroup:
+      type: object
+      properties:
+        new:
+          $ref: '#/components/schemas/ArrayOfConfigDiffs'
+        modified:
+          $ref: '#/components/schemas/ArrayOfConfigDiffs'
+        deleted:
+          $ref: '#/components/schemas/ArrayOfConfigDiffs'
+        identical:
+          $ref: '#/components/schemas/ArrayOfConfigDiffs'
+    Api:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+        sort_order:
+          type: integer
+        backend_protocol:
+          type: string
+          enum:
+          - http
+          - https
+        frontend_host:
+          type: string
+        backend_host:
+          type: string
+        servers:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiServer'
+        url_matches:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiUrlMatch'
+        balance_algorithm:
+          type: string
+          enum:
+          - least_conn
+          - round_robin
+          - ip_hash
+        settings:
+          $ref: '#/components/schemas/ApiSettings'
+        sub_settings:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiSubSettings'
+        rewrites:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiRewrite'
+        created_at:
+          $ref: '#/components/schemas/CreatedAt'
+        creator:
+          $ref: '#/components/schemas/AdminCreator'
+        updated_at:
+          $ref: '#/components/schemas/UpdatedAt'
+        updater:
+          $ref: '#/components/schemas/AdminUpdater'
+      required:
+      - name
+      - backend_protocol
+      - frontend_host
+      - backend_host
+      - servers
+      - url_matches
+      - balance_algorithm
+    CreatedAt:
+      type: string
+      format: date-time
+      readOnly: true
+      description: The time the record was created (ISO 8601 format)
+    UpdatedAt:
+      type: string
+      format: date-time
+      readOnly: true
+      description: The time the record was last updated (ISO 8601 format)
+    ConfigPublish:
+      type: object
+      additionalProperties:
+        title: ConfigPublishRecord
+        type: object
+        properties:
+          publish:
+            type: string
+            enum:
+            - '0'
+            - '1'
+    ApiSubSettings:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        http_method:
+          type: string
+          enum:
+          - any
+          - GET
+          - POST
+          - PUT
+          - DELETE
+          - HEAD
+          - TRACE
+          - OPTIONS
+          - CONNECT
+          - PATCH
+        regex:
+          type: string
+        settings:
+          $ref: '#/components/schemas/ApiSettings'
+    ApiSettingsHeader:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        key:
+          type: string
+        value:
           type: string
     ApiRewrite:
       type: object
@@ -162,61 +302,26 @@ components:
           type: string
         backend_replacement:
           type: string
-    CreatedAt:
-      type: string
-      format: date-time
-      readOnly: true
-      description: The time the record was created (ISO 8601 format)
-    ApiSubSettings:
+    ApiSettingsRateLimit:
       type: object
       properties:
         id:
           type: string
           format: uuid
           readOnly: true
-        http_method:
+        duration:
+          type: integer
+        accuracy:
+          type: integer
+        limit_by:
           type: string
           enum:
-          - any
-          - GET
-          - POST
-          - PUT
-          - DELETE
-          - HEAD
-          - TRACE
-          - OPTIONS
-          - CONNECT
-          - PATCH
-        regex:
-          type: string
-        settings:
-          $ref: '#/components/schemas/ApiSettings'
-    ArrayOfConfigDiffs:
-      type: array
-      items:
-        $ref: '#/components/schemas/ConfigDiff'
-    ConfigVersion:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        verison:
-          type: string
-          format: date-time
-        config:
-          title: Config
-          type: object
-          properties:
-            apis:
-              $ref: '#/components/schemas/Api'
-            website_backends:
-              $ref: '#/components/schemas/WebsiteBackend'
-        created_at:
-          $ref: '#/components/schemas/CreatedAt'
-        updated_at:
-          $ref: '#/components/schemas/UpdatedAt'
+          - ip
+          - apiKey
+        distributed:
+          type: boolean
+        response_headers:
+          type: boolean
     AdminCreator:
       type: object
       readOnly: true
@@ -226,6 +331,20 @@ components:
           format: email
           readOnly: true
           description: E-mail address of the admin that created the record
+    ApiUrlMatch:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        frontend_prefix:
+          type: string
+        backend_prefix:
+          type: string
+      required:
+      - frontend_prefix
+      - backend_prefix
     ApiSettings:
       type: object
       properties:
@@ -324,151 +443,10 @@ components:
           type: object
         error_data_yaml_strings:
           type: object
-    ApiSettingsRateLimit:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        duration:
-          type: integer
-        accuracy:
-          type: integer
-        limit_by:
-          type: string
-          enum:
-          - ip
-          - apiKey
-        distributed:
-          type: boolean
-        response_headers:
-          type: boolean
-    ApiServer:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        host:
-          type: string
-        port:
-          type: integer
-      required:
-      - host
-      - port
-    ApiUrlMatch:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        frontend_prefix:
-          type: string
-        backend_prefix:
-          type: string
-      required:
-      - frontend_prefix
-      - backend_prefix
-    WebsiteBackend:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        frontend_host:
-          type: string
-        backend_protocol:
-          type: string
-          enum:
-          - http
-          - https
-        server_host:
-          type: string
-        server_port:
-          type: integer
-        created_at:
-          $ref: '#/components/schemas/CreatedAt'
-        creator:
-          $ref: '#/components/schemas/AdminCreator'
-        updated_at:
-          $ref: '#/components/schemas/UpdatedAt'
-        updater:
-          $ref: '#/components/schemas/AdminUpdater'
-    Api:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        name:
-          type: string
-        sort_order:
-          type: integer
-        backend_protocol:
-          type: string
-          enum:
-          - http
-          - https
-        frontend_host:
-          type: string
-        backend_host:
-          type: string
-        servers:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiServer'
-        url_matches:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiUrlMatch'
-        balance_algorithm:
-          type: string
-          enum:
-          - least_conn
-          - round_robin
-          - ip_hash
-        settings:
-          $ref: '#/components/schemas/ApiSettings'
-        sub_settings:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiSubSettings'
-        rewrites:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiRewrite'
-        created_at:
-          $ref: '#/components/schemas/CreatedAt'
-        creator:
-          $ref: '#/components/schemas/AdminCreator'
-        updated_at:
-          $ref: '#/components/schemas/UpdatedAt'
-        updater:
-          $ref: '#/components/schemas/AdminUpdater'
-      required:
-      - name
-      - backend_protocol
-      - frontend_host
-      - backend_host
-      - servers
-      - url_matches
-      - balance_algorithm
-    ConfigDiffGroup:
-      type: object
-      properties:
-        new:
-          $ref: '#/components/schemas/ArrayOfConfigDiffs'
-        modified:
-          $ref: '#/components/schemas/ArrayOfConfigDiffs'
-        deleted:
-          $ref: '#/components/schemas/ArrayOfConfigDiffs'
-        identical:
-          $ref: '#/components/schemas/ArrayOfConfigDiffs'
+    ArrayOfConfigDiffs:
+      type: array
+      items:
+        $ref: '#/components/schemas/ConfigDiff'
     AdminUpdater:
       type: object
       readOnly: true
@@ -478,6 +456,28 @@ components:
           format: email
           readOnly: true
           description: E-mail address of the admin that last updated the record
+    ConfigVersion:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        verison:
+          type: string
+          format: date-time
+        config:
+          title: Config
+          type: object
+          properties:
+            apis:
+              $ref: '#/components/schemas/Api'
+            website_backends:
+              $ref: '#/components/schemas/WebsiteBackend'
+        created_at:
+          $ref: '#/components/schemas/CreatedAt'
+        updated_at:
+          $ref: '#/components/schemas/UpdatedAt'
   securitySchemes:
     api_key:
       type: apiKey

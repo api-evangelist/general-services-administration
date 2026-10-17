@@ -108,50 +108,146 @@ paths:
       - Assistance Listings
 components:
   schemas:
-    Obligation:
+    Authorizations:
       type: object
       properties:
-        isRecoveryAct:
+        description:
+          type: string
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/Authorization'
+    TypedDescription:
+      type: object
+      properties:
+        types:
+          type: array
+          items:
+            $ref: '#/components/schemas/CodeNamePair'
+        description:
+          type: string
+    FundedProject:
+      type: object
+      properties:
+        fiscalYear:
+          type: integer
+        description:
+          type: string
+    HeadquartersContact:
+      type: object
+      properties:
+        contactId:
+          type: string
+          format: uuid
+        title:
+          type: string
+        fullName:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        fax:
+          type: string
+        streetAddress:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        zip:
+          type: string
+        country:
+          type: string
+        subdivisionCode:
+          type: string
+        subdivisionName:
+          type: string
+    Accomplishments:
+      type: object
+      properties:
+        isApplicable:
           type: boolean
-        assistanceType:
-          $ref: '#/components/schemas/CodeNamePair'
-        awardAmountBasis:
+        list:
           type: array
           items:
-            $ref: '#/components/schemas/CodeNamePair'
-        awardRecipientBasis:
+            $ref: '#/components/schemas/FiscalDescription'
+    AssistanceListing:
+      type: object
+      properties:
+        version:
+          type: string
+        status:
+          type: string
+          enum:
+          - Active
+          - Inactive
+        fiscalYear:
+          type: integer
+        publishedDate:
+          type: string
+          format: date-time
+        assistanceListingId:
+          type: string
+        title:
+          type: string
+        popularLongName:
+          type: string
+        popularShortName:
+          type: string
+        relatedFederalAssistance:
           type: array
           items:
-            $ref: '#/components/schemas/CodeNamePair'
-        values:
-          type: array
-          items:
-            $ref: '#/components/schemas/ObligationValue'
-    CodeNamePair:
+            type: string
+        federalOrganization:
+          $ref: '#/components/schemas/FederalOrganization'
+        programWebPage:
+          type: string
+          format: uri
+        overview:
+          $ref: '#/components/schemas/Overview'
+        authorizations:
+          $ref: '#/components/schemas/Authorizations'
+        financialInformation:
+          $ref: '#/components/schemas/FinancialInformation'
+        criteriaForApplying:
+          $ref: '#/components/schemas/CriteriaForApplying'
+        assistanceApplication:
+          $ref: '#/components/schemas/AssistanceApplication'
+        compliance:
+          $ref: '#/components/schemas/Compliance'
+        contacts:
+          $ref: '#/components/schemas/Contacts'
+    ComplianceReport:
       type: object
       properties:
         code:
           type: string
-        name:
+        frequency:
           type: string
-    ObligationValue:
+        description:
+          type: string
+    FinancialInformation:
       type: object
       properties:
-        year:
-          type: integer
-        actual:
-          type: number
-        estimate:
-          type: number
-    FederalOrganization:
-      type: object
-      properties:
-        department:
+        isFundedCurrentFY:
+          type: boolean
+        additionalInformation:
           type: string
-        agency:
-          type: string
-        office:
-          type: string
+        obligations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Obligation'
+        rangeAndAverageAssistance:
+          type: array
+          items:
+            $ref: '#/components/schemas/RangeAndAverageAssistance'
+        accomplishments:
+          $ref: '#/components/schemas/Accomplishments'
+        accountsIdentificationList:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountIdentification'
     Compliance:
       type: object
       properties:
@@ -236,13 +332,139 @@ components:
               properties:
                 description:
                   type: string
-    FundedProject:
+    Authorization:
+      type: object
+      properties:
+        parentAuthorizationId:
+          type: string
+          format: uuid
+        authorizationTypes:
+          type: object
+          properties:
+            act:
+              type: boolean
+            executiveOrder:
+              type: boolean
+            publicLaw:
+              type: boolean
+            statute:
+              type: boolean
+            USC:
+              type: boolean
+        act:
+          $ref: '#/components/schemas/LegalReference'
+        executiveOrder:
+          $ref: '#/components/schemas/LegalReference'
+        publicLaw:
+          type: object
+          properties:
+            congressCode:
+              type: string
+            number:
+              type: string
+            description:
+              type: string
+        statute:
+          type: object
+          properties:
+            volume:
+              type: string
+            page:
+              type: string
+            description:
+              type: string
+        USC:
+          type: object
+          properties:
+            title:
+              type: string
+            section:
+              type: string
+            description:
+              type: string
+    RangeAndAverageAssistance:
       type: object
       properties:
         fiscalYear:
           type: integer
+        minimumAwardAmount:
+          type: number
+        maximumAwardAmount:
+          type: number
+        averageAwardAmount:
+          type: number
+    DateRangeDescription:
+      type: object
+      properties:
+        start:
+          type: string
+          format: date
+        end:
+          type: string
+          format: date
         description:
           type: string
+    ObligationValue:
+      type: object
+      properties:
+        year:
+          type: integer
+        actual:
+          type: number
+        estimate:
+          type: number
+    Obligation:
+      type: object
+      properties:
+        isRecoveryAct:
+          type: boolean
+        assistanceType:
+          $ref: '#/components/schemas/CodeNamePair'
+        awardAmountBasis:
+          type: array
+          items:
+            $ref: '#/components/schemas/CodeNamePair'
+        awardRecipientBasis:
+          type: array
+          items:
+            $ref: '#/components/schemas/CodeNamePair'
+        values:
+          type: array
+          items:
+            $ref: '#/components/schemas/ObligationValue'
+    Overview:
+      type: object
+      properties:
+        objective:
+          type: string
+        assistanceListingDescription:
+          type: string
+        fundedProjectsList:
+          type: object
+          properties:
+            isApplicable:
+              type: boolean
+            list:
+              type: array
+              items:
+                $ref: '#/components/schemas/FundedProject'
+        functionalCodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/CodeNamePair'
+        missionSubCategories:
+          type: object
+          properties:
+            Primary:
+              $ref: '#/components/schemas/CodeNamePair'
+            Other:
+              type: array
+              items:
+                $ref: '#/components/schemas/CodeNamePair'
+        subjectTerms:
+          type: array
+          items:
+            $ref: '#/components/schemas/CodeNamePair'
     ExternalReference:
       type: object
       properties:
@@ -254,6 +476,108 @@ components:
           format: uri
         description:
           type: string
+    CodeNamePair:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+    LegalReference:
+      type: object
+      properties:
+        title:
+          type: string
+        part:
+          type: string
+        section:
+          type: string
+        description:
+          type: string
+    IntervalDescription:
+      type: object
+      properties:
+        interval:
+          type: string
+        description:
+          type: string
+    FiscalDescription:
+      type: object
+      properties:
+        fiscalYear:
+          type: integer
+        description:
+          type: string
+    CriteriaForApplying:
+      type: object
+      properties:
+        documentation:
+          type: object
+          properties:
+            isApplicable:
+              type: boolean
+            description:
+              type: array
+              items:
+                type: string
+        applicant:
+          $ref: '#/components/schemas/TypedDescription'
+        beneficiary:
+          type: object
+          properties:
+            isSameAsApplicant:
+              type: boolean
+            types:
+              type: array
+              items:
+                $ref: '#/components/schemas/CodeNamePair'
+            description:
+              type: string
+        assistanceUsage:
+          $ref: '#/components/schemas/TypedDescription'
+        assistanceRestriction:
+          $ref: '#/components/schemas/TypedDescription'
+    FederalOrganization:
+      type: object
+      properties:
+        department:
+          type: string
+        agency:
+          type: string
+        office:
+          type: string
+    Contacts:
+      type: object
+      properties:
+        local:
+          type: object
+          properties:
+            flag:
+              type: string
+            officeLocationURL:
+              type: string
+              format: uri
+            description:
+              type: string
+        headquarters:
+          type: array
+          items:
+            $ref: '#/components/schemas/HeadquartersContact'
+    AssistanceListingsResponse:
+      type: object
+      properties:
+        totalRecords:
+          type: integer
+        pageSize:
+          type: integer
+        pageNumber:
+          type: integer
+        totalPages:
+          type: integer
+        assistanceListingsData:
+          type: array
+          items:
+            $ref: '#/components/schemas/AssistanceListing'
     AssistanceApplication:
       type: object
       properties:
@@ -325,245 +649,6 @@ components:
           $ref: '#/components/schemas/IntervalDescription'
         renewal:
           $ref: '#/components/schemas/IntervalDescription'
-    Authorization:
-      type: object
-      properties:
-        parentAuthorizationId:
-          type: string
-          format: uuid
-        authorizationTypes:
-          type: object
-          properties:
-            act:
-              type: boolean
-            executiveOrder:
-              type: boolean
-            publicLaw:
-              type: boolean
-            statute:
-              type: boolean
-            USC:
-              type: boolean
-        act:
-          $ref: '#/components/schemas/LegalReference'
-        executiveOrder:
-          $ref: '#/components/schemas/LegalReference'
-        publicLaw:
-          type: object
-          properties:
-            congressCode:
-              type: string
-            number:
-              type: string
-            description:
-              type: string
-        statute:
-          type: object
-          properties:
-            volume:
-              type: string
-            page:
-              type: string
-            description:
-              type: string
-        USC:
-          type: object
-          properties:
-            title:
-              type: string
-            section:
-              type: string
-            description:
-              type: string
-    Authorizations:
-      type: object
-      properties:
-        description:
-          type: string
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/Authorization'
-    AccountIdentification:
-      type: object
-      properties:
-        code:
-          type: string
-        description:
-          type: string
-    ComplianceReport:
-      type: object
-      properties:
-        code:
-          type: string
-        frequency:
-          type: string
-        description:
-          type: string
-    IntervalDescription:
-      type: object
-      properties:
-        interval:
-          type: string
-        description:
-          type: string
-    HeadquartersContact:
-      type: object
-      properties:
-        contactId:
-          type: string
-          format: uuid
-        title:
-          type: string
-        fullName:
-          type: string
-        email:
-          type: string
-        phone:
-          type: string
-        fax:
-          type: string
-        streetAddress:
-          type: string
-        city:
-          type: string
-        state:
-          type: string
-        zip:
-          type: string
-        country:
-          type: string
-        subdivisionCode:
-          type: string
-        subdivisionName:
-          type: string
-    TypedDescription:
-      type: object
-      properties:
-        types:
-          type: array
-          items:
-            $ref: '#/components/schemas/CodeNamePair'
-        description:
-          type: string
-    FinancialInformation:
-      type: object
-      properties:
-        isFundedCurrentFY:
-          type: boolean
-        additionalInformation:
-          type: string
-        obligations:
-          type: array
-          items:
-            $ref: '#/components/schemas/Obligation'
-        rangeAndAverageAssistance:
-          type: array
-          items:
-            $ref: '#/components/schemas/RangeAndAverageAssistance'
-        accomplishments:
-          $ref: '#/components/schemas/Accomplishments'
-        accountsIdentificationList:
-          type: array
-          items:
-            $ref: '#/components/schemas/AccountIdentification'
-    AssistanceListingsResponse:
-      type: object
-      properties:
-        totalRecords:
-          type: integer
-        pageSize:
-          type: integer
-        pageNumber:
-          type: integer
-        totalPages:
-          type: integer
-        assistanceListingsData:
-          type: array
-          items:
-            $ref: '#/components/schemas/AssistanceListing'
-    Overview:
-      type: object
-      properties:
-        objective:
-          type: string
-        assistanceListingDescription:
-          type: string
-        fundedProjectsList:
-          type: object
-          properties:
-            isApplicable:
-              type: boolean
-            list:
-              type: array
-              items:
-                $ref: '#/components/schemas/FundedProject'
-        functionalCodes:
-          type: array
-          items:
-            $ref: '#/components/schemas/CodeNamePair'
-        missionSubCategories:
-          type: object
-          properties:
-            Primary:
-              $ref: '#/components/schemas/CodeNamePair'
-            Other:
-              type: array
-              items:
-                $ref: '#/components/schemas/CodeNamePair'
-        subjectTerms:
-          type: array
-          items:
-            $ref: '#/components/schemas/CodeNamePair'
-    CriteriaForApplying:
-      type: object
-      properties:
-        documentation:
-          type: object
-          properties:
-            isApplicable:
-              type: boolean
-            description:
-              type: array
-              items:
-                type: string
-        applicant:
-          $ref: '#/components/schemas/TypedDescription'
-        beneficiary:
-          type: object
-          properties:
-            isSameAsApplicant:
-              type: boolean
-            types:
-              type: array
-              items:
-                $ref: '#/components/schemas/CodeNamePair'
-            description:
-              type: string
-        assistanceUsage:
-          $ref: '#/components/schemas/TypedDescription'
-        assistanceRestriction:
-          $ref: '#/components/schemas/TypedDescription'
-    Accomplishments:
-      type: object
-      properties:
-        isApplicable:
-          type: boolean
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/FiscalDescription'
-    DateRangeDescription:
-      type: object
-      properties:
-        start:
-          type: string
-          format: date
-        end:
-          type: string
-          format: date
-        description:
-          type: string
     Payment:
       type: object
       properties:
@@ -582,95 +667,10 @@ components:
           type: integer
         spendingPeriodDescription:
           type: string
-    LegalReference:
+    AccountIdentification:
       type: object
       properties:
-        title:
-          type: string
-        part:
-          type: string
-        section:
+        code:
           type: string
         description:
           type: string
-    Contacts:
-      type: object
-      properties:
-        local:
-          type: object
-          properties:
-            flag:
-              type: string
-            officeLocationURL:
-              type: string
-              format: uri
-            description:
-              type: string
-        headquarters:
-          type: array
-          items:
-            $ref: '#/components/schemas/HeadquartersContact'
-    FiscalDescription:
-      type: object
-      properties:
-        fiscalYear:
-          type: integer
-        description:
-          type: string
-    RangeAndAverageAssistance:
-      type: object
-      properties:
-        fiscalYear:
-          type: integer
-        minimumAwardAmount:
-          type: number
-        maximumAwardAmount:
-          type: number
-        averageAwardAmount:
-          type: number
-    AssistanceListing:
-      type: object
-      properties:
-        version:
-          type: string
-        status:
-          type: string
-          enum:
-          - Active
-          - Inactive
-        fiscalYear:
-          type: integer
-        publishedDate:
-          type: string
-          format: date-time
-        assistanceListingId:
-          type: string
-        title:
-          type: string
-        popularLongName:
-          type: string
-        popularShortName:
-          type: string
-        relatedFederalAssistance:
-          type: array
-          items:
-            type: string
-        federalOrganization:
-          $ref: '#/components/schemas/FederalOrganization'
-        programWebPage:
-          type: string
-          format: uri
-        overview:
-          $ref: '#/components/schemas/Overview'
-        authorizations:
-          $ref: '#/components/schemas/Authorizations'
-        financialInformation:
-          $ref: '#/components/schemas/FinancialInformation'
-        criteriaForApplying:
-          $ref: '#/components/schemas/CriteriaForApplying'
-        assistanceApplication:
-          $ref: '#/components/schemas/AssistanceApplication'
-        compliance:
-          $ref: '#/components/schemas/Compliance'
-        contacts:
-          $ref: '#/components/schemas/Contacts'

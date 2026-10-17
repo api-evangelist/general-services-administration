@@ -229,6 +229,23 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    CxResponseResource:
+      type: object
+      description: Response to a CX collection detail survey, representing a single respondent's answers to the survey questions.
+      required:
+      - id
+      - type
+      - attributes
+      properties:
+        id:
+          type: string
+          description: Numeric identifier of the CX response (string-encoded).
+        type:
+          type: string
+          enum:
+          - cx_responses
+        attributes:
+          $ref: '#/components/schemas/CxResponseAttributes'
     CxCollectionResource:
       type: object
       description: Represents a fiscal quarter's worth of CX feedback submitted for a specific service. Feedback can be collected via multiple channels/surveys and at multiple service journey stages.
@@ -345,6 +362,23 @@ components:
           type: string
           format: date-time
           description: ISO 8601 timestamp when the collection was last updated.
+    CxCollectionDetailResource:
+      type: object
+      description: Represents CX feedback collected via a single channel at a single service journey stage for a CX Collection.
+      required:
+      - id
+      - type
+      - attributes
+      properties:
+        id:
+          type: string
+          description: Numeric identifier of the CX collection detail (string-encoded).
+        type:
+          type: string
+          enum:
+          - cx_collection_details
+        attributes:
+          $ref: '#/components/schemas/CxCollectionDetailAttributes'
     CxCollectionDetailAttributes:
       type: object
       required:
@@ -625,40 +659,6 @@ components:
           type: string
           format: uri
           description: URL of the last page.
-    CxResponseResource:
-      type: object
-      description: Response to a CX collection detail survey, representing a single respondent's answers to the survey questions.
-      required:
-      - id
-      - type
-      - attributes
-      properties:
-        id:
-          type: string
-          description: Numeric identifier of the CX response (string-encoded).
-        type:
-          type: string
-          enum:
-          - cx_responses
-        attributes:
-          $ref: '#/components/schemas/CxResponseAttributes'
-    CxCollectionDetailResource:
-      type: object
-      description: Represents CX feedback collected via a single channel at a single service journey stage for a CX Collection.
-      required:
-      - id
-      - type
-      - attributes
-      properties:
-        id:
-          type: string
-          description: Numeric identifier of the CX collection detail (string-encoded).
-        type:
-          type: string
-          enum:
-          - cx_collection_details
-        attributes:
-          $ref: '#/components/schemas/CxCollectionDetailAttributes'
   securitySchemes:
     api_key:
       type: apiKey

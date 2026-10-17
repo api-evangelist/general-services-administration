@@ -584,6 +584,33 @@ paths:
       deprecated: false
 components:
   schemas:
+    FundingSources.jsonld-read:
+      type: object
+      description: ''
+      properties:
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        fundingSource:
+          type: string
+          example: 023-00-0000
+          description: 'For ledger items selecting Funding Sources Reporting, indicate the Funding Source associated with a
+
+            given ledger item.'
+        fundingSourceName:
+          description: 'Functional/Business Sponsor Name The Functional/Business Sponsor is defined in Appendix C, and
+
+            provides visibility for Agencies and OMB as to who the sponsor is for each Investment within the IT portfolio.'
+          type:
+          - string
+          - 'null'
+        isActive:
+          default: true
+          example: true
+          type: boolean
     FundingSources.jsonld-readItem_readItemSubRes:
       type: object
       description: ''
@@ -617,30 +644,3 @@ components:
           type:
           - string
           - 'null'
-    FundingSources.jsonld-read:
-      type: object
-      description: ''
-      properties:
-        '@id':
-          readOnly: true
-          type: string
-        '@type':
-          readOnly: true
-          type: string
-        fundingSource:
-          type: string
-          example: 023-00-0000
-          description: 'For ledger items selecting Funding Sources Reporting, indicate the Funding Source associated with a
-
-            given ledger item.'
-        fundingSourceName:
-          description: 'Functional/Business Sponsor Name The Functional/Business Sponsor is defined in Appendix C, and
-
-            provides visibility for Agencies and OMB as to who the sponsor is for each Investment within the IT portfolio.'
-          type:
-          - string
-          - 'null'
-        isActive:
-          default: true
-          example: true
-          type: boolean

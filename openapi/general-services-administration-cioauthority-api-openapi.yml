@@ -598,40 +598,6 @@ paths:
       deprecated: false
 components:
   schemas:
-    CioAuthority-readItem:
-      type: object
-      description: ''
-      additionalProperties: false
-      properties:
-        agencyId:
-          type: string
-          format: alphanumeric
-          minLength: 1
-          maxLength: 64
-          description: A unique identifier for the document provided by the submitting user.
-        isMasked:
-          type: bool
-          example: true
-          readOnly: true
-          description: A readonly boolean indicating whether the document is masked from the public.
-          default: true
-        created:
-          type: string
-          format: timestamp
-          example: '2020-01-01 15:00:00'
-          readOnly: true
-          description: Created date/time
-        lastModified:
-          type: string
-          format: timestamp
-          example: '2020-01-01 15:00:00'
-          readOnly: true
-          description: Last modified date/time
-        agencyCode:
-          type: string
-          format: string
-          example: 018
-          description: The agency code of the user who created the record
     CioAuthority-read:
       type: object
       description: ''
@@ -657,6 +623,40 @@ components:
           example: 2022
         agency:
           type: string
+        isMasked:
+          type: bool
+          example: true
+          readOnly: true
+          description: A readonly boolean indicating whether the document is masked from the public.
+          default: true
+        created:
+          type: string
+          format: timestamp
+          example: '2020-01-01 15:00:00'
+          readOnly: true
+          description: Created date/time
+        lastModified:
+          type: string
+          format: timestamp
+          example: '2020-01-01 15:00:00'
+          readOnly: true
+          description: Last modified date/time
+        agencyCode:
+          type: string
+          format: string
+          example: 018
+          description: The agency code of the user who created the record
+    CioAuthority-readItem:
+      type: object
+      description: ''
+      additionalProperties: false
+      properties:
+        agencyId:
+          type: string
+          format: alphanumeric
+          minLength: 1
+          maxLength: 64
+          description: A unique identifier for the document provided by the submitting user.
         isMasked:
           type: bool
           example: true

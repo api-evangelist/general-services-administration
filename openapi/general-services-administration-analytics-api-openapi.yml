@@ -125,43 +125,6 @@ paths:
     - url: https://api.gsa.gov/operations/api-data-gov
 components:
   schemas:
-    AnalyticsSummary:
-      type: object
-      properties:
-        start_time:
-          type: string
-          format: date-time
-          description: Timestamp of when the analytics data begins.
-        end_time:
-          type: string
-          format: date-time
-          description: Timestamp of when the analytics data ends.
-        timezone:
-          type: string
-          description: The timezone of dates and times in the analytics data.
-        production_apis:
-          type: object
-          description: Analytics data for all production APIs.
-          properties:
-            organization_count:
-              type: integer
-              description: The number of unique organizations that have production APIs.
-            api_backend_count:
-              type: integer
-              description: The number of API backends configured for production APIs.
-            api_backend_url_match_count:
-              type: integer
-              description: The number of separate API URL prefixes configured for production APIs.
-            organizations:
-              type: array
-              items:
-                $ref: '#/components/schemas/AnalyticsSummaryOrganization'
-            all:
-              $ref: '#/components/schemas/AnalyticsSummaryMetrics'
-        cached_at:
-          type: string
-          format: date-time
-          description: Timestamp of when the analytics summary data was generated and cached.
     AnalyticsSummaryMetrics:
       type: object
       properties:
@@ -306,6 +269,43 @@ components:
                         description: The average response time of API hits during this day.
                     minItems: 2
                     maxItems: 2
+    AnalyticsSummary:
+      type: object
+      properties:
+        start_time:
+          type: string
+          format: date-time
+          description: Timestamp of when the analytics data begins.
+        end_time:
+          type: string
+          format: date-time
+          description: Timestamp of when the analytics data ends.
+        timezone:
+          type: string
+          description: The timezone of dates and times in the analytics data.
+        production_apis:
+          type: object
+          description: Analytics data for all production APIs.
+          properties:
+            organization_count:
+              type: integer
+              description: The number of unique organizations that have production APIs.
+            api_backend_count:
+              type: integer
+              description: The number of API backends configured for production APIs.
+            api_backend_url_match_count:
+              type: integer
+              description: The number of separate API URL prefixes configured for production APIs.
+            organizations:
+              type: array
+              items:
+                $ref: '#/components/schemas/AnalyticsSummaryOrganization'
+            all:
+              $ref: '#/components/schemas/AnalyticsSummaryMetrics'
+        cached_at:
+          type: string
+          format: date-time
+          description: Timestamp of when the analytics summary data was generated and cached.
     AnalyticsSummaryOrganization:
       allOf:
       - type: object
