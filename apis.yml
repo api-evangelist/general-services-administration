@@ -40,7 +40,7 @@ tags:
 - Acquisition
 - Open Data
 - Government
-- SAM.gov
+- SAM
 - Travel
 - Analytics
 - API Management
@@ -92,6 +92,9 @@ apis:
     Organization details down to the office level.
   humanURL: https://open.gsa.gov/api/fh-fouo-api/
   tags:
+  - SAM
+  - Federal Hierarchy
+  tags_raw:
   - SAM.gov
   - Federal Hierarchy
   properties:
@@ -105,6 +108,9 @@ apis:
     Agency and SubTier).
   humanURL: https://open.gsa.gov/api/fh-public-api/
   tags:
+  - SAM
+  - Federal Hierarchy
+  tags_raw:
   - SAM.gov
   - Federal Hierarchy
   properties:
@@ -118,6 +124,9 @@ apis:
     This API requires pagination.
   humanURL: https://open.gsa.gov/api/get-opportunities-public-api/
   tags:
+  - SAM
+  - Opportunities
+  tags_raw:
   - SAM.gov
   - Opportunities
   properties:
@@ -131,6 +140,9 @@ apis:
     End Date and updated date) based on the request parameters with pagination support.
   humanURL: https://open.gsa.gov/api/PSC-Public-API/
   tags:
+  - SAM
+  - Reference Data
+  tags_raw:
   - SAM.gov
   - Reference Data
   properties:
@@ -144,6 +156,9 @@ apis:
     location data submitted to SAM.gov. Supports United States and, with GENC updates, Foreign Countries.
   humanURL: https://open.gsa.gov/api/location-public-api/
   tags:
+  - SAM
+  - Reference Data
+  tags_raw:
   - SAM.gov
   - Reference Data
   properties:
